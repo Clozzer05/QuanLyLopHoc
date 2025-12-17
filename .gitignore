@@ -1,0 +1,16 @@
+# File rác của Mac
+.DS_Store
+**/.DS_Store
+
+# File cấu hình IDE (PhpStorm/IntelliJ)
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# File cấu hình VS Code (nếu có người dùng)
+.vscode/
+
+# Thư mục ảnh/file upload (Chỉ lưu code, không lưu dữ liệu rác)
+QuanLyLopHoc/uploads/
+QuanLyLopHoc/assets/images/uploads/
