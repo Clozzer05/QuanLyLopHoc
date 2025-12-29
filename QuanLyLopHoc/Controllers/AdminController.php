@@ -1,229 +1,170 @@
 <?php
-// Import tất cả Model và DAO cần thiết
-require_once __DIR__ . '/../models/MonHocModel.php';
-require_once __DIR__ . '/../models/LopHocModel.php';
-require_once __DIR__ . '/../models/NguoiDungModel.php';
-require_once __DIR__ . '/../dao/MonHocDAO.php';
-require_once __DIR__ . '/../dao/LopHocDAO.php';
-require_once __DIR__ . '/../dao/NguoiDungDAO.php';
-require_once __DIR__ . '/../dao/TaiLieuDAO.php';
+require_once __DIR__ . '/../services/MonHocService.php';
+require_once __DIR__ . '/../services/LopHocService.php';
+require_once __DIR__ . '/../services/NguoiDungService.php';
+require_once __DIR__ . '/../services/TaiLieuService.php';
+require_once __DIR__ . '/../services/ThongBaoService.php';
 require_once __DIR__ . '/../core/Controller.php';
 
 class AdminController extends Controller {
-
     public function index() {
         $this->view('admin/trang_chu');
     }
-
-    // ========================================================
-    // 1. QUẢN LÝ MÔN HỌC (Full: Xem, Thêm, Sửa, Xóa)
-    // ========================================================
     public function monhoc() {
-        $monHoc = MonHocModel::getAll();
-        
-        // Logic cho chức năng Sửa: Lấy thông tin môn đang chọn
-        $editingMonHoc = null;
-        if (isset($_GET['edit_id'])) {
-            $dao = new MonHocDAO();
-            $editingMonHoc = $dao->findById($_GET['edit_id']);
-        }
-
-        $this->view('admin/mon_hoc', [
-            'monHoc' => $monHoc,
-            'editingMonHoc' => $editingMonHoc
-        ]);
+        $service = new MonHocService();
+        $monHoc = $service->getAll();
+        $editingMonHoc = isset($_GET['edit_id']) ? $service->getById($_GET['edit_id']) : null;
+        $this->view('admin/mon_hoc', compact('monHoc', 'editingMonHoc'));
     }
-
     public function addMonHoc() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dao = new MonHocDAO();
-            $dao->insert($_POST);
+            $service = new MonHocService();
+            $service->create($_POST);
         }
         $this->redirect('admin&action=monhoc');
     }
-
     public function updateMonHoc() {
         $id = $_GET['id'] ?? null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
-            $dao = new MonHocDAO();
-            $dao->update($id, [
-                'ten_mon' => $_POST['ten_mon'],
-                'so_tin_chi' => $_POST['so_tin_chi']
-            ]);
+            $service = new MonHocService();
+            $service->update($id, $_POST);
         }
         $this->redirect('admin&action=monhoc');
     }
-
     public function deleteMonHoc() {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $dao = new MonHocDAO();
-            $dao->delete($id);
+        if (isset($_GET['id'])) {
+            $service = new MonHocService();
+            $service->delete($_GET['id']);
         }
         $this->redirect('admin&action=monhoc');
     }
 
-    // ========================================================
-    // 2. QUẢN LÝ LỚP HỌC (Full: Xem, Thêm, Sửa, Xóa)
-    // ========================================================
     public function lophoc() {
-        $lopHoc = LopHocModel::getAll();
-        $monHoc = MonHocModel::getAll();
-        $giaoVien = NguoiDungModel::getGiaoVien();
-
-        // Logic cho chức năng Sửa
-        $editingLopHoc = null;
-        if (isset($_GET['edit_id'])) {
-            $dao = new LopHocDAO();
-            $editingLopHoc = $dao->findById($_GET['edit_id']);
+        $lopService = new LopHocService();
+        $monService = new MonHocService();
+        $userService = new NguoiDungService();
+        $lopHoc = $lopService->getAll();
+        $monHoc = $monService->getAll();
+        if (method_exists($userService, 'getGiaoVien')) {
+            $giaoVien = $userService->getGiaoVien();
+        } else {
+            $giaoVien = $userService->getAll();
         }
-
-        $this->view('admin/lop_hoc', [
-            'lopHoc' => $lopHoc,
-            'monHoc' => $monHoc,
-            'giaoVien' => $giaoVien,
-            'editingLopHoc' => $editingLopHoc
-        ]);
+        $editingLopHoc = isset($_GET['edit_id']) ? $lopService->getById($_GET['edit_id']) : null;
+        $this->view('admin/lop_hoc', compact('lopHoc', 'monHoc', 'giaoVien', 'editingLopHoc'));
     }
-
     public function addLopHoc() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dao = new LopHocDAO();
-            $dao->insert($_POST);
+            $service = new LopHocService();
+            $service->create($_POST);
         }
         $this->redirect('admin&action=lophoc');
     }
-
     public function updateLopHoc() {
         $id = $_GET['id'] ?? null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
-            $dao = new LopHocDAO();
-            $dao->update($id, [
-                'ten_lop' => $_POST['ten_lop'],
-                'id_mon_hoc' => $_POST['id_mon_hoc'],
-                'id_giao_vien' => $_POST['id_giao_vien']
-            ]);
+            $service = new LopHocService();
+            $service->update($id, $_POST);
         }
         $this->redirect('admin&action=lophoc');
     }
-
     public function deleteLopHoc() {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $dao = new LopHocDAO();
-            $dao->delete($id);
+        if (isset($_GET['id'])) {
+            $service = new LopHocService();
+            $service->delete($_GET['id']);
         }
         $this->redirect('admin&action=lophoc');
     }
-
-    // ========================================================
-    // 3. QUẢN LÝ NGƯỜI DÙNG (Full: Xem, Thêm, Sửa, Xóa)
-    // ========================================================
     public function nguoidung() {
-        $dao = new NguoiDungDAO();
-        $nguoiDung = $dao->findAll();
+        $service = new NguoiDungService();
+        $nguoiDung = $service->getAll();
 
-        // Logic cho chức năng Sửa
-        $editingNguoiDung = null;
-        if (isset($_GET['edit_id'])) {
-            $editingNguoiDung = $dao->findById($_GET['edit_id']);
-        }
+        $editingNguoiDung = isset($_GET['edit_id']) ? $service->getById($_GET['edit_id']) : null;
 
-        $this->view('admin/nguoi_dung', [
-            'nguoiDung' => $nguoiDung,
-            'editingNguoiDung' => $editingNguoiDung
-        ]);
+        $this->view('admin/nguoi_dung', compact('nguoiDung', 'editingNguoiDung'));
     }
-
     public function addNguoiDung() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dao = new NguoiDungDAO();
-            $dao->insert($_POST);
+            $service = new NguoiDungService();
+            $service->create($_POST);
         }
         $this->redirect('admin&action=nguoidung');
     }
-
     public function updateNguoiDung() {
         $id = $_GET['id'] ?? null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
-            $dao = new NguoiDungDAO();
-            
-            // Nếu không nhập mật khẩu mới thì giữ nguyên mật khẩu cũ
-            $oldUser = $dao->findById($id);
-            $newPass = !empty($_POST['mat_khau']) ? $_POST['mat_khau'] : $oldUser['mat_khau'];
-
-            $dao->update($id, [
-                'ten_dang_nhap' => $_POST['ten_dang_nhap'],
-                'mat_khau' => $newPass,
-                'ho_ten' => $_POST['ho_ten'],
-                'vai_tro' => $_POST['vai_tro']
-            ]);
+            $service = new NguoiDungService();
+            $service->update($id, $_POST);
         }
         $this->redirect('admin&action=nguoidung');
     }
-
     public function deleteNguoiDung() {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $dao = new NguoiDungDAO();
-            $dao->delete($id);
+        if (isset($_GET['id'])) {
+            $service = new NguoiDungService();
+            $service->delete($_GET['id']);
         }
         $this->redirect('admin&action=nguoidung');
     }
 
-    // ========================================================
-    // 4. QUẢN LÝ TÀI LIỆU (Full: Xem, Thêm, Sửa, Xóa)
-    // ========================================================
     public function tailieu() {
-        $dao = new TaiLieuDAO();
-        $taiLieu = $dao->findAll();
-        $lopHoc = LopHocModel::getAll(); // Lấy danh sách lớp để chọn khi upload
-
-        // Logic cho chức năng Sửa
-        $editingTaiLieu = null;
-        if (isset($_GET['edit_id'])) {
-            $editingTaiLieu = $dao->findById($_GET['edit_id']);
-        }
-
-        $this->view('admin/tai_lieu', [
-            'taiLieu' => $taiLieu,
-            'lopHoc' => $lopHoc,
-            'editingTaiLieu' => $editingTaiLieu
-        ]);
+        $tlService = new TaiLieuService();
+        $lopService = new LopHocService();
+        $taiLieu = $tlService->getAll();
+        $lopHoc = $lopService->getAll();
+        $editingTaiLieu = isset($_GET['edit_id']) ? $tlService->getById($_GET['edit_id']) : null;
+        $this->view('admin/tai_lieu', compact('taiLieu', 'lopHoc', 'editingTaiLieu'));
     }
-
     public function addTaiLieu() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-             $dao = new TaiLieuDAO();
-             $dao->insert([
-                'tieu_de' => $_POST['tieu_de'],
-                'duong_dan_file' => $_POST['duong_dan_file'],
-                'nguoi_upload' => $_SESSION['user']['id'], // Lấy ID của Admin đang đăng nhập
-                'id_lop' => $_POST['id_lop']
-             ]);
+            $service = new TaiLieuService();
+            $userId = $_SESSION['user']['id'] ?? 0;
+            $service->create($_POST, $userId);
         }
         $this->redirect('admin&action=tailieu');
     }
-
     public function updateTaiLieu() {
         $id = $_GET['id'] ?? null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
-            $dao = new TaiLieuDAO();
-            $dao->update($id, [
-                'tieu_de' => $_POST['tieu_de'],
-                'duong_dan_file' => $_POST['duong_dan_file'],
-                'id_lop' => $_POST['id_lop']
-            ]);
+            $service = new TaiLieuService();
+            $service->update($id, $_POST);
+        }
+        $this->redirect('admin&action=tailieu');
+    }
+    public function deleteTaiLieu() {
+        if (isset($_GET['id'])) {
+            $service = new TaiLieuService();
+            $service->delete($_GET['id']);
         }
         $this->redirect('admin&action=tailieu');
     }
 
-    public function deleteTaiLieu() {
-        $id = $_GET['id'] ?? null;
-        if ($id) {
-            $dao = new TaiLieuDAO();
-            $dao->delete($id);
+    public function thongbao() {
+        $service = new ThongBaoService();
+        $thongBao = $service->getAll();
+        $editingThongBao = isset($_GET['edit_id']) ? $service->getById($_GET['edit_id']) : null;
+        $this->view('admin/thong_bao', compact('thongBao', 'editingThongBao'));
+    }
+
+    public function addThongBao() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $service = new ThongBaoService();
+            $service->create($_POST);
         }
-        $this->redirect('admin&action=tailieu');
+        $this->redirect('admin&action=thongbao');
+    }
+    public function updateThongBao() {
+        $id = $_GET['id'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
+            $service = new ThongBaoService();
+            $service->update($id, $_POST);
+        }
+        $this->redirect('admin&action=thongbao');
+    }
+    public function deleteThongBao() {
+        if (isset($_GET['id'])) {
+            $service = new ThongBaoService();
+            $service->delete($_GET['id']);
+        }
+        $this->redirect('admin&action=thongbao');
     }
 }

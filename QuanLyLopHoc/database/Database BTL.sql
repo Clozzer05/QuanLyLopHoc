@@ -1,21 +1,18 @@
 DROP DATABASE IF EXISTS QuanLyLopHoc;
-CREATE DATABASE QuanLyLopHoc;
-USE QuanLyLopHoc;
 
 CREATE DATABASE QuanLyLopHoc;
 USE QuanLyLopHoc;
--- Tạo bảng Người dùng (nguoi_dung)
+
 CREATE TABLE nguoi_dung (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ten_dang_nhap VARCHAR(50) NOT NULL UNIQUE,
     mat_khau VARCHAR(255) NOT NULL,
     ho_ten VARCHAR(100) NOT NULL,
     email VARCHAR(100),
-    vai_tro ENUM('admin', 'gv', 'sv') NOT NULL DEFAULT 'sv', -- admin, gv (giáo viên), sv (sinh viên)
+    vai_tro ENUM('admin', 'gv', 'sv') NOT NULL DEFAULT 'sv',
     ngay_tao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tạo bảng Môn học (mon_hoc)
 CREATE TABLE mon_hoc (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ten_mon VARCHAR(100) NOT NULL,
@@ -23,19 +20,17 @@ CREATE TABLE mon_hoc (
     mo_ta TEXT
 );
 
--- Tạo bảng Lớp học phần (lop_hoc)
 CREATE TABLE lop_hoc (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_mon_hoc INT NOT NULL,
-    id_giao_vien INT, -- Giáo viên dạy lớp này
-    ten_lop VARCHAR(100) NOT NULL, -- Ví dụ: Lớp CNTT1-K60
-    hoc_ky VARCHAR(20), -- Ví dụ: HK1-2024
+    id_giao_vien INT,
+    ten_lop VARCHAR(100) NOT NULL,
+    hoc_ky VARCHAR(20),
     si_so_toi_da INT DEFAULT 50,
     FOREIGN KEY (id_mon_hoc) REFERENCES mon_hoc(id) ON DELETE CASCADE,
     FOREIGN KEY (id_giao_vien) REFERENCES nguoi_dung(id) ON DELETE SET NULL
 );
 
--- Tạo bảng Đăng ký học (dang_ky)
 CREATE TABLE dang_ky (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_sinh_vien INT NOT NULL,
@@ -48,19 +43,17 @@ CREATE TABLE dang_ky (
     UNIQUE(id_sinh_vien, id_lop)
 );
 
--- Tạo bảng Tài liệu (tai_lieu)
 CREATE TABLE tai_lieu (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tieu_de VARCHAR(200) NOT NULL,
     duong_dan_file VARCHAR(255) NOT NULL,
     nguoi_upload INT NOT NULL,
-    id_lop INT DEFAULT NULL, -- NULL: Tài liệu chung, Có ID: Tài liệu môn
+    id_lop INT DEFAULT NULL,
     ngay_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (nguoi_upload) REFERENCES nguoi_dung(id) ON DELETE CASCADE,
     FOREIGN KEY (id_lop) REFERENCES lop_hoc(id) ON DELETE CASCADE
 );
 
--- Tạo bảng Bài tập (bai_tap)
 CREATE TABLE bai_tap (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_lop INT NOT NULL,
@@ -72,7 +65,6 @@ CREATE TABLE bai_tap (
     FOREIGN KEY (id_lop) REFERENCES lop_hoc(id) ON DELETE CASCADE
 );
 
--- Tạo bảng Nộp bài (bai_nop)
 CREATE TABLE bai_nop (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_bai_tap INT NOT NULL,
@@ -85,32 +77,29 @@ CREATE TABLE bai_nop (
     FOREIGN KEY (id_sinh_vien) REFERENCES nguoi_dung(id) ON DELETE CASCADE
 );
 
--- Tạo bảng Thông báo (thong_bao)
 CREATE TABLE thong_bao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tieu_de VARCHAR(200) NOT NULL,
     noi_dung TEXT NOT NULL,
     nguoi_gui INT NOT NULL,
-    id_lop INT DEFAULT NULL, -- NULL: Toàn trường, Có ID: Trong lớp
+    id_lop INT DEFAULT NULL,
     ngay_tao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (nguoi_gui) REFERENCES nguoi_dung(id) ON DELETE CASCADE,
     FOREIGN KEY (id_lop) REFERENCES lop_hoc(id) ON DELETE CASCADE
 );
--- Tạo bảng Điểm danh (diem_danh)
+
 CREATE TABLE diem_danh (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_lop INT NOT NULL,
     id_sinh_vien INT NOT NULL,
-    ngay_diem_danh DATE NOT NULL, -- Ngày điểm danh
+    ngay_diem_danh DATE NOT NULL,
     trang_thai ENUM('co_mat', 'vang_co_phep', 'vang_khong_phep') DEFAULT 'co_mat',
     ghi_chu VARCHAR(255),
     FOREIGN KEY (id_lop) REFERENCES lop_hoc(id) ON DELETE CASCADE,
     FOREIGN KEY (id_sinh_vien) REFERENCES nguoi_dung(id) ON DELETE CASCADE
 );
 
--- --------------------------------------------------------
--- DỮ LIỆU MẪU (DUMMY DATA)
--- --------------------------------------------------------
+--DỮ LIỆU MẪU
 
 INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ho_ten, vai_tro) VALUES 
 ('admin', '123456', 'Quản Trị Viên', 'admin'),
