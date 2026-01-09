@@ -1,15 +1,8 @@
 <?php
-require_once __DIR__ . '/../dao/MonHocDAO.php';
-
 class MonHocModel {
+    public $id;
+    public $ten_mon;
+    public $so_tin_chi;
+    public $mo_ta;
 
-    public static function getAll() {
-        $dao = new MonHocDAO();
-        return $dao->findAll();
-    }
-
-    public static function findById($id) {
-        $dao = new MonHocDAO();
-        return $dao->findById($id);
-    }
 }

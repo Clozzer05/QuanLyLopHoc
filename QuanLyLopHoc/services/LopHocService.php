@@ -11,6 +11,9 @@ class LopHocService {
     public function getById($id) {
         return $this->dao->findById($id);
     }
+    public function getByGiaoVien($idGV) {
+        return $this->dao->getByGiaoVien($idGV);
+    }
     public function create($data) {
         return $this->dao->insert([
             'ten_lop'      => $data['ten_lop'],

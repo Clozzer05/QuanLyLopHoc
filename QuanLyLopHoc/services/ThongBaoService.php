@@ -5,7 +5,12 @@ class ThongBaoService {
     public function __construct() {
         $this->dao = new ThongBaoDAO();
     }
-
+    public function getForSinhVien($idSV) {
+        return $this->dao->getForSinhVien($idSV);
+    }
+    public function getByLop($idLop) {
+        return $this->dao->getByLop($idLop);
+    }
     public function getAll() {
         return $this->dao->findAll();
     }

@@ -12,12 +12,14 @@
             <th>Giáo viên</th>
             <th>Hành động</th>
         </tr>
-        <?php foreach ($data['lopHoc'] as $lop): ?>
-            <tr style="<?= (isset($data['editingLopHoc']) && $data['editingLopHoc']->id == $lop->id) ? 'background-color: #ffffcc;' : '' ?>">
+        <?php foreach ($lopHoc as $lop): ?>
+            <tr style="<?= (isset($editingLopHoc) && $editingLopHoc->id == $lop->id) ? 'background-color: #ffffcc;' : '' ?>">
                 <td><?= $lop->id ?></td>
-                <td><?= $lop->ten_lop ?></td>
+                <td><?= htmlspecialchars($lop->ten_lop) ?></td>
                 <td><?= $lop->ten_mon ?? '...' ?></td>
-                <td><?= $lop->ho_ten ?? '...' ?></td>
+
+                <td><?= $lop->ten_giao_vien ?? $lop->ho_ten ?? '...' ?></td>
+
                 <td>
                     <a href="index.php?controller=admin&action=lophoc&edit_id=<?= $lop->id ?>">✏️ Sửa</a> |
                     <a href="index.php?controller=admin&action=deleteLopHoc&id=<?= $lop->id ?>" onclick="return confirm('Xóa lớp này?')">❌ Xóa</a>
@@ -28,35 +30,36 @@
 
     <hr>
 
-<?php if (isset($data['editingLopHoc'])): ?>
-    <?php $edit = $data['editingLopHoc']; // Gán biến ngắn cho dễ gọi ?>
-
-    <h4 style="color: blue;">✏️ Đang sửa lớp: <?= htmlspecialchars($edit->ten_lop) ?></h4>
-    <form method="post" action="index.php?controller=admin&action=updateLopHoc&id=<?= $edit->id ?>">
+<?php if (isset($editingLopHoc)): ?>
+    <h4 style="color: blue;">✏️ Đang sửa lớp: <?= htmlspecialchars($editingLopHoc->ten_lop) ?></h4>
+    <form method="post" action="index.php?controller=admin&action=updateLopHoc&id=<?= $editingLopHoc->id ?>">
         <div style="margin-bottom: 10px;">
             <label>Tên lớp:</label><br>
-            <input name="ten_lop" value="<?= htmlspecialchars($edit->ten_lop) ?>" required>
+            <input name="ten_lop" value="<?= htmlspecialchars($editingLopHoc->ten_lop) ?>" required>
         </div>
+
         <div style="margin-bottom: 10px;">
             <label>Môn học:</label><br>
             <select name="id_mon_hoc">
-                <?php foreach ($data['monHoc'] as $m): ?>
-                    <option value="<?= $m['id'] ?>" <?= $m['id'] == $edit->id_mon_hoc ? 'selected' : '' ?>>
-                        <?= $m['ten_mon'] ?>
+                <?php foreach ($monHoc as $m): ?>
+                    <option value="<?= $m->id ?>" <?= $m->id == $editingLopHoc->id_mon_hoc ? 'selected' : '' ?>>
+                        <?= $m->ten_mon ?>
                     </option>
                 <?php endforeach; ?>
             </select>
         </div>
+
         <div style="margin-bottom: 10px;">
             <label>Giáo viên:</label><br>
             <select name="id_giao_vien">
-                <?php foreach ($data['giaoVien'] as $gv): ?>
-                    <option value="<?= $gv['id'] ?>" <?= $gv['id'] == $edit->id_giao_vien ? 'selected' : '' ?>>
-                        <?= $gv['ho_ten'] ?>
+                <?php foreach ($giaoVien as $gv): ?>
+                    <option value="<?= $gv->id ?>" <?= $gv->id == $editingLopHoc->id_giao_vien ? 'selected' : '' ?>>
+                        <?= $gv->ho_ten ?>
                     </option>
                 <?php endforeach; ?>
             </select>
         </div>
+
         <button type="submit">Lưu Cập Nhật</button>
         <a href="index.php?controller=admin&action=lophoc">Hủy bỏ</a>
     </form>
@@ -65,18 +68,21 @@
     <h4>➕ Thêm lớp học mới</h4>
     <form method="post" action="index.php?controller=admin&action=addLopHoc">
         <input name="ten_lop" placeholder="Tên lớp" required>
+
         <select name="id_mon_hoc">
             <option value="">-- Chọn môn học --</option>
-            <?php foreach ($data['monHoc'] as $m): ?>
-                <option value="<?= $m['id'] ?>"><?= $m['ten_mon'] ?></option>
+            <?php foreach ($monHoc as $m): ?>
+                <option value="<?= $m->id ?>"><?= $m->ten_mon ?></option>
             <?php endforeach; ?>
         </select>
+
         <select name="id_giao_vien">
             <option value="">-- Chọn giáo viên --</option>
-            <?php foreach ($data['giaoVien'] as $gv): ?>
-                <option value="<?= $gv['id'] ?>"><?= $gv['ho_ten'] ?></option>
+            <?php foreach ($giaoVien as $gv): ?>
+                <option value="<?= $gv->id ?>"><?= $gv->ho_ten ?></option>
             <?php endforeach; ?>
         </select>
+
         <button type="submit">Thêm Mới</button>
     </form>
 <?php endif; ?>

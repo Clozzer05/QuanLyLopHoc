@@ -20,9 +20,15 @@ class TaiLieuService {
         ]);
     }
     public function update($id, $data) {
+        if (empty($data['duong_dan_file'])) {
+            $taiLieuCu = $this->dao->findById($id);
+            $fileChot = $taiLieuCu->duong_dan_file;
+        } else {
+            $fileChot = $data['duong_dan_file'];
+        }
         return $this->dao->update($id, [
             'tieu_de'        => $data['tieu_de'],
-            'duong_dan_file' => $data['duong_dan_file'],
+            'duong_dan_file' => $fileChot,
             'id_lop'         => $data['id_lop']
         ]);
     }

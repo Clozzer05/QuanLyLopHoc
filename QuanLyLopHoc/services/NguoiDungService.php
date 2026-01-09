@@ -1,22 +1,29 @@
 <?php
 require_once __DIR__ . '/../dao/NguoiDungDAO.php';
+
 class NguoiDungService {
     private $dao;
+
     public function __construct() {
         $this->dao = new NguoiDungDAO();
     }
+
+    public function login($tenDangNhap, $matKhau) {
+        return $this->dao->login($tenDangNhap, $matKhau);
+    }
+
     public function getAll() {
         return $this->dao->findAll();
     }
+
     public function getGiaoVien() {
-        $all = $this->dao->findAll();
-        return array_filter($all, function($user) {
-            return isset($user['vai_tro']) && $user['vai_tro'] == 'gv';
-        });
+        return $this->dao->getGiaoVien();
     }
+
     public function getById($id) {
         return $this->dao->findById($id);
     }
+
     public function create($data) {
         return $this->dao->insert([
             'ten_dang_nhap' => $data['ten_dang_nhap'],
@@ -25,13 +32,15 @@ class NguoiDungService {
             'vai_tro'       => $data['vai_tro']
         ]);
     }
+
     public function update($id, $data) {
         if (empty($data['mat_khau'])) {
             $userCu = $this->dao->findById($id);
-            $matKhauChot = $userCu['mat_khau'];
+            $matKhauChot = $userCu->mat_khau;
         } else {
             $matKhauChot = $data['mat_khau'];
         }
+
         $cleanData = [
             'ten_dang_nhap' => $data['ten_dang_nhap'],
             'mat_khau'      => $matKhauChot,
@@ -41,6 +50,7 @@ class NguoiDungService {
 
         return $this->dao->update($id, $cleanData);
     }
+
     public function delete($id) {
         return $this->dao->delete($id);
     }

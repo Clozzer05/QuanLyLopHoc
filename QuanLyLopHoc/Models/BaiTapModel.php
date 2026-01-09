@@ -1,15 +1,11 @@
 <?php
-require_once __DIR__ . '/../dao/BaiTapDAO.php';
-
 class BaiTapModel {
+    public $id;
+    public $id_lop;
+    public $tieu_de;
+    public $mo_ta;
+    public $han_nop;
+    public $file_de_bai;
+    public $ngay_tao;
 
-    public static function getByLop($idLop) {
-        $dao = new BaiTapDAO();
-        return $dao->getByLop($idLop);
-    }
-
-    public static function create($data) {
-        $dao = new BaiTapDAO();
-        return $dao->insert($data);
-    }
 }

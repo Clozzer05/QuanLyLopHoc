@@ -1,57 +1,59 @@
 <?php
-require_once __DIR__ . '/../models/LopHocModel.php';
-require_once __DIR__ . '/../models/BaiTapModel.php';
-require_once __DIR__ . '/../models/ThongBaoModel.php';
-require_once __DIR__ . '/../models/DiemDanhModel.php';
+require_once __DIR__ . '/../services/LopHocService.php';
+require_once __DIR__ . '/../services/BaiTapService.php';
+require_once __DIR__ . '/../services/ThongBaoService.php';
+require_once __DIR__ . '/../services/DiemDanhService.php';
 require_once __DIR__ . '/../core/Controller.php';
 
 class GiaoVienController extends Controller {
 
     public function index() {
-        $idGV = $_SESSION['user']['id'];
-        $lopHoc = LopHocModel::getByGiaoVien($idGV);
-        $this->view('giaovien/lop_hoc', compact('lopHoc'));
+        $idGV = $_SESSION['user']->id;
+        $service = new LopHocService();
+        $lopHoc = $service->getByGiaoVien($idGV);
+        $this->view('gv/trang_chu', compact('lopHoc'));
     }
 
-    public function baitap($idLop) {
-        $baiTap = BaiTapModel::getByLop($idLop);
-        $this->view('giaovien/bai_tap', compact('baiTap'));
+    public function baitap() {
+        $idLop = $_GET['id_lop'] ?? 0;
+        $service = new BaiTapService();
+        $baiTap = $service->getBaiTapCuaLop($idLop);
+        $this->view('gv/bai_tap', compact('baiTap', 'idLop'));
     }
 
     public function addBaiTap() {
-        BaiTapModel::create($_POST);
-        $this->redirect('/giaovien');
+        $service = new BaiTapService();
+        $service->taoBaiTap($_POST);
+        $this->redirect('gv&action=baitap&id_lop=' . $_POST['id_lop']);
     }
 
-    public function thongbao() {
-        ThongBaoModel::create($_POST);
-        $this->redirect('/giaovien');
+    public function addThongBao() {
+        $service = new ThongBaoService();
+        $data = [
+            'tieu_de' => $_POST['tieu_de'],
+            'noi_dung' => $_POST['noi_dung'],
+            'nguoi_gui' => $_SESSION['user']->id,
+            'id_lop' => $_POST['id_lop']
+        ];
+        $service->create($data);
+
+        $this->redirect('gv&action=thongbao&id_lop=' . $_POST['id_lop']);
     }
 
     public function diemdanh() {
-        DiemDanhModel::diemDanh($_POST);
-        $this->redirect('/giaovien');
-    }
-    
-    public function thongBao($idLop) {
-    $tbDAO = new ThongBaoDAO();
-
-    $thongBao = $tbDAO->getByLop($idLop);
-
-    $this->view('gv/thong_bao', [
-        'thongBao' => $thongBao,
-        'idLop' => $idLop
-    ]);
+        $service = new DiemDanhService();
+        $service->taoDiemDanh($_POST);
+        $this->redirect('gv');
     }
 
-public function addThongBao() {
-    (new ThongBaoDAO())->insert([
-        'tieu_de' => $_POST['tieu_de'],
-        'noi_dung' => $_POST['noi_dung'],
-        'nguoi_gui' => $_SESSION['user']['id'],
-        'id_lop' => $_POST['id_lop']
-    ]);
+    public function thongBao() {
+        $idLop = $_GET['id_lop'] ?? 0;
+        $service = new ThongBaoService();
+        $thongBao = $service->getByLop($idLop);
 
-    header('Location: /giaovien/thongbao/' . $_POST['id_lop']);
+        $this->view('gv/thong_bao', [
+            'thongBao' => $thongBao,
+            'idLop' => $idLop
+        ]);
     }
 }

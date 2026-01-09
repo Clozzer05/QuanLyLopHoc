@@ -1,16 +1,23 @@
 <?php
 require_once __DIR__ . '/../core/BaseDAO.php';
+require_once __DIR__ . '/../models/NguoiDungModel.php';
+
 class NguoiDungDAO extends BaseDAO {
     protected $table = 'nguoi_dung';
+    protected $modelClass = 'NguoiDungModel';
+
     public function login($tenDangNhap, $matKhau) {
-        $sql = "SELECT * FROM nguoi_dung 
-                WHERE ten_dang_nhap = ? AND mat_khau = ?";
+        $sql = "SELECT * FROM nguoi_dung WHERE ten_dang_nhap = ? AND mat_khau = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$tenDangNhap, $matKhau]);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, $this->modelClass);
         return $stmt->fetch();
     }
+
     public function getGiaoVien() {
         $sql = "SELECT * FROM nguoi_dung WHERE vai_tro = 'gv'";
-        return $this->conn->query($sql)->fetchAll();
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
 }

@@ -1,20 +1,10 @@
 <?php
-require_once __DIR__ . '/../dao/NguoiDungDAO.php';
-
 class NguoiDungModel {
-
-    public static function login($username, $password) {
-        $dao = new NguoiDungDAO();
-        return $dao->login($username, $password);
-    }
-
-    public static function findById($id) {
-        $dao = new NguoiDungDAO();
-        return $dao->findById($id);
-    }
-
-    public static function getGiaoVien() {
-        $dao = new NguoiDungDAO();
-        return $dao->getGiaoVien();
-    }
+    public $id;
+    public $ten_dang_nhap;
+    public $mat_khau;
+    public $ho_ten;
+    public $email;
+    public $vai_tro;
+    public $ngay_tao;
 }

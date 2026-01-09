@@ -1,15 +1,10 @@
 <?php
-require_once __DIR__ . '/../dao/BaiNopDAO.php';
-
 class BaiNopModel {
-
-    public static function nopBai($data) {
-        $dao = new BaiNopDAO();
-        return $dao->insert($data);
-    }
-
-    public static function getByBaiTap($idBaiTap) {
-        $dao = new BaiNopDAO();
-        return $dao->getByBaiTap($idBaiTap);
-    }
+    public $id;
+    public $id_bai_tap;
+    public $id_sinh_vien;
+    public $file_bai_lam;
+    public $diem;
+    public $nhan_xet;
+    public $ngay_nop;
 }

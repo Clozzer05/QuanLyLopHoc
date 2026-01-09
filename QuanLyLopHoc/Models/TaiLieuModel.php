@@ -1,15 +1,10 @@
 <?php
-require_once __DIR__ . '/../dao/TaiLieuDAO.php';
-
 class TaiLieuModel {
+    public $id;
+    public $tieu_de;
+    public $duong_dan_file;
+    public $nguoi_upload;
+    public $id_lop;
+    public $ngay_upload;
 
-    public static function getByLop($idLop) {
-        $dao = new TaiLieuDAO();
-        return $dao->getByLop($idLop);
-    }
-
-    public static function upload($data) {
-        $dao = new TaiLieuDAO();
-        return $dao->insert($data);
-    }
 }

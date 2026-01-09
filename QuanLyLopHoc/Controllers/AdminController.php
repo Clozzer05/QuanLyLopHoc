@@ -114,10 +114,12 @@ class AdminController extends Controller {
         $editingTaiLieu = isset($_GET['edit_id']) ? $tlService->getById($_GET['edit_id']) : null;
         $this->view('admin/tai_lieu', compact('taiLieu', 'lopHoc', 'editingTaiLieu'));
     }
+
     public function addTaiLieu() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $service = new TaiLieuService();
-            $userId = $_SESSION['user']['id'] ?? 0;
+            // SỬA: Dùng ->id thay vì ['id']
+            $userId = $_SESSION['user']->id ?? 0;
             $service->create($_POST, $userId);
         }
         $this->redirect('admin&action=tailieu');

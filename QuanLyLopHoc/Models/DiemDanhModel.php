@@ -1,15 +1,10 @@
 <?php
-require_once __DIR__ . '/../dao/DiemDanhDAO.php';
-
 class DiemDanhModel {
+    public $id;
+    public $id_lop;
+    public $id_sinh_vien;
+    public $ngay_diem_danh;
+    public $trang_thai;
+    public $ghi_chu;
 
-    public static function getByLop($idLop) {
-        $dao = new DiemDanhDAO();
-        return $dao->getByLop($idLop);
-    }
-
-    public static function diemDanh($data) {
-        $dao = new DiemDanhDAO();
-        return $dao->insert($data);
-    }
 }

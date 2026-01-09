@@ -1,30 +1,32 @@
 <?php
 require_once __DIR__ . '/../core/BaseDAO.php';
+require_once __DIR__ . '/../models/ThongBaoModel.php';
+
 class ThongBaoDAO extends BaseDAO {
     protected $table = 'thong_bao';
+    protected $modelClass = 'ThongBaoModel';
+
     public function getByLop($idLop = null) {
         if ($idLop === null) {
             $sql = "SELECT * FROM thong_bao WHERE id_lop IS NULL";
-            return $this->conn->query($sql)->fetchAll();
+            $stmt = $this->conn->query($sql);
+        } else {
+            $sql = "SELECT * FROM thong_bao WHERE id_lop = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$idLop]);
         }
-        $sql = "SELECT * FROM thong_bao WHERE id_lop = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$idLop]);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
+
     public function getForSinhVien($idSV) {
-        $sql = "
-            SELECT tb.*, nd.ho_ten
-            FROM thong_bao tb
-            JOIN nguoi_dung nd ON tb.nguoi_gui = nd.id
-            WHERE tb.id_lop IS NULL
-               OR tb.id_lop IN (
-                    SELECT id_lop FROM dang_ky WHERE id_sinh_vien = ?
-               )
-            ORDER BY tb.ngay_tao DESC
-        ";
+        $sql = "SELECT tb.*, nd.ho_ten as ten_nguoi_gui
+                FROM thong_bao tb
+                JOIN nguoi_dung nd ON tb.nguoi_gui = nd.id
+                WHERE tb.id_lop IS NULL
+                   OR tb.id_lop IN (SELECT id_lop FROM dang_ky WHERE id_sinh_vien = ?)
+                ORDER BY tb.ngay_tao DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idSV]);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
 }

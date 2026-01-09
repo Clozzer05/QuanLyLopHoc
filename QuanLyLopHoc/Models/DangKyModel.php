@@ -1,12 +1,10 @@
 <?php
-require_once __DIR__ . '/../dao/DangKyDAO.php';
 class DangKyModel {
-    public static function dangKy($idSV, $idLop) {
-        $dao = new DangKyDAO();
-        return $dao->insert($idSV, $idLop);
-    }
-    public static function getLopBySinhVien($idSV) {
-        $dao = new DangKyDAO();
-        return $dao->getLopBySinhVien($idSV);
-    }
+    public $id;
+    public $id_sinh_vien;
+    public $id_lop;
+    public $diem_giua_ky;
+    public $diem_cuoi_ky;
+    public $ngay_dang_ky;
+
 }
