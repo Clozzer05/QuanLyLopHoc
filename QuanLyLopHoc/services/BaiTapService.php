@@ -13,35 +13,18 @@ class BaiTapService {
     }
 
     public function getById($id) {
-        return $this->dao->findById($id);
+        return $this->dao->getById($id);
+    }
+
+    public function getDanhSachNopBai($idBT) {
+        return $this->dao->getDanhSachNopBai($idBT);
     }
 
     public function taoBaiTap($data) {
-        return $this->dao->insert([
-            'id_lop'      => $data['id_lop'],
-            'tieu_de'     => $data['tieu_de'],
-            'mo_ta'       => $data['mo_ta'],
-            'han_nop'     => $data['han_nop'],
-            'file_de_bai' => $data['file_de_bai'] ?? ''
-        ]);
+        return $this->dao->insert($data);
     }
 
-    public function update($id, $data) {
-        if (empty($data['file_de_bai'])) {
-            $baiTapCu = $this->dao->findById($id);
-            $fileChot = $baiTapCu->file_de_bai;
-        } else {
-            $fileChot = $data['file_de_bai'];
-        }
-        return $this->dao->update($id, [
-            'tieu_de'     => $data['tieu_de'],
-            'mo_ta'       => $data['mo_ta'],
-            'han_nop'     => $data['han_nop'],
-            'file_de_bai' => $fileChot
-        ]);
-    }
-
-    public function delete($id) {
+    public function xoaBaiTap($id) {
         return $this->dao->delete($id);
     }
 }

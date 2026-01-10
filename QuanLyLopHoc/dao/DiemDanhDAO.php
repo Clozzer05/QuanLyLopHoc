@@ -7,9 +7,13 @@ class DiemDanhDAO extends BaseDAO {
     protected $modelClass = 'DiemDanhModel';
 
     public function getByLop($idLop) {
-        $sql = "SELECT * FROM diem_danh WHERE id_lop = ?";
+        $sql = "SELECT dd.*, nd.ho_ten 
+                FROM diem_danh dd
+                JOIN nguoi_dung nd ON dd.id_sinh_vien = nd.id
+                WHERE dd.id_lop = ?
+                ORDER BY dd.ngay_diem_danh DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idLop]);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 }

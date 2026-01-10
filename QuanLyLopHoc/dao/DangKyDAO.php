@@ -52,7 +52,7 @@ class DangKyDAO extends BaseDAO {
                 FROM dang_ky dk
                 JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
                 WHERE dk.id_lop = ?";
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idLop]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
