@@ -118,3 +118,28 @@ INSERT INTO lop_hoc (id_mon_hoc, id_giao_vien, ten_lop, hoc_ky) VALUES
 INSERT INTO dang_ky (id_sinh_vien, id_lop) VALUES 
 (4, 1),
 (5, 1);
+
+INSERT INTO tai_lieu (tieu_de, duong_dan_file, nguoi_upload, id_lop) VALUES 
+('Giáo trình PHP cơ bản', 'php_tutorial_pdf.pdf', 2, 1),
+('Hướng dẫn cài đặt XAMPP', 'cai_dat_xampp.docx', 2, 1),
+('Tài liệu ôn tập SQL', 'sql_review.pdf', 1, NULL);
+
+INSERT INTO bai_tap (id_lop, tieu_de, mo_ta, han_nop, file_de_bai) VALUES 
+(1, 'Bài tập 01: Cấu trúc PHP', 'Viết các lệnh PHP cơ bản và xử lý mảng.', '2026-01-20 23:59:59', 'bt01_de_bai.pdf'),
+(1, 'Bài tập 02: Kết nối MySQL', 'Tạo form đăng ký và lưu vào database.', '2026-02-15 23:59:59', 'bt02_mysql.pdf');
+
+INSERT INTO bai_nop (id_bai_tap, id_sinh_vien, file_bai_lam, diem, nhan_xet) VALUES 
+(1, 4, '1736500000_bt01_sv01.zip', 8.5, 'Làm bài tốt, cần trình bày code sạch hơn.'),
+(1, 5, '1736500010_bt01_sv02.zip', 9.0, 'Rất tốt, sáng tạo trong cách giải quyết.');
+
+INSERT INTO thong_bao (tieu_de, noi_dung, nguoi_gui, id_lop) VALUES 
+('Chào mừng tân sinh viên', 'Chào mừng các em đến với kỳ học mới.', 1, NULL),
+('Thông báo dời lịch học', 'Lớp PHP_K60_01 nghỉ học ngày 15/01, sẽ học bù sau.', 2, 1),
+('Hạn chót nộp bài tập 1', 'Các em chú ý nộp bài đúng hạn vào ngày 20/01.', 2, 1);
+
+INSERT INTO diem_danh (id_lop, id_sinh_vien, ngay_diem_danh, trang_thai, ghi_chu) VALUES 
+(1, 4, '2026-01-05', 'co_mat', 'Đi học đúng giờ'),
+(1, 5, '2026-01-05', 'vang_co_phep', 'Xin nghỉ ốm');
+
+UPDATE dang_ky SET diem_giua_ky = 8.5, diem_cuoi_ky = 7.0 WHERE id_sinh_vien = 4 AND id_lop = 1;
+UPDATE dang_ky SET diem_giua_ky = 9.0, diem_cuoi_ky = 8.5 WHERE id_sinh_vien = 5 AND id_lop = 1;
