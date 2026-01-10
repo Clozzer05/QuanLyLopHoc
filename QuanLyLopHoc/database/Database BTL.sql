@@ -110,10 +110,15 @@ INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ho_ten, vai_tro) VALUES
 
 INSERT INTO mon_hoc (ten_mon, so_tin_chi) VALUES 
 ('Lập trình Web PHP', 3),
-('Cơ sở dữ liệu', 4);
+('Cơ sở dữ liệu', 4),
+('Lập trình Java cơ bản', 3, 'Học về cú pháp Java và hướng đối tượng'),
+('Phân tích thiết kế hệ thống', 3, 'Học về biểu đồ UML và quy trình phần mềm'),
+('Kỹ năng mềm', 2, 'Phát triển kỹ năng giao tiếp và làm việc nhóm');
 
 INSERT INTO lop_hoc (id_mon_hoc, id_giao_vien, ten_lop, hoc_ky) VALUES 
-(1, 2, 'PHP_K60_01', 'HK1-2024');
+(3, 2, 'JAVA_K60_01', 'HK1-2024', 40),
+(4, 3, 'PTTK_K60_02', 'HK1-2024', 45),
+(5, 2, 'KNM_K60_05', 'HK1-2024', 60);
 
 INSERT INTO dang_ky (id_sinh_vien, id_lop) VALUES 
 (4, 1),
