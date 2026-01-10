@@ -6,5 +6,5 @@ class ThongBaoModel {
     public $nguoi_gui;
     public $id_lop;
     public $ngay_tao;
-
+    public $ho_ten; 
 }

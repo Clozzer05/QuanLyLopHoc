@@ -12,4 +12,6 @@ class BaiNopDAO extends BaseDAO {
         $stmt->execute([$idBaiTap]);
         return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
+
+    
 }

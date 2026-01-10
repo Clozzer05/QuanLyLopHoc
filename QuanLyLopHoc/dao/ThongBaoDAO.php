@@ -8,10 +8,17 @@ class ThongBaoDAO extends BaseDAO {
 
     public function getByLop($idLop = null) {
         if ($idLop === null) {
-            $sql = "SELECT * FROM thong_bao WHERE id_lop IS NULL";
+            $sql = "SELECT tb.*, nd.ho_ten 
+                    FROM thong_bao tb 
+                    JOIN nguoi_dung nd ON tb.nguoi_gui = nd.id 
+                    WHERE tb.id_lop IS NULL";
             $stmt = $this->conn->query($sql);
         } else {
-            $sql = "SELECT * FROM thong_bao WHERE id_lop = ?";
+            $sql = "SELECT tb.*, nd.ho_ten 
+                    FROM thong_bao tb 
+                    JOIN nguoi_dung nd ON tb.nguoi_gui = nd.id 
+                    WHERE tb.id_lop = ? 
+                    ORDER BY tb.ngay_tao DESC";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$idLop]);
         }
@@ -19,7 +26,7 @@ class ThongBaoDAO extends BaseDAO {
     }
 
     public function getForSinhVien($idSV) {
-        $sql = "SELECT tb.*, nd.ho_ten as ten_nguoi_gui
+        $sql = "SELECT tb.*, nd.ho_ten
                 FROM thong_bao tb
                 JOIN nguoi_dung nd ON tb.nguoi_gui = nd.id
                 WHERE tb.id_lop IS NULL

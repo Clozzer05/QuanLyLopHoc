@@ -1,16 +1,21 @@
 <?php
 require_once __DIR__ . '/../dao/BaiTapDAO.php';
+
 class BaiTapService {
     private $dao;
+
     public function __construct() {
         $this->dao = new BaiTapDAO();
     }
-    public function getBaiTapCuaLop($idLop) {
+
+    public function getByLop($idLop) {
         return $this->dao->getByLop($idLop);
     }
+
     public function getById($id) {
         return $this->dao->findById($id);
     }
+
     public function taoBaiTap($data) {
         return $this->dao->insert([
             'id_lop'      => $data['id_lop'],
@@ -20,6 +25,7 @@ class BaiTapService {
             'file_de_bai' => $data['file_de_bai'] ?? ''
         ]);
     }
+
     public function update($id, $data) {
         if (empty($data['file_de_bai'])) {
             $baiTapCu = $this->dao->findById($id);
@@ -34,6 +40,7 @@ class BaiTapService {
             'file_de_bai' => $fileChot
         ]);
     }
+
     public function delete($id) {
         return $this->dao->delete($id);
     }

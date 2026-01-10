@@ -4,6 +4,7 @@ require_once __DIR__ . '/../services/BaiTapService.php';
 require_once __DIR__ . '/../services/ThongBaoService.php';
 require_once __DIR__ . '/../services/DiemDanhService.php';
 require_once __DIR__ . '/../core/Controller.php';
+require_once __DIR__ . '/../services/DangKyService.php';
 
 class GiaoVienController extends Controller {
 
@@ -44,6 +45,21 @@ class GiaoVienController extends Controller {
         $service = new DiemDanhService();
         $service->taoDiemDanh($_POST);
         $this->redirect('gv');
+    }
+
+    public function chitietlop() {
+        $idLop = $_GET['id'] ?? 0;
+        
+        $lopService = new LopHocService();
+        $dangKyService = new DangKyService();
+        
+        $lop = $lopService->getById($idLop);
+        $sinhVien = $dangKyService->getSinhVienTheoLop($idLop);
+        
+        $this->view('gv/chi_tiet_lop', [
+            'lop' => $lop,
+            'sinhVien' => $sinhVien
+        ]);
     }
 
     public function thongBao() {

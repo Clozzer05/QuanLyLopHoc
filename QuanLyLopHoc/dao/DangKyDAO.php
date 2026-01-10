@@ -1,21 +1,59 @@
 <?php
 require_once __DIR__ . '/../core/BaseDAO.php';
-require_once __DIR__ . '/../models/DangKyModel.php';
-require_once __DIR__ . '/../models/LopHocModel.php';
 
 class DangKyDAO extends BaseDAO {
     protected $table = 'dang_ky';
-    protected $modelClass = 'DangKyModel';
-    public function getLopBySinhVien($idSV) {
-        $sql = "SELECT lh.*, mh.ten_mon, nd.ho_ten as ten_giao_vien
-                FROM dang_ky dk
-                JOIN lop_hoc lh ON dk.id_lop = lh.id
-                LEFT JOIN mon_hoc mh ON lh.id_mon_hoc = mh.id
-                LEFT JOIN nguoi_dung nd ON lh.id_giao_vien = nd.id
-                WHERE dk.id_sinh_vien = ?";
 
+    public function getLopBySinhVien($idSV) {
+        $sql = "SELECT l.*, m.ten_mon, n.ho_ten as ten_giao_vien 
+                FROM lop_hoc l
+                JOIN mon_hoc m ON l.id_mon_hoc = m.id
+                JOIN nguoi_dung n ON l.id_giao_vien = n.id
+                JOIN dang_ky d ON l.id = d.id_lop
+                WHERE d.id_sinh_vien = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idSV]);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, 'LopHocModel');
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getThongTinLop($idLop) {
+        $sql = "SELECT l.*, m.ten_mon, n.ho_ten 
+                FROM lop_hoc l
+                JOIN mon_hoc m ON l.id_mon_hoc = m.id
+                JOIN nguoi_dung n ON l.id_giao_vien = n.id
+                WHERE l.id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idLop]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getKetQua($idSV, $idLop) {
+        $sql = "SELECT diem_giua_ky, diem_cuoi_ky 
+                FROM dang_ky 
+                WHERE id_sinh_vien = ? AND id_lop = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idSV, $idLop]);
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    public function getLopChuaDangKy($idSV) {
+        $sql = "SELECT l.*, m.ten_mon, n.ho_ten 
+                FROM lop_hoc l
+                JOIN mon_hoc m ON l.id_mon_hoc = m.id
+                JOIN nguoi_dung n ON l.id_giao_vien = n.id
+                WHERE l.id NOT IN (SELECT id_lop FROM dang_ky WHERE id_sinh_vien = ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idSV]);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getSinhVienByLop($idLop) {
+        $sql = "SELECT dk.*, nd.ho_ten 
+                FROM dang_ky dk
+                JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
+                WHERE dk.id_lop = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$idLop]);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 }

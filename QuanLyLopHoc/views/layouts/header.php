@@ -56,8 +56,19 @@
     <div class="container">
         <div class="brand">QUẢN LÝ LỚP HỌC</div>
         <div class="menu">
-            <a href="/giaovien">Trang chủ</a>
-            <a href="/logout">Đăng xuất</a>
+            <?php if (isset($_SESSION['user'])): ?>
+                <?php 
+                    $role = $_SESSION['user']->vai_tro; 
+                    $homeController = 'sinhvien';
+                    if ($role == 'gv') $homeController = 'giaovien';
+                    if ($role == 'admin') $homeController = 'admin';
+                ?>
+                
+                <a href="index.php?controller=<?= $homeController ?>&action=index">Trang chủ</a>
+                <a href="index.php?controller=auth&action=logout">Đăng xuất</a>
+            <?php else: ?>
+                <a href="index.php?controller=auth&action=login">Đăng nhập</a>
+            <?php endif; ?>
         </div>
     </div>
 </nav>
