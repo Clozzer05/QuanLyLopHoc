@@ -8,7 +8,14 @@ require_once __DIR__ . '/../core/Controller.php';
 
 class AdminController extends Controller {
     public function index() {
-        $this->view('admin/trang_chu');
+        $nguoiDungService = new NguoiDungService();
+        $lopHocService = new LopHocService();
+
+        $soHocSinh = $nguoiDungService->countHocSinh();
+        $soGiaoVien = $nguoiDungService->countGiaoVien();
+        $soLopHoc = $lopHocService->countLopHoc();
+
+        $this->view('admin/trang_chu', compact('soHocSinh', 'soGiaoVien', 'soLopHoc'));
     }
     public function monhoc() {
         $service = new MonHocService();
@@ -169,4 +176,7 @@ class AdminController extends Controller {
         }
         $this->redirect('admin&action=thongbao');
     }
+
+
+
 }
