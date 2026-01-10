@@ -15,4 +15,8 @@ class TaiLieuService {
     public function taoTaiLieu($data) {
         return $this->dao->insert($data);
     }
+    public function getAll() {
+        return $this->dao->findAll();
+    }
+
 }

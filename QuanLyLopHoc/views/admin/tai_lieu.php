@@ -1,9 +1,10 @@
 <?php include __DIR__.'/../layouts/header.php'; ?>
 
-    <p><a href="index.php?controller=admin&action=index">⬅️ Quay lại Trang chủ</a></p>
+<p><a href="index.php?controller=admin&action=index">⬅️ Quay lại Trang chủ</a></p>
 
-    <h3>QUẢN LÝ TÀI LIỆU HỆ THỐNG</h3>
+<h3>QUẢN LÝ TÀI LIỆU HỆ THỐNG</h3>
 
+<?php if (!empty($tailieus)): ?>
     <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
         <tr>
             <th>ID</th>
@@ -13,7 +14,7 @@
             <th>Hành động</th>
         </tr>
 
-        <?php foreach ($taiLieu as $tl): ?>
+        <?php foreach ($tailieus as $tl): ?>
             <tr style="<?= (isset($editingTaiLieu) && $editingTaiLieu->id == $tl->id) ? 'background-color: #ffffcc;' : '' ?>">
                 <td><?= $tl->id ?></td>
                 <td><?= htmlspecialchars($tl->tieu_de) ?></td>
@@ -28,13 +29,16 @@
             </tr>
         <?php endforeach; ?>
     </table>
+<?php else: ?>
+    <p>⚠️ Chưa có tài liệu nào.</p>
+<?php endif; ?>
 
-    <hr>
+<hr>
 
 <?php if (isset($editingTaiLieu)): ?>
     <h4 style="color: blue;">✏️ Đang sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
-    <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>">
 
+    <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>">
         <div style="margin-bottom: 10px;">
             <label>Tiêu đề tài liệu:</label><br>
             <input name="tieu_de" value="<?= htmlspecialchars($editingTaiLieu->tieu_de) ?>" required style="width: 300px;">
@@ -50,7 +54,7 @@
             <select name="id_lop" required style="width: 300px; height: 30px;">
                 <?php foreach ($lopHoc as $lop): ?>
                     <option value="<?= $lop->id ?>" <?= $lop->id == $editingTaiLieu->id_lop ? 'selected' : '' ?>>
-                        <?= $lop->ten_lop ?>
+                        <?= htmlspecialchars($lop->ten_lop) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -62,8 +66,8 @@
 
 <?php else: ?>
     <h4>➕ Thêm tài liệu mới</h4>
-    <form method="post" action="index.php?controller=admin&action=addTaiLieu">
 
+    <form method="post" action="index.php?controller=admin&action=addTaiLieu">
         <div style="margin-bottom: 10px;">
             <label>Tiêu đề tài liệu:</label><br>
             <input name="tieu_de" placeholder="Ví dụ: Bài giảng Chương 1" required style="width: 300px;">
@@ -79,7 +83,7 @@
             <select name="id_lop" required style="width: 300px; height: 30px;">
                 <option value="">-- Chọn lớp --</option>
                 <?php foreach ($lopHoc as $lop): ?>
-                    <option value="<?= $lop->id ?>"><?= $lop->ten_lop ?></option>
+                    <option value="<?= $lop->id ?>"><?= htmlspecialchars($lop->ten_lop) ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
