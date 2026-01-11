@@ -30,21 +30,10 @@
             <input type="file" name="file_de_bai" 
                    accept=".pdf,.doc,.docx,.zip,.rar"
                    style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            <small style="color: #666; display: block; margin-top: 5px;">Hoặc chọn từ tài liệu đã có:</small>
-            <select name="tai_lieu_lam_de_bai" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-top: 5px; width: 100%;">
-                <option value="">-- Không chọn --</option>
-                <?php if (!empty($taiLieu)): ?>
-                    <?php foreach ($taiLieu as $tl): ?>
-                        <option value="<?= $tl->duong_dan_file ?? $tl->file_path ?>">
-                            <?= htmlspecialchars($tl->tieu_de ?? 'Tài liệu') ?>
-                        </option>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </select>
         </div>
         
         <button type="submit" style="background: #28a745; color: #fff; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1em;">
-            ➕ Thêm bài tập
+            Thêm bài tập
         </button>
     </form>
 </div>
@@ -54,7 +43,7 @@
         <h4>Danh sách bài đã giao</h4>
         <a href="index.php?controller=giaovien&action=index" 
            style="background: #000; color: #fff; padding: 5px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;">
-           Quay lại
+            Quay lại
         </a>
     </div>
 
@@ -74,20 +63,25 @@
                         <b><?= htmlspecialchars($bt->tieu_de) ?></b>
                         <br><small><?= htmlspecialchars($bt->mo_ta) ?></small>
                         <?php if (!empty($bt->file_de_bai)): ?>
-                            <br><a href="public/uploads/bai_tap/<?= $bt->file_de_bai ?>" target="_blank" style="color: #007bff; font-size: 0.9em;">📎 File đề bài</a>
+                            <br>
+                            <a href="public/uploads/bai_tap/<?= rawurlencode($bt->file_de_bai) ?>" 
+                               target="_blank" 
+                               style="color: #007bff; font-size: 0.9em; font-weight: bold; text-decoration: underline;">
+                               📎 Tải file đề bài
+                            </a>
                         <?php endif; ?>
                     </td>
                     <td align="center"><?= date('d/m/Y H:i', strtotime($bt->han_nop)) ?></td>
                     <td align="center">
                         <a href="index.php?controller=giaovien&action=viewNopBai&id=<?= $bt->id ?>" class="btn btn-sm btn-primary" style="text-decoration: none; display: inline-block; margin-bottom: 5px;">
-                            📋 Xem bài nộp
+                            Xem bài nộp
                         </a>
                         <br>
                         <a href="index.php?controller=giaovien&action=deleteBaiTap&id=<?= $bt->id ?>&id_lop=<?= $idLop ?>" 
                            class="btn btn-sm btn-danger" 
                            style="text-decoration: none; display: inline-block;"
                            onclick="return confirm('Bạn có chắc muốn xóa bài tập này?')">
-                            🗑️ Xóa
+                            Xóa
                         </a>
                     </td>
                 </tr>

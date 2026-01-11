@@ -52,7 +52,7 @@
             <tr style="background-color: #f8f9fa;">
                 <th align="left">Tên tài liệu</th>
                 <th style="width: 200px; text-align: center;">Ngày upload</th>
-                <th style="width: 150px; text-align: center;">Hành động</th>
+                <th style="width: 200px; text-align: center;">Hành động</th>
             </tr>
         </thead>
         <tbody>
@@ -67,16 +67,21 @@
                     </td>
                     <td align="center">
                         <?php 
-                            $file = $tl->duong_dan_file ?? $tl->file_path ?? '';
+                            $file = $tl->duong_dan_file ?? $tl->file_path ?? $tl->duong_dan ?? '';
+                            $idTl = $tl->id ?? $tl->id_tai_lieu;
                         ?>
                         <?php if ($file): ?>
-                            <a href="public/uploads/tai_lieu/<?= $file ?>" target="_blank" 
-                               style="color: #007bff; text-decoration: underline; font-weight: bold;">
-                                Tải xuống
+                            <a href="public/uploads/tai_lieu/<?= rawurlencode($file) ?>" target="_blank" 
+                               style="color: #007bff; text-decoration: none; font-weight: bold; margin-right: 15px;">
+                                👁 Xem
                             </a>
-                        <?php else: ?>
-                            <span style="color: #999;">Không có file</span>
                         <?php endif; ?>
+
+                        <a href="index.php?controller=giaovien&action=deleteTaiLieu&id=<?= $idTl ?>&id_lop=<?= $idLop ?>" 
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')"
+                           style="color: #dc3545; text-decoration: none; font-weight: bold;">
+                           🗑 Xóa
+                        </a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
