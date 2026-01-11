@@ -1,9 +1,7 @@
 <?php
 require_once __DIR__ . '/../core/BaseDAO.php';
-
 class DangKyDAO extends BaseDAO {
     protected $table = 'dang_ky';
-
     public function getLopBySinhVien($idSV) {
         $sql = "SELECT l.*, m.ten_mon, n.ho_ten as ten_giao_vien 
                 FROM lop_hoc l
@@ -15,7 +13,6 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idSV]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-
     public function getThongTinLop($idLop) {
         $sql = "SELECT l.*, m.ten_mon, n.ho_ten 
                 FROM lop_hoc l
@@ -26,7 +23,6 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idLop]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-
     public function getKetQua($idSV, $idLop) {
         $sql = "SELECT diem_giua_ky, diem_cuoi_ky 
                 FROM dang_ky 
@@ -35,7 +31,6 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idSV, $idLop]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-
     public function getLopChuaDangKy($idSV) {
         $sql = "SELECT l.*, m.ten_mon, n.ho_ten 
                 FROM lop_hoc l
@@ -46,9 +41,8 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idSV]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-
     public function getSinhVienByLop($idLop) {
-        $sql = "SELECT dk.*, nd.ho_ten 
+        $sql = "SELECT nd.id, nd.ho_ten 
                 FROM dang_ky dk
                 JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
                 WHERE dk.id_lop = ?";

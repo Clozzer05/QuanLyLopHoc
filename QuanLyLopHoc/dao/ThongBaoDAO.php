@@ -1,11 +1,9 @@
 <?php
 require_once __DIR__ . '/../core/BaseDAO.php';
 require_once __DIR__ . '/../models/ThongBaoModel.php';
-
 class ThongBaoDAO extends BaseDAO {
     protected $table = 'thong_bao';
     protected $modelClass = 'ThongBaoModel';
-
     public function getByLop($idLop = null) {
         if ($idLop === null) {
             $sql = "SELECT tb.*, nd.ho_ten 
@@ -24,7 +22,6 @@ class ThongBaoDAO extends BaseDAO {
         }
         return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
-
     public function getForSinhVien($idSV) {
         $sql = "SELECT tb.*, nd.ho_ten
                 FROM thong_bao tb

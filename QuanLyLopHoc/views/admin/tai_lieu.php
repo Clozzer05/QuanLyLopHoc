@@ -1,101 +1,163 @@
 <?php include __DIR__.'/../layouts/header.php'; ?>
 
-<p><a href="index.php?controller=admin&action=index">⬅️ Quay lại Trang chủ</a></p>
+    <style>
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-add { color: #fff; background-color: #28a745; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-add:hover { background-color: #218838; }
+        .table-docs { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .table-docs th, .table-docs td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .table-docs th { background-color: #f8f9fa; }
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .file-input-wrapper { border: 1px dashed #ccc; padding: 20px; text-align: center; background: #f9f9f9; border-radius: 4px; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: #fff; margin: 5% auto; padding: 30px; border: 1px solid #888; width: 90%; max-width: 600px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); position: relative; }
+        .close { position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; color: #aaa; }
+        .close:hover { color: #000; }
+        .badge-global { background-color: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.9em; font-weight: bold; }
+    </style>
 
-<h3>QUẢN LÝ TÀI LIỆU HỆ THỐNG</h3>
-<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
-    <button onclick="document.getElementById('modal-them-tailieu').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm tài liệu mới</button>
-</div>
+    <p><a href="index.php?controller=admin&action=index" style="text-decoration: none;">⬅️ Quay lại Trang chủ</a></p>
 
-<?php if (!empty($tailieus)): ?>
-    <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+    <div class="page-header">
+        <h3>QUẢN LÝ TÀI LIỆU HỆ THỐNG</h3>
+        <button onclick="openModal()" class="btn-add">📥 Thêm tài liệu mới</button>
+    </div>
+
+<?php if (!empty($taiLieu)): ?>
+    <table class="table-docs">
+        <thead>
         <tr>
-            <th>ID</th>
+            <th style="width: 50px;">ID</th>
             <th>Tiêu đề</th>
-            <th>Link / File</th>
-            <th>Thuộc lớp</th>
-            <th>Hành động</th>
+            <th>File đính kèm</th>
+            <th>Phạm vi (Lớp)</th>
+            <th style="width: 150px;">Hành động</th>
         </tr>
-
-        <?php foreach ($tailieus as $tl): ?>
-            <tr style="<?= (isset($editingTaiLieu) && $editingTaiLieu->id == $tl->id) ? 'background-color: #ffffcc;' : '' ?>">
+        </thead>
+        <tbody>
+        <?php foreach ($taiLieu as $tl): ?>
+            <tr>
                 <td><?= $tl->id ?></td>
                 <td><?= htmlspecialchars($tl->tieu_de) ?></td>
                 <td>
-                    <a href="<?= htmlspecialchars($tl->duong_dan_file) ?>" target="_blank">🔗 Mở link</a>
+                    <?php if (!empty($tl->duong_dan_file)): ?>
+                        <a href="public/uploads/tai_lieu/<?= htmlspecialchars($tl->duong_dan_file) ?>" target="_blank" style="color: #007bff; text-decoration: none;">
+                            📄 Tải xuống
+                        </a>
+                    <?php else: ?>
+                        <span style="color: #999;">Không có file</span>
+                    <?php endif; ?>
                 </td>
-                <td>ID Lớp: <?= $tl->id_lop ?></td>
+                <td>
+                    <?php if (empty($tl->id_lop)): ?>
+                        <span class="badge-global">🌐 Toàn hệ thống</span>
+                    <?php else: ?>
+                        ID Lớp: <?= $tl->id_lop ?>
+                    <?php endif; ?>
+                </td>
                 <td>
                     <a href="index.php?controller=admin&action=tailieu&edit_id=<?= $tl->id ?>">✏️ Sửa</a> |
-                    <a href="index.php?controller=admin&action=deleteTaiLieu&id=<?= $tl->id ?>" onclick="return confirm('Xóa tài liệu này?')">❌ Xóa</a>
+                    <a href="index.php?controller=admin&action=deleteTaiLieu&id=<?= $tl->id ?>"
+                       onclick="return confirm('Xóa tài liệu này?')" style="color: red;">❌ Xóa</a>
                 </td>
             </tr>
         <?php endforeach; ?>
+        </tbody>
     </table>
 <?php else: ?>
     <p>⚠️ Chưa có tài liệu nào.</p>
 <?php endif; ?>
 
-<hr>
-
 <?php if (isset($editingTaiLieu)): ?>
-    <h4 style="color: blue;">✏️ Đang sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
+    <div id="edit-form-container" style="background: #f1f1f1; padding: 20px; margin-top: 20px; border-radius: 8px;">
+        <h4 style="margin-top:0;">✏️ Sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
 
-    <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>">
-        <div style="margin-bottom: 10px;">
-            <label>Tiêu đề tài liệu:</label><br>
-            <input name="tieu_de" value="<?= htmlspecialchars($editingTaiLieu->tieu_de) ?>" required style="width: 300px;">
-        </div>
+        <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>" enctype="multipart/form-data">
 
-        <div style="margin-bottom: 10px;">
-            <label>Link tài liệu (URL):</label><br>
-            <input name="duong_dan_file" value="<?= htmlspecialchars($editingTaiLieu->duong_dan_file) ?>" required style="width: 300px;">
-        </div>
+            <div class="form-group">
+                <label>Tiêu đề tài liệu:</label>
+                <input type="text" name="tieu_de" class="form-control" value="<?= htmlspecialchars($editingTaiLieu->tieu_de) ?>" required>
+            </div>
 
-        <div style="margin-bottom: 10px;">
-            <label>Thuộc lớp:</label><br>
-            <select name="id_lop" required style="width: 300px; height: 30px;">
-                <?php foreach ($lopHoc as $lop): ?>
-                    <option value="<?= $lop->id ?>" <?= $lop->id == $editingTaiLieu->id_lop ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($lop->ten_lop) ?>
+            <div class="form-group">
+                <label>File hiện tại:</label><br>
+                <a href="public/uploads/tai_lieu/<?= $editingTaiLieu->duong_dan_file ?>" target="_blank"><?= basename($editingTaiLieu->duong_dan_file) ?></a>
+                <input type="hidden" name="old_file" value="<?= $editingTaiLieu->duong_dan_file ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Chọn file mới (nếu muốn thay đổi):</label>
+                <div class="file-input-wrapper">
+                    <input type="file" name="file_upload" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.ppt,.pptx">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Phạm vi hiển thị:</label>
+                <select name="id_lop" class="form-control">
+                    <option value="" <?= empty($editingTaiLieu->id_lop) ? 'selected' : '' ?> style="font-weight: bold; color: #17a2b8;">
+                        🌐 Toàn hệ thống (Tất cả học sinh)
                     </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+                    <option disabled>──────────</option>
 
-        <button type="submit">Lưu Cập Nhật</button>
-        <a href="index.php?controller=admin&action=tailieu">Hủy bỏ</a>
-    </form>
+                    <?php foreach ($lopHoc as $lop): ?>
+                        <option value="<?= $lop->id ?>" <?= $lop->id == $editingTaiLieu->id_lop ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($lop->ten_lop) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-
-
+            <button type="submit" class="btn-add">💾 Lưu Cập Nhật</button>
+            <a href="index.php?controller=admin&action=tailieu" style="margin-left: 10px;">Hủy bỏ</a>
+        </form>
+    </div>
 <?php endif; ?>
 
-<div id="modal-them-tailieu" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
-  <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
-    <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="document.getElementById('modal-them-tailieu').style.display='none'">&times;</span>
-    <h4 style="color:#1976d2;">➕ Thêm tài liệu mới</h4>
-    <form method="post" action="index.php?controller=admin&action=addTaiLieu">
-        <div style="margin-bottom: 10px;">
-            <label>Tiêu đề tài liệu:</label><br>
-            <input name="tieu_de" placeholder="Ví dụ: Bài giảng Chương 1" required style="width:100%;">
+    <div id="modal-them-tailieu" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('modal-them-tailieu').style.display='none'">&times;</span>
+            <h3 style="margin-top: 0; color: #28a745;">Thêm tài liệu mới</h3>
+
+            <form method="post" action="index.php?controller=admin&action=addTaiLieu" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label style="font-weight: bold;">Tên hiển thị tài liệu:</label>
+                    <input type="text" name="tieu_de" class="form-control" placeholder="Nhập tên tài liệu..." required>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Chọn file tài liệu:</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" name="file_upload" required accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.ppt,.pptx" style="width: 100%;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Phạm vi hiển thị:</label>
+                    <select name="id_lop" class="form-control">
+                        <option value="" style="font-weight: bold; color: #17a2b8;">🌐 Toàn hệ thống (Tất cả học sinh)</option>
+                        <option disabled>──────────</option>
+
+                        <?php if(!empty($lopHoc)): ?>
+                            <?php foreach ($lopHoc as $lop): ?>
+                                <option value="<?= $lop->id ?>"><?= htmlspecialchars($lop->ten_lop) ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-add" style="width: 100%; margin-top: 10px;">📤 Tải lên tài liệu</button>
+            </form>
         </div>
-        <div style="margin-bottom: 10px;">
-            <label>Link tài liệu (URL):</label><br>
-            <input name="duong_dan_file" placeholder="https://drive.google.com/..." required style="width:100%;">
-        </div>
-        <div style="margin-bottom: 10px;">
-            <label>Chọn lớp học:</label><br>
-            <select name="id_lop" required style="width:100%; height: 30px;">
-                <option value="">-- Chọn lớp --</option>
-                <?php foreach ($lopHoc as $lop): ?>
-                    <option value="<?= $lop->id ?>"><?= htmlspecialchars($lop->ten_lop) ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <button type="submit" style="width:100%;">Thêm Mới</button>
-    </form>
-  </div>
-</div>
+    </div>
+
+    <script>
+        function openModal() { document.getElementById('modal-them-tailieu').style.display = "block"; }
+        window.onclick = function(event) {
+            var modal = document.getElementById('modal-them-tailieu');
+            if (event.target == modal) modal.style.display = "none";
+        }
+    </script>
 
 <?php include __DIR__.'/../layouts/footer.php'; ?>

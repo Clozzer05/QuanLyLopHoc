@@ -32,9 +32,7 @@ class LopHocService {
     public function delete($id) {
         return $this->dao->delete($id);
     }
-
-    
-        public function countLopHoc() {
-            return $this->dao->countAll();
-        }
+    public function countLopHoc() {
+        return $this->dao->countAll();
+    }
 }

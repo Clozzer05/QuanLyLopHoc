@@ -1,11 +1,9 @@
 <?php
 require_once __DIR__ . '/../core/BaseDAO.php';
 require_once __DIR__ . '/../models/DiemDanhModel.php';
-
 class DiemDanhDAO extends BaseDAO {
     protected $table = 'diem_danh';
     protected $modelClass = 'DiemDanhModel';
-
     public function getByLop($idLop) {
         $sql = "SELECT dd.*, nd.ho_ten 
                 FROM diem_danh dd
@@ -16,7 +14,6 @@ class DiemDanhDAO extends BaseDAO {
         $stmt->execute([$idLop]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-
     public function getLichSuDiemDanh($idLop, $ngay) {
         $sql = "SELECT dd.*, nd.ho_ten 
                 FROM diem_danh dd

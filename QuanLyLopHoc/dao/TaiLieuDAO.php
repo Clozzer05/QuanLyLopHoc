@@ -22,7 +22,7 @@ class TaiLieuDAO extends BaseDAO {
     }
 
     public function getByLop($idLop) {
-        $sql = "SELECT * FROM tai_lieu WHERE id_lop = ? ORDER BY ngay_upload DESC";
+        $sql = "SELECT * FROM tai_lieu WHERE id_lop = ? OR id_lop IS NULL ORDER BY ngay_upload DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idLop]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);

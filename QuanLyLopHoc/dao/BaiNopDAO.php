@@ -5,7 +5,6 @@ require_once __DIR__ . '/../models/BaiNopModel.php';
 class BaiNopDAO extends BaseDAO {
     protected $table = 'bai_nop';
     protected $modelClass = 'BaiNopModel';
-
     public function getByBaiTap($idBaiTap) {
         $sql = "SELECT bn.*, nd.ho_ten 
                 FROM bai_nop bn
@@ -16,7 +15,6 @@ class BaiNopDAO extends BaseDAO {
         $stmt->execute([$idBaiTap]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-
     public function getBySinhVienAndBaiTap($idSinhVien, $idBaiTap) {
         $sql = "SELECT * FROM {$this->table} WHERE id_sinh_vien = ? AND id_bai_tap = ?";
         $stmt = $this->conn->prepare($sql);
