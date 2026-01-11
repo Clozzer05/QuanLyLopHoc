@@ -68,7 +68,7 @@
 
                     <div class="action-grid">
                         <a href="index.php?controller=giaovien&action=chitietlop&id=<?= $lop->id ?>" 
-                           class="btn-gv btn-info">Chi tiết</a>
+                           class="btn-gv btn-info">Điểm</a>
 
                         <a href="index.php?controller=giaovien&action=baitap&id_lop=<?= $lop->id ?>" 
                            class="btn-gv btn-assign">Bài tập</a>

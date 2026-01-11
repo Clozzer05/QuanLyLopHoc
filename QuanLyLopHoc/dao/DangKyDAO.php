@@ -42,12 +42,21 @@ class DangKyDAO extends BaseDAO {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
     public function getSinhVienByLop($idLop) {
-        $sql = "SELECT nd.id, nd.ho_ten 
-                FROM dang_ky dk
-                JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
-                WHERE dk.id_lop = ?";
+        $sql = "SELECT nd.id, nd.ho_ten, dk.diem_giua_ky, dk.diem_cuoi_ky 
+            FROM dang_ky dk
+            JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
+            WHERE dk.id_lop = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idLop]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function updateDiem($idLop, $idSV, $diemGiuaKy, $diemCuoiKy) {
+        $diemGK = ($diemGiuaKy === '') ? null : $diemGiuaKy;
+        $diemCK = ($diemCuoiKy === '') ? null : $diemCuoiKy;
+        $sql = "UPDATE dang_ky 
+            SET diem_giua_ky = ?, diem_cuoi_ky = ? 
+            WHERE id_lop = ? AND id_sinh_vien = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$diemGK, $diemCK, $idLop, $idSV]);
     }
 }

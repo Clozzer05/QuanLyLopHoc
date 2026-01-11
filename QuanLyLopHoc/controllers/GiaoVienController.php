@@ -215,7 +215,21 @@ class GiaoVienController extends Controller {
             'danhSachNop' => $danhSachNop
         ]);
     }
-
+    public function capNhatDiem() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idLop = $_POST['id_lop'];
+            $danhSachDiem = $_POST['diem'] ?? [];
+            $service = new DangKyService();
+            foreach ($danhSachDiem as $idSV => $diem) {
+                $diemGK = $diem['giua_ky'];
+                $diemCK = $diem['cuoi_ky'];
+                $service->capNhatDiemSo($idLop, $idSV, $diemGK, $diemCK);
+            }
+            $_SESSION['success'] = "Đã cập nhật điểm thành công!";
+            header("Location: index.php?controller=giaovien&action=chitietlop&id=" . $idLop);
+            exit();
+        }
+    }
     public function saveDiem() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $idBaiNop = $_POST['id_bai_nop'];

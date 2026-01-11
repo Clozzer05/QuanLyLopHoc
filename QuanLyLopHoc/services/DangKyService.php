@@ -27,4 +27,7 @@ class DangKyService {
     public function getSinhVienTheoLop($idLop) {
         return $this->dao->getSinhVienByLop($idLop);
     }
+    public function capNhatDiemSo($idLop, $idSV, $diemGiuaKy, $diemCuoiKy) {
+        return $this->dao->updateDiem($idLop, $idSV, $diemGiuaKy, $diemCuoiKy);
+    }
 }
