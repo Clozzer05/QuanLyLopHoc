@@ -16,4 +16,15 @@ class DiemDanhDAO extends BaseDAO {
         $stmt->execute([$idLop]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function getLichSuDiemDanh($idLop, $ngay) {
+        $sql = "SELECT dd.*, nd.ho_ten 
+                FROM diem_danh dd
+                JOIN nguoi_dung nd ON dd.id_sinh_vien = nd.id
+                WHERE dd.id_lop = ? AND dd.ngay_diem_danh = ?
+            ORDER BY nd.ho_ten ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idLop, $ngay]);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
 }
