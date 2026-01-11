@@ -16,4 +16,15 @@ class BaiNopDAO extends BaseDAO {
         $stmt->execute([$idBaiTap]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function getBySinhVienAndBaiTap($idSinhVien, $idBaiTap) {
+        $sql = "SELECT * FROM {$this->table} WHERE id_sinh_vien = ? AND id_bai_tap = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$idSinhVien, $idBaiTap]);
+        if ($this->modelClass) {
+            $stmt->setFetchMode(PDO::FETCH_CLASS, $this->modelClass);
+            return $stmt->fetch();
+        }
+        return $stmt->fetch();
+    }
 }

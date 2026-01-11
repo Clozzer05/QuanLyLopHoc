@@ -50,23 +50,29 @@ class SinhVienController extends Controller {
         }
     }
 
-public function chiTietLop() {
-    $idLop = $_GET['id'] ?? 0;
-    $idSV = $_SESSION['user']->id;
+    public function chiTietLop() {
+        $idLop = $_GET['id'] ?? 0;
+        $idSV = $_SESSION['user']->id;
 
-    $dangKyService = new DangKyService();
-    $taiLieuService = new TaiLieuService();
-    $thongBaoService = new ThongBaoService();
-    $baiTapService = new BaiTapService();
+        $dangKyService = new DangKyService();
+        $taiLieuService = new TaiLieuService();
+        $thongBaoService = new ThongBaoService();
+        $baiTapService = new BaiTapService();
+        $baiNopService = new BaiNopService();
 
-    $lop = $dangKyService->getThongTinLop($idLop);
-    $ketQua = $dangKyService->getKetQuaHocTap($idSV, $idLop);
-    $taiLieu = $taiLieuService->getByLop($idLop);
-    $thongBao = $thongBaoService->getForSinhVienByLop($idLop);
-    $dsBaiTap = $baiTapService->getByLop($idLop);
+        $lop = $dangKyService->getThongTinLop($idLop);
+        $ketQua = $dangKyService->getKetQuaHocTap($idSV, $idLop);
+        $taiLieu = $taiLieuService->getByLop($idLop);
+        $thongBao = $thongBaoService->getForSinhVienByLop($idLop);
+        $dsBaiTap = $baiTapService->getByLop($idLop);
 
-    $this->view('sv/chi_tiet_lop', compact('lop', 'ketQua', 'taiLieu', 'thongBao', 'dsBaiTap'));
-}
+        if (!empty($dsBaiTap)) {
+            foreach ($dsBaiTap as $bt) {
+                $bt->bai_nop = $baiNopService->getBaiNopCuaSinhVien($idSV, $bt->id);
+            }
+        }
+        $this->view('sv/chi_tiet_lop', compact('lop', 'ketQua', 'taiLieu', 'thongBao', 'dsBaiTap'));
+    }
     
 public function dangky() {
     $idSV = $_SESSION['user']->id;

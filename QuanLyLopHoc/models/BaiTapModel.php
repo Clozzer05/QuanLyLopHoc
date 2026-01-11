@@ -7,5 +7,5 @@ class BaiTapModel {
     public $han_nop;
     public $file_de_bai;
     public $ngay_tao;
-
+    public $bai_nop;
 }
