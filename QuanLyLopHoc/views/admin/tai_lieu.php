@@ -21,7 +21,7 @@
 
     <div class="page-header">
         <h3>QUẢN LÝ TÀI LIỆU HỆ THỐNG</h3>
-        <button onclick="openModal()" class="btn-add">📥 Thêm tài liệu mới</button>
+        <button onclick="openModal()" class="btn-add">Thêm tài liệu mới</button>
     </div>
 
 <?php if (!empty($taiLieu)): ?>
@@ -43,7 +43,7 @@
                 <td>
                     <?php if (!empty($tl->duong_dan_file)): ?>
                         <a href="public/uploads/tai_lieu/<?= htmlspecialchars($tl->duong_dan_file) ?>" target="_blank" style="color: #007bff; text-decoration: none;">
-                            📄 Tải xuống
+                            📥 Tải xuống
                         </a>
                     <?php else: ?>
                         <span style="color: #999;">Không có file</span>
@@ -51,15 +51,15 @@
                 </td>
                 <td>
                     <?php if (empty($tl->id_lop)): ?>
-                        <span class="badge-global">🌐 Toàn hệ thống</span>
+                        <span class="badge-global"> Toàn hệ thống</span>
                     <?php else: ?>
-                        ID Lớp: <?= $tl->id_lop ?>
+                    <span class="badge-global"> ID Lớp: <?= $tl->id_lop ?></span>
                     <?php endif; ?>
                 </td>
                 <td>
-                    <a href="index.php?controller=admin&action=tailieu&edit_id=<?= $tl->id ?>">✏️ Sửa</a> |
+                    <a href="index.php?controller=admin&action=tailieu&edit_id=<?= $tl->id ?>">️ Sửa</a> |
                     <a href="index.php?controller=admin&action=deleteTaiLieu&id=<?= $tl->id ?>"
-                       onclick="return confirm('Xóa tài liệu này?')" style="color: red;">❌ Xóa</a>
+                       onclick="return confirm('Xóa tài liệu này?')" style="color: red;"> Xóa</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -71,7 +71,7 @@
 
 <?php if (isset($editingTaiLieu)): ?>
     <div id="edit-form-container" style="background: #f1f1f1; padding: 20px; margin-top: 20px; border-radius: 8px;">
-        <h4 style="margin-top:0;">✏️ Sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
+        <h4 style="margin-top:0;">Sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
 
         <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>" enctype="multipart/form-data">
 
@@ -97,7 +97,7 @@
                 <label>Phạm vi hiển thị:</label>
                 <select name="id_lop" class="form-control">
                     <option value="" <?= empty($editingTaiLieu->id_lop) ? 'selected' : '' ?> style="font-weight: bold; color: #17a2b8;">
-                        🌐 Toàn hệ thống (Tất cả học sinh)
+                        Toàn hệ thống
                     </option>
                     <option disabled>──────────</option>
 
@@ -109,7 +109,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn-add">💾 Lưu Cập Nhật</button>
+            <button type="submit" class="btn-add"> Lưu Cập Nhật</button>
             <a href="index.php?controller=admin&action=tailieu" style="margin-left: 10px;">Hủy bỏ</a>
         </form>
     </div>
@@ -136,7 +136,7 @@
                 <div class="form-group">
                     <label style="font-weight: bold;">Phạm vi hiển thị:</label>
                     <select name="id_lop" class="form-control">
-                        <option value="" style="font-weight: bold; color: #17a2b8;">🌐 Toàn hệ thống (Tất cả học sinh)</option>
+                        <option value="" style="font-weight: bold; color: #17a2b8;">Toàn hệ thống</option>
                         <option disabled>──────────</option>
 
                         <?php if(!empty($lopHoc)): ?>

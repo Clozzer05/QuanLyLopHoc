@@ -15,7 +15,7 @@
         <th>Tiêu đề</th>
         <th>Nội dung</th>
         <th>Người gửi</th>
-        <th>Lớp</th>
+        <th>Đến</th>
         <th>Hành động</th>
     </tr>
 
@@ -28,9 +28,9 @@
                 <td><?= htmlspecialchars($tb->nguoi_gui) ?></td>
                 <td><?= $tb->id_lop ?? 'Toàn hệ thống' ?></td>
                 <td>
-                    <a href="index.php?controller=admin&action=thongbao&edit_id=<?= $tb->id ?>">✏️ Sửa</a> |
+                    <a href="index.php?controller=admin&action=thongbao&edit_id=<?= $tb->id ?>">Sửa</a> |
                     <a href="index.php?controller=admin&action=deleteThongBao&id=<?= $tb->id ?>"
-                       onclick="return confirm('Xóa thông báo này?')">❌ Xóa</a>
+                       onclick="return confirm('Xóa thông báo này?')" style="color: red;"> Xóa</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -44,8 +44,7 @@
 <hr>
 
 <?php if (isset($editingThongBao) && $editingThongBao): ?>
-    <!-- FORM SỬA -->
-    <h4 style="color: blue;">✏️ Sửa thông báo</h4>
+    <h4 style="color: blue;">Sửa thông báo</h4>
 
     <form method="post"
           action="index.php?controller=admin&action=updateThongBao&id=<?= $editingThongBao->id ?>">
@@ -62,7 +61,7 @@
             <textarea name="noi_dung" rows="5" required style="width:400px;"><?= htmlspecialchars($editingThongBao->noi_dung) ?></textarea>
         </div>
 
-        <button type="submit">💾 Lưu cập nhật</button>
+        <button type="submit">Lưu cập nhật</button>
         <a href="index.php?controller=admin&action=thongbao">Hủy</a>
     </form>
 
@@ -88,10 +87,10 @@
             <input type="text" name="nguoi_gui" value="Admin" required style="width:100%;">
         </div>
         <div style="margin-bottom:10px;">
-            <label>ID lớp (để trống = toàn hệ thống):</label><br>
+            <label>Đến:</label><br>
             <input type="number" name="id_lop" style="width:60%;">
         </div>
-        <button type="submit" style="width:100%;">➕ Thêm thông báo</button>
+        <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Thêm Mới</button>
     </form>
   </div>
 </div>

@@ -60,7 +60,7 @@
                 <?php foreach ($taiLieu as $tl): ?>
                 <tr>
                     <td>
-                        📄 <?= htmlspecialchars($tl->tieu_de ?? 'Tài liệu') ?>
+                        <?= htmlspecialchars($tl->tieu_de ?? 'Tài liệu') ?>
                     </td>
                     <td align="center">
                         <?= isset($tl->ngay_upload) ? date('d/m/Y H:i', strtotime($tl->ngay_upload)) : 'N/A' ?>
@@ -73,14 +73,14 @@
                         <?php if ($file): ?>
                             <a href="public/uploads/tai_lieu/<?= rawurlencode($file) ?>" target="_blank" 
                                style="color: #007bff; text-decoration: none; font-weight: bold; margin-right: 15px;">
-                                👁 Xem
+                                 Xem  |
                             </a>
                         <?php endif; ?>
 
                         <a href="index.php?controller=giaovien&action=deleteTaiLieu&id=<?= $idTl ?>&id_lop=<?= $idLop ?>" 
                            onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')"
                            style="color: #dc3545; text-decoration: none; font-weight: bold;">
-                           🗑 Xóa
+                            Xóa
                         </a>
                     </td>
                 </tr>

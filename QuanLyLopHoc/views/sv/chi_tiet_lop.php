@@ -1,7 +1,7 @@
 <?php include __DIR__.'/../layouts/header.php'; ?>
 
 <div class="card">
-    <h3>CHI TIẾT LỚP: <?= htmlspecialchars($lop->ten_lop) ?></h3>
+    <h3> <?= htmlspecialchars($lop->ten_lop) ?></h3>
     <div class="row">
         <div class="col-half">
             <p><b>Môn học:</b> <?= htmlspecialchars($lop->ten_mon) ?></p>
@@ -43,7 +43,7 @@
 
     <div class="col-half">
         <div class="card">
-            <h4>THÔNG BÁO LỚP</h4>
+            <h4>THÔNG BÁO</h4>
             <div style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
                 <?php if (!empty($thongBao)): ?>
                     <?php foreach ($thongBao as $tb): ?>
@@ -94,7 +94,7 @@
                         <?php if (!empty($bt->bai_nop)): ?>
                             <div style="margin-bottom: 10px; background-color: #e8f5e9; padding: 10px; border-radius: 5px; border: 1px solid #c8e6c9;">
                                 <div style="color: #2e7d32; font-weight: bold; font-size: 0.9em;">
-                                    ✅ Đã nộp: <?= date('d/m/Y H:i', strtotime($bt->bai_nop->ngay_nop)) ?>
+                                     Đã nộp: <?= date('d/m/Y H:i', strtotime($bt->bai_nop->ngay_nop)) ?>
                                 </div>
                                 <div style="margin-top: 3px;">
                                     <a href="public/uploads/bai_nop/<?= rawurlencode($bt->bai_nop->file_bai_lam) ?>" target="_blank" style="font-size: 0.85em; text-decoration: underline;">
@@ -111,24 +111,21 @@
                                 <?php endif; ?>
                             </div>
                         <?php else: ?>
-                            <div style="margin-bottom: 10px; color: #856404; background-color: #fff3cd; border-color: #ffeeba; padding: 5px 10px; border-radius: 4px; font-size: 0.9em;">
-                                ⚠️ Chưa nộp bài
-                            </div>
-                        <?php endif; ?>
 
+                        <?php endif; ?>
                         <?php if (strtotime($bt->han_nop) >= time()): ?>
                             <form action="index.php?controller=sinhvien&action=nopbai" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="id_bai_tap" value="<?= $bt->id ?>">
                                 <div style="display: flex; gap: 5px; flex-direction: column;">
                                     <input type="file" name="file" required style="font-size: 0.8em; width: 100%;">
                                     <button type="submit" class="btn btn-sm btn-primary" style="width: 100%; border-radius: 4px;">
-                                        <?= !empty($bt->bai_nop) ? '🔄 Nộp lại (Cập nhật)' : '⬆️ Gửi bài ngay' ?>
+                                        <?= !empty($bt->bai_nop) ? ' Nộp lại ' : ' Gửi bài ngay' ?>
                                     </button>
                                 </div>
                             </form>
                         <?php else: ?>
                             <div style="text-align: center; margin-top: 10px; border-top: 1px solid #eee; padding-top: 5px;">
-                                <span style="color: #dc3545; font-weight: bold; font-size: 0.9em;">⛔ Đã hết hạn nộp bài</span>
+                                <span style="color: #dc3545; font-weight: bold; font-size: 0.9em;"> Đã hết hạn nộp bài</span>
                             </div>
                         <?php endif; ?>
                     </td>

@@ -34,8 +34,8 @@
                     ?>
                 </td>
                 <td>
-                    <a href="index.php?controller=admin&action=nguoidung&edit_id=<?= $nd->id ?>">✏️ Sửa</a> |
-                    <a href="index.php?controller=admin&action=deleteNguoiDung&id=<?= $nd->id ?>" onclick="return confirm('Xóa người này?')">❌ Xóa</a>
+                    <a href="index.php?controller=admin&action=nguoidung&edit_id=<?= $nd->id ?>">️ Sửa</a> |
+                    <a href="index.php?controller=admin&action=deleteNguoiDung&id=<?= $nd->id ?>" onclick="return confirm('Xóa người này?')" style="color: red;"> Xóa</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -44,14 +44,14 @@
     <hr>
 
 <?php if (isset($editingNguoiDung)): ?>
-    <h4 style="color: blue;">✏️ Đang sửa: <?= htmlspecialchars($editingNguoiDung->ho_ten) ?></h4>
+    <h4 style="color: blue;">Đang sửa: <?= htmlspecialchars($editingNguoiDung->ho_ten) ?></h4>
     <form method="post" action="index.php?controller=admin&action=updateNguoiDung&id=<?= $editingNguoiDung->id ?>">
 
         <label>Tên đăng nhập:</label><br>
         <input name="ten_dang_nhap" value="<?= htmlspecialchars($editingNguoiDung->ten_dang_nhap) ?>" required><br><br>
 
         <label>Mật khẩu:</label><br>
-        <input name="mat_khau" type="password" placeholder="Nhập mật khẩu mới (Để trống nếu giữ nguyên)"><br><br>
+        <input name="mat_khau" type="password" placeholder="Nhập mật khẩu mới "><br><br>
 
         <label>Họ tên:</label><br>
         <input name="ho_ten" value="<?= htmlspecialchars($editingNguoiDung->ho_ten) ?>" required><br><br>
@@ -63,7 +63,7 @@
             <option value="admin" <?= $editingNguoiDung->vai_tro == 'admin' ? 'selected' : '' ?>>Admin</option>
         </select><br><br>
 
-        <button type="submit">Lưu Cập Nhật</button>
+        <button type="submit" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Lưu Cập Nhật</button>
         <a href="index.php?controller=admin&action=nguoidung">Hủy bỏ</a>
     </form>
 
@@ -82,7 +82,7 @@
                     <option value="gv">Giáo viên</option>
                     <option value="admin">Admin</option>
                 </select>
-                <button type="submit" style="width:100%;">Thêm Mới</button>
+                <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Thêm Mới</button>
             </form>
         </div>
     </div>

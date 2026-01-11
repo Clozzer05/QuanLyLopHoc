@@ -1,7 +1,7 @@
 <?php include __DIR__.'/../layouts/header.php'; ?>
 
     <div style="width: 300px; margin: 50px auto; border: 1px solid #ddd; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-        <h3 style="text-align: center;">🔐 Đăng Nhập</h3>
+        <h3 style="text-align: center;"> Đăng Nhập</h3>
 
         <?php if (!empty($error)): ?>
             <p class="error" style="text-align: center;"><?= htmlspecialchars($error) ?></p>
@@ -19,7 +19,7 @@
             </div>
 
             <button type="submit" style="width: 100%; background-color: #007bff; color: white; border: none; padding: 10px;">
-                Đăng nhập hệ thống
+                Đăng Nhập
             </button>
         </form>
     </div>

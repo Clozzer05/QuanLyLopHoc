@@ -26,7 +26,7 @@
         </div>
 
         <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: bold;">File đề bài (tùy chọn):</label>
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">File đề bài:</label>
             <input type="file" name="file_de_bai" 
                    accept=".pdf,.doc,.docx,.zip,.rar"
                    style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">

@@ -1,6 +1,6 @@
 <?php include __DIR__.'/../layouts/header.php'; ?>
 
-    <p><a href="index.php?controller=admin&action=index">⬅️ Quay lại Dashboard</a></p>
+    <p><a href="index.php?controller=admin&action=index">⬅️ Quay lại Trang chủ</a></p>
 
     <h3>QUẢN LÝ MÔN HỌC</h3>
 
@@ -18,16 +18,16 @@
         </tr>
         </thead>
         <tbody>
-        <?php if (!empty($monHoc)): // Kiểm tra xem có dữ liệu không ?>
+        <?php if (!empty($monHoc)):  ?>
             <?php foreach ($monHoc as $row): ?>
                 <tr style="<?= (isset($editingMonHoc) && $editingMonHoc->id == $row->id) ? 'background-color: #ffffcc;' : '' ?>">
                     <td><?= $row->id ?></td>
                     <td><?= htmlspecialchars($row->ten_mon) ?></td>
                     <td><?= $row->so_tin_chi ?></td>
                     <td>
-                        <a href="index.php?controller=admin&action=monhoc&edit_id=<?= $row->id ?>">✏️ Sửa</a> |
+                        <a href="index.php?controller=admin&action=monhoc&edit_id=<?= $row->id ?>">️ Sửa</a> |
                         <a href="index.php?controller=admin&action=deleteMonHoc&id=<?= $row->id ?>"
-                           onclick="return confirm('Xóa môn này?');">❌ Xóa</a>
+                           onclick="return confirm('Xóa môn này?');" style="color: red;"> Xóa</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -54,7 +54,7 @@
                 <label>Số Tín Chỉ:</label><br>
                 <input type="number" name="so_tin_chi" value="3" required style="width: 100%;">
             </div>
-            <button type="submit" style="width:100%;">Thêm Mới</button>
+            <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Thêm Mới</button>
         </form>
       </div>
     </div>
@@ -63,7 +63,7 @@
     <div id="modal-sua-monhoc" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
       <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
         <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=monhoc'">&times;</span>
-        <h4 style="color:blue;">✏️ Sửa môn: <?= htmlspecialchars($editingMonHoc->ten_mon) ?></h4>
+        <h4 style="color:blue;">️ Sửa môn: <?= htmlspecialchars($editingMonHoc->ten_mon) ?></h4>
         <form action="index.php?controller=admin&action=updateMonHoc&id=<?= $editingMonHoc->id ?>" method="POST">
             <div style="margin-bottom: 10px;">
                 <label>Tên Môn:</label><br>
@@ -73,11 +73,14 @@
                 <label>Số Tín Chỉ:</label><br>
                 <input type="number" name="so_tin_chi" value="<?= $editingMonHoc->so_tin_chi ?>" required style="width: 100%;">
             </div>
-            <button type="submit" style="width:100%;">Lưu Cập Nhật</button>
-            <a href="index.php?controller=admin&action=monhoc" style="display:inline-block; margin-top:10px;">Hủy</a>
+            <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Lưu Cập Nhật</button>
+            <div style="text-align: center;">
+                <a href="index.php?controller=admin&action=monhoc" style="display:inline-block; margin-top:10px;">Hủy</a>
+            </div>
         </form>
       </div>
     </div>
     <?php endif; ?>
 
 <?php include __DIR__.'/../layouts/footer.php'; ?>
+

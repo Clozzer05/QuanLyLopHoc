@@ -17,7 +17,7 @@
     <div style="display: flex; gap: 10px;">
         <a href="index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>" 
            style="background: #28a745; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
-           🕒 Xem lịch sử
+          Xem lịch sử
         </a>
         <a href="index.php?controller=giaovien&action=index" 
            style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
@@ -67,7 +67,7 @@
         <?php if (!empty($sinhVien)): ?>
         <div style="margin-top: 20px; text-align: right;">
             <button type="submit" class="btn btn-primary" style="padding: 12px 40px; font-weight: bold; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em;">
-                💾 Lưu điểm danh
+             Lưu điểm danh
             </button>
         </div>
         <?php endif; ?>
