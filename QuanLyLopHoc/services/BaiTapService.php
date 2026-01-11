@@ -20,11 +20,23 @@ class BaiTapService {
         return $this->dao->getDanhSachNopBai($idBT);
     }
 
+    public function getBaiTapCuaLop($idLop) {
+        return $this->getByLop($idLop);
+    }
+
     public function taoBaiTap($data) {
         return $this->dao->insert($data);
     }
 
     public function xoaBaiTap($id) {
         return $this->dao->delete($id);
+    }
+
+    public function delete($id) {
+        return $this->dao->delete($id);
+    }
+
+    public function update($id, $data) {
+        return $this->dao->update($id, $data);
     }
 }

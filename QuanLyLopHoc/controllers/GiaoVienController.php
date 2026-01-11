@@ -6,6 +6,7 @@ require_once __DIR__ . '/../services/DiemDanhService.php';
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../services/TaiLieuService.php';
 require_once __DIR__ . '/../services/DangKyService.php';
+require_once __DIR__ . '/../services/BaiNopService.php';
 
 class GiaoVienController extends Controller {
 
@@ -20,21 +21,94 @@ class GiaoVienController extends Controller {
         $idLop = $_GET['id_lop'] ?? 0;
         $baiTapService = new BaiTapService();
         $lopHocService = new LopHocService();
+        $taiLieuService = new TaiLieuService();
 
         $baiTap = $baiTapService->getByLop($idLop);
         $lop = $lopHocService->getById($idLop);
+        $taiLieu = $taiLieuService->getByLop($idLop);
 
         $this->view('gv/bai_tap', [
             'baiTap' => $baiTap,
             'lop' => $lop,
-            'idLop' => $idLop
+            'idLop' => $idLop,
+            'taiLieu' => $taiLieu
         ]);
     }
 
     public function addBaiTap() {
-        $service = new BaiTapService();
-        $service->taoBaiTap($_POST);
-        header("Location: index.php?controller=giaovien&action=baitap&id_lop=" . $_POST['id_lop']);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idLop = $_POST['id_lop'];
+            $fileDeBai = '';
+
+            // Xử lý upload file đề bài
+            if (isset($_FILES['file_de_bai']) && $_FILES['file_de_bai']['error'] == 0) {
+                $targetDir = __DIR__ . "/../../public/uploads/bai_tap/";
+                if (!file_exists($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                $fileName = time() . '_' . basename($_FILES['file_de_bai']['name']);
+                $targetFilePath = $targetDir . $fileName;
+
+                if (move_uploaded_file($_FILES['file_de_bai']['tmp_name'], $targetFilePath)) {
+                    $fileDeBai = $fileName;
+                }
+            }
+            // Hoặc sử dụng tài liệu đã có
+            elseif (!empty($_POST['tai_lieu_lam_de_bai'])) {
+                // Copy file từ thư mục tài liệu sang thư mục bài tập
+                $sourceFile = __DIR__ . "/../../public/uploads/tai_lieu/" . $_POST['tai_lieu_lam_de_bai'];
+                if (file_exists($sourceFile)) {
+                    $targetDir = __DIR__ . "/../../public/uploads/bai_tap/";
+                    if (!file_exists($targetDir)) {
+                        mkdir($targetDir, 0777, true);
+                    }
+                    $newFileName = time() . '_' . basename($_POST['tai_lieu_lam_de_bai']);
+                    $targetFile = $targetDir . $newFileName;
+                    if (copy($sourceFile, $targetFile)) {
+                        $fileDeBai = $newFileName;
+                    }
+                }
+            }
+
+            $data = [
+                'id_lop' => $idLop,
+                'tieu_de' => $_POST['tieu_de'],
+                'mo_ta' => $_POST['mo_ta'] ?? '',
+                'han_nop' => $_POST['han_nop'],
+                'file_de_bai' => $fileDeBai
+            ];
+
+            $service = new BaiTapService();
+            $service->taoBaiTap($data);
+        }
+        
+        header("Location: index.php?controller=giaovien&action=baitap&id_lop=" . $idLop);
+        exit();
+    }
+
+    public function deleteBaiTap() {
+        if (isset($_GET['id'])) {
+            $service = new BaiTapService();
+            
+            // Lấy thông tin bài tập trước khi xóa
+            $baiTap = $service->getById($_GET['id']);
+            
+            // Xóa file đề bài nếu có
+            if ($baiTap && !empty($baiTap->file_de_bai)) {
+                $filePath = __DIR__ . '/../../public/uploads/bai_tap/' . $baiTap->file_de_bai;
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+            
+            // Xóa bài tập
+            $service->delete($_GET['id']);
+        }
+        
+        $idLop = $_GET['id_lop'] ?? 0;
+        header("Location: index.php?controller=giaovien&action=baitap&id_lop=" . $idLop);
+        exit();
     }
 
     public function addThongBao() {
@@ -48,6 +122,7 @@ class GiaoVienController extends Controller {
         $service->create($data);
         header("Location: index.php?controller=giaovien&action=thongbao&id_lop=" . $_POST['id_lop']);
     }
+    
     public function diemdanh() {
         $idLop = $_GET['id_lop'] ?? 0;
         
@@ -70,20 +145,33 @@ class GiaoVienController extends Controller {
             $ngay = $_POST['ngay_diem_danh'];
             $dsSinhVien = $_POST['sv'] ?? [];
 
+            if (empty($dsSinhVien)) {
+                $_SESSION['error'] = "Không có sinh viên nào để điểm danh!";
+                header("Location: index.php?controller=giaovien&action=diemdanh&id_lop=" . $idLop);
+                exit();
+            }
+
             $diemDanhService = new DiemDanhService();
+            $count = 0;
 
             foreach ($dsSinhVien as $sv) {
-                if (isset($sv['id'])) {
+                if (isset($sv['id']) && isset($sv['trang_thai'])) {
                     $data = [
                         'id_lop' => $idLop,
                         'id_sinh_vien' => $sv['id'],
                         'ngay_diem_danh' => $ngay,
-                        'trang_thai' => isset($sv['vang']) ? 'Vắng' : 'Hiện diện'
+                        'trang_thai' => $sv['trang_thai'],
+                        'ghi_chu' => ''
                     ];
-                    $diemDanhService->taoDiemDanh($data);
+                    if ($diemDanhService->taoDiemDanh($data)) {
+                        $count++;
+                    }
                 }
             }
-            header("Location: index.php?controller=giaovien&action=index");
+            
+            $_SESSION['success'] = "Đã lưu điểm danh cho $count sinh viên vào ngày " . date('d/m/Y', strtotime($ngay));
+            header("Location: index.php?controller=giaovien&action=diemdanh&id_lop=" . $idLop);
+            exit();
         }
     }
 
@@ -103,13 +191,26 @@ class GiaoVienController extends Controller {
 
     public function thongbao() {
         $idLop = $_GET['id_lop'] ?? 0;
+        $lopService = new LopHocService();
         $service = new ThongBaoService();
+        
+        $lop = $lopService->getById($idLop);
         $thongBao = $service->getByLop($idLop);
 
         $this->view('gv/thong_bao', [
             'thongBao' => $thongBao,
+            'lop' => $lop,
             'idLop' => $idLop
         ]);
+    }
+
+    public function deleteThongBao() {
+        if (isset($_GET['id'])) {
+            $service = new ThongBaoService();
+            $service->delete($_GET['id']);
+        }
+        $idLop = $_GET['id_lop'] ?? 0;
+        header("Location: index.php?controller=giaovien&action=thongbao&id_lop=" . $idLop);
     }
 
     public function viewNopBai() {
@@ -123,6 +224,21 @@ class GiaoVienController extends Controller {
             'baiTap' => $baiTap,
             'danhSachNop' => $danhSachNop
         ]);
+    }
+
+    public function saveDiem() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idBaiNop = $_POST['id_bai_nop'];
+            $diem = $_POST['diem'];
+            $nhanXet = $_POST['nhan_xet'] ?? '';
+            $idBaiTap = $_POST['id_bai_tap'];
+
+            $service = new BaiNopService();
+            $service->chamDiem($idBaiNop, $diem, $nhanXet);
+
+            header("Location: index.php?controller=giaovien&action=viewNopBai&id=" . $idBaiTap);
+            exit();
+        }
     }
 
     public function tailieu() {
@@ -140,33 +256,50 @@ class GiaoVienController extends Controller {
         ]);
     }
 
-public function addTaiLieu() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $idLop = $_POST['id_lop'];
-        $tenHienThi = $_POST['ten_tai_lieu'];
-        $file = $_FILES['file_tai_lieu'];
-
-        $targetDir = "public/uploads/tai_lieu/";
-        if (!file_exists($targetDir)) {
-            mkdir($targetDir, 0777, true);
-        }
-
-        $fileName = time() . '_' . basename($file["name"]);
-        $targetFilePath = $targetDir . $fileName;
-
-        if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
-            $taiLieuService = new TaiLieuService();
+    public function addTaiLieu() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idLop = $_POST['id_lop'];
+            $tenHienThi = $_POST['ten_tai_lieu'];
             
-            $data = [
-                'id_lop'    => $idLop,
-                'tieu_de'   => $tenHienThi,
-                'file_path' => $fileName
-            ];
+            // Kiểm tra file upload
+            if (!isset($_FILES['file_tai_lieu']) || $_FILES['file_tai_lieu']['error'] != 0) {
+                $_SESSION['error'] = "Vui lòng chọn file để upload!";
+                header("Location: index.php?controller=giaovien&action=tailieu&id_lop=" . $idLop);
+                exit();
+            }
             
-            $taiLieuService->taoTaiLieu($data);
-        }
+            $file = $_FILES['file_tai_lieu'];
 
-        header("Location: index.php?controller=giaovien&action=tailieu&id_lop=" . $idLop);
-    }
+            $targetDir = __DIR__ . "/../../public/uploads/tai_lieu/";
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+
+            // Lấy extension và tạo tên file unique
+            $fileExtension = pathinfo($file["name"], PATHINFO_EXTENSION);
+            $fileName = time() . '_' . uniqid() . '.' . $fileExtension;
+            $targetFilePath = $targetDir . $fileName;
+
+            if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
+                $taiLieuService = new TaiLieuService();
+                
+                $userId = $_SESSION['user']->id;
+                
+                $data = [
+                    'tieu_de' => $tenHienThi,
+                    'duong_dan_file' => $fileName,
+                    'nguoi_upload' => $userId,
+                    'id_lop' => $idLop
+                ];
+                
+                $taiLieuService->create($data, $userId);
+                $_SESSION['success'] = "Tải lên tài liệu thành công!";
+            } else {
+                $_SESSION['error'] = "Lỗi khi upload file!";
+            }
+
+            header("Location: index.php?controller=giaovien&action=tailieu&id_lop=" . $idLop);
+            exit();
+        }
     }
 }

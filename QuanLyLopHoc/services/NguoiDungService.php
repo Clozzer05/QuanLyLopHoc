@@ -54,12 +54,4 @@ class NguoiDungService {
     public function delete($id) {
         return $this->dao->delete($id);
     }
-
-            public function countHocSinh() {
-            return $this->dao->countByRole('sv');
-        }
-
-        public function countGiaoVien() {
-            return $this->dao->countByRole('gv');
-        }
 }

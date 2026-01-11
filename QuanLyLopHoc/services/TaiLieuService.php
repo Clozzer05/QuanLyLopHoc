@@ -15,8 +15,36 @@ class TaiLieuService {
     public function taoTaiLieu($data) {
         return $this->dao->insert($data);
     }
+    
     public function getAll() {
         return $this->dao->findAll();
     }
 
+    public function create($data, $userId) {
+        $data['nguoi_upload'] = $userId;
+        return $this->dao->insert($data);
+    }
+
+    public function getById($id) {
+        return $this->dao->findById($id);
+    }
+
+    public function update($id, $data) {
+        return $this->dao->update($id, $data);
+    }
+
+    public function delete($id) {
+        // Lấy thông tin file trước khi xóa
+        $taiLieu = $this->getById($id);
+        
+        // Xóa file vật lý nếu tồn tại
+        if ($taiLieu && !empty($taiLieu->duong_dan_file)) {
+            $filePath = __DIR__ . '/../../public/uploads/tai_lieu/' . $taiLieu->duong_dan_file;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+        
+        return $this->dao->delete($id);
+    }
 }

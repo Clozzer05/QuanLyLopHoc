@@ -21,10 +21,24 @@ class BaiNopService {
         ]);
     }
 
-    public function chamDiem($idBaiNop, $diem, $nhanXet) {
+    public function chamDiem($idBaiNop, $diem, $nhanXet = '') {
         return $this->dao->update($idBaiNop, [
             'diem'     => $diem,
             'nhan_xet' => $nhanXet
         ]);
     }
-}   
+
+    public function getBaiNopByBaiTap($idBaiTap) {
+        return $this->dao->getByBaiTap($idBaiTap);
+    }
+
+    public function getBaiNopCuaSinhVien($idSinhVien, $idBaiTap) {
+        // Implement nếu DAO có method này
+        return null;
+    }
+
+    public function kiemTraDaNop($idSinhVien, $idBaiTap) {
+        // Implement nếu cần
+        return false;
+    }
+}

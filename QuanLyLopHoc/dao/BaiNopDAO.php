@@ -7,11 +7,13 @@ class BaiNopDAO extends BaseDAO {
     protected $modelClass = 'BaiNopModel';
 
     public function getByBaiTap($idBaiTap) {
-        $sql = "SELECT * FROM bai_nop WHERE id_bai_tap = ?";
+        $sql = "SELECT bn.*, nd.ho_ten 
+                FROM bai_nop bn
+                JOIN nguoi_dung nd ON bn.id_sinh_vien = nd.id
+                WHERE bn.id_bai_tap = ?
+                ORDER BY bn.ngay_nop DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$idBaiTap]);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-
-    
 }

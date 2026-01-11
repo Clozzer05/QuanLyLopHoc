@@ -23,12 +23,4 @@ class LopHocDAO extends BaseDAO {
         $stmt->execute([$idGV]);
         return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
-
-            public function countAll() {
-            $sql = "SELECT COUNT(*) as total FROM lop_hoc";
-            $stmt = $this->conn->query($sql);
-            $row = $stmt->fetch();
-            return $row ? (int)$row['total'] : 0;
-        }
-        
 }

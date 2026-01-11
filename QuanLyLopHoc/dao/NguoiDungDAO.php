@@ -20,12 +20,4 @@ class NguoiDungDAO extends BaseDAO {
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
-
-            public function countByRole($role) {
-            $sql = "SELECT COUNT(*) as total FROM nguoi_dung WHERE vai_tro = ?";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([$role]);
-            $row = $stmt->fetch();
-            return $row ? (int)$row['total'] : 0;
-        }
 }

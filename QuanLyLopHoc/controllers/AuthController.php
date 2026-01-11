@@ -40,4 +40,3 @@ class AuthController extends Controller {
         $this->redirect('auth');
     }
 }
-//chu thich demo
