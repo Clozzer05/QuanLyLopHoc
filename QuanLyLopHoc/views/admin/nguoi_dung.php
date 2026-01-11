@@ -3,6 +3,9 @@
     <p><a href="index.php?controller=admin&action=index">⬅️ Quay lại Trang chủ</a></p>
 
     <h3>QUẢN LÝ NGƯỜI DÙNG</h3>
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+        <button onclick="document.getElementById('modal-them-nguoidung').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm người dùng mới</button>
+    </div>
 
     <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
         <tr>
@@ -58,19 +61,26 @@
         <a href="index.php?controller=admin&action=nguoidung">Hủy bỏ</a>
     </form>
 
-<?php else: ?>
-    <h4>➕ Thêm người dùng mới</h4>
+
+
+<?php endif; ?>
+
+<div id="modal-them-nguoidung" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+  <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
+    <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="document.getElementById('modal-them-nguoidung').style.display='none'">&times;</span>
+    <h4 style="color:#1976d2;">➕ Thêm người dùng mới</h4>
     <form method="post" action="index.php?controller=admin&action=addNguoiDung">
-        <input name="ten_dang_nhap" placeholder="Tên đăng nhập" required>
-        <input name="mat_khau" type="password" placeholder="Mật khẩu" required>
-        <input name="ho_ten" placeholder="Họ tên" required>
-        <select name="vai_tro">
+        <input name="ten_dang_nhap" placeholder="Tên đăng nhập" required style="width:100%;margin-bottom:10px;">
+        <input name="mat_khau" type="password" placeholder="Mật khẩu" required style="width:100%;margin-bottom:10px;">
+        <input name="ho_ten" placeholder="Họ tên" required style="width:100%;margin-bottom:10px;">
+        <select name="vai_tro" style="width:100%;margin-bottom:10px;">
             <option value="sv">Sinh viên</option>
             <option value="gv">Giáo viên</option>
             <option value="admin">Admin</option>
         </select>
-        <button type="submit">Thêm Mới</button>
+        <button type="submit" style="width:100%;">Thêm Mới</button>
     </form>
-<?php endif; ?>
+  </div>
+</div>
 
 <?php include __DIR__.'/../layouts/footer.php'; ?>

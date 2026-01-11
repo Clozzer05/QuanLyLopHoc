@@ -3,6 +3,9 @@
 <p><a href="index.php?controller=admin&action=index">⬅️ Quay lại Trang chủ</a></p>
 
 <h3>QUẢN LÝ TÀI LIỆU HỆ THỐNG</h3>
+<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+    <button onclick="document.getElementById('modal-them-tailieu').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm tài liệu mới</button>
+</div>
 
 <?php if (!empty($tailieus)): ?>
     <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
@@ -64,32 +67,35 @@
         <a href="index.php?controller=admin&action=tailieu">Hủy bỏ</a>
     </form>
 
-<?php else: ?>
-    <h4>➕ Thêm tài liệu mới</h4>
 
+
+<?php endif; ?>
+
+<div id="modal-them-tailieu" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+  <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
+    <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="document.getElementById('modal-them-tailieu').style.display='none'">&times;</span>
+    <h4 style="color:#1976d2;">➕ Thêm tài liệu mới</h4>
     <form method="post" action="index.php?controller=admin&action=addTaiLieu">
         <div style="margin-bottom: 10px;">
             <label>Tiêu đề tài liệu:</label><br>
-            <input name="tieu_de" placeholder="Ví dụ: Bài giảng Chương 1" required style="width: 300px;">
+            <input name="tieu_de" placeholder="Ví dụ: Bài giảng Chương 1" required style="width:100%;">
         </div>
-
         <div style="margin-bottom: 10px;">
             <label>Link tài liệu (URL):</label><br>
-            <input name="duong_dan_file" placeholder="https://drive.google.com/..." required style="width: 300px;">
+            <input name="duong_dan_file" placeholder="https://drive.google.com/..." required style="width:100%;">
         </div>
-
         <div style="margin-bottom: 10px;">
             <label>Chọn lớp học:</label><br>
-            <select name="id_lop" required style="width: 300px; height: 30px;">
+            <select name="id_lop" required style="width:100%; height: 30px;">
                 <option value="">-- Chọn lớp --</option>
                 <?php foreach ($lopHoc as $lop): ?>
                     <option value="<?= $lop->id ?>"><?= htmlspecialchars($lop->ten_lop) ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
-
-        <button type="submit">Thêm Mới</button>
+        <button type="submit" style="width:100%;">Thêm Mới</button>
     </form>
-<?php endif; ?>
+  </div>
+</div>
 
 <?php include __DIR__.'/../layouts/footer.php'; ?>

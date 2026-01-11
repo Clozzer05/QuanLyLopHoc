@@ -4,6 +4,10 @@
 
     <h3>QUẢN LÝ LỚP HỌC</h3>
 
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+        <button onclick="document.getElementById('modal-them-lop').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm lớp học mới</button>
+    </div>
+
     <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
         <tr>
             <th>ID</th>
@@ -64,27 +68,37 @@
         <a href="index.php?controller=admin&action=lophoc">Hủy bỏ</a>
     </form>
 
-<?php else: ?>
+
+
+
+
+<?php endif; ?>
+
+
+<div id="modal-them-lop" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+  <div style="background:#fff; padding:24px; border-radius:8px; max-width:400px; margin:60px auto; position:relative;">
+    <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="document.getElementById('modal-them-lop').style.display='none'">&times;</span>
     <h4>➕ Thêm lớp học mới</h4>
     <form method="post" action="index.php?controller=admin&action=addLopHoc">
-        <input name="ten_lop" placeholder="Tên lớp" required>
+        <input name="ten_lop" placeholder="Tên lớp" required style="width:100%;margin-bottom:10px;">
 
-        <select name="id_mon_hoc">
+        <select name="id_mon_hoc" style="width:100%;margin-bottom:10px;">
             <option value="">-- Chọn môn học --</option>
             <?php foreach ($monHoc as $m): ?>
                 <option value="<?= $m->id ?>"><?= $m->ten_mon ?></option>
             <?php endforeach; ?>
         </select>
 
-        <select name="id_giao_vien">
+        <select name="id_giao_vien" style="width:100%;margin-bottom:10px;">
             <option value="">-- Chọn giáo viên --</option>
             <?php foreach ($giaoVien as $gv): ?>
                 <option value="<?= $gv->id ?>"><?= $gv->ho_ten ?></option>
             <?php endforeach; ?>
         </select>
 
-        <button type="submit">Thêm Mới</button>
+        <button type="submit" style="width:100%;">Thêm Mới</button>
     </form>
-<?php endif; ?>
+  </div>
+</div>
 
 <?php include __DIR__.'/../layouts/footer.php'; ?>

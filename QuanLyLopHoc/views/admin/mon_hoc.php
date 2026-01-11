@@ -4,6 +4,10 @@
 
     <h3>QUẢN LÝ MÔN HỌC</h3>
 
+        <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+        <button onclick="document.getElementById('modal-them-monhoc').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm môn học mới</button>
+    </div>
+    
     <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
         <thead>
         <tr style="background-color: #f2f2f2;">
@@ -35,35 +39,45 @@
 
     <hr>
 
-    <div style="width: 50%; background: #f9f9f9; padding: 20px; border: 1px solid #ddd;">
-        <?php if (isset($editingMonHoc)): ?>
-            <h4 style="color: blue;">✏️ Sửa môn: <?= htmlspecialchars($editingMonHoc->ten_mon) ?></h4>
-            <form action="index.php?controller=admin&action=updateMonHoc&id=<?= $editingMonHoc->id ?>" method="POST">
-                <div style="margin-bottom: 10px;">
-                    <label>Tên Môn:</label><br>
-                    <input type="text" name="ten_mon" value="<?= htmlspecialchars($editingMonHoc->ten_mon) ?>" required style="width: 100%;">
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <label>Số Tín Chỉ:</label><br>
-                    <input type="number" name="so_tin_chi" value="<?= $editingMonHoc->so_tin_chi ?>" required style="width: 100%;">
-                </div>
-                <button type="submit">Lưu Cập Nhật</button>
-                <a href="index.php?controller=admin&action=monhoc">Hủy</a>
-            </form>
-        <?php else: ?>
-            <h4 style="color: green;">➕ Thêm Môn Mới</h4>
-            <form action="index.php?controller=admin&action=addMonHoc" method="POST">
-                <div style="margin-bottom: 10px;">
-                    <label>Tên Môn:</label><br>
-                    <input type="text" name="ten_mon" placeholder="Nhập tên môn" required style="width: 100%;">
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <label>Số Tín Chỉ:</label><br>
-                    <input type="number" name="so_tin_chi" value="3" required style="width: 100%;">
-                </div>
-                <button type="submit">Thêm Mới</button>
-            </form>
-        <?php endif; ?>
+
+
+    <div id="modal-them-monhoc" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+      <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
+        <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="document.getElementById('modal-them-monhoc').style.display='none'">&times;</span>
+        <h4 style="color:#1976d2;">➕ Thêm môn mới</h4>
+        <form action="index.php?controller=admin&action=addMonHoc" method="POST">
+            <div style="margin-bottom: 10px;">
+                <label>Tên Môn:</label><br>
+                <input type="text" name="ten_mon" placeholder="Nhập tên môn" required style="width: 100%;">
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label>Số Tín Chỉ:</label><br>
+                <input type="number" name="so_tin_chi" value="3" required style="width: 100%;">
+            </div>
+            <button type="submit" style="width:100%;">Thêm Mới</button>
+        </form>
+      </div>
     </div>
+
+    <?php if (isset($editingMonHoc) && is_object($editingMonHoc)): ?>
+    <div id="modal-sua-monhoc" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+      <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
+        <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=monhoc'">&times;</span>
+        <h4 style="color:blue;">✏️ Sửa môn: <?= htmlspecialchars($editingMonHoc->ten_mon) ?></h4>
+        <form action="index.php?controller=admin&action=updateMonHoc&id=<?= $editingMonHoc->id ?>" method="POST">
+            <div style="margin-bottom: 10px;">
+                <label>Tên Môn:</label><br>
+                <input type="text" name="ten_mon" value="<?= htmlspecialchars($editingMonHoc->ten_mon) ?>" required style="width: 100%;">
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label>Số Tín Chỉ:</label><br>
+                <input type="number" name="so_tin_chi" value="<?= $editingMonHoc->so_tin_chi ?>" required style="width: 100%;">
+            </div>
+            <button type="submit" style="width:100%;">Lưu Cập Nhật</button>
+            <a href="index.php?controller=admin&action=monhoc" style="display:inline-block; margin-top:10px;">Hủy</a>
+        </form>
+      </div>
+    </div>
+    <?php endif; ?>
 
 <?php include __DIR__.'/../layouts/footer.php'; ?>
