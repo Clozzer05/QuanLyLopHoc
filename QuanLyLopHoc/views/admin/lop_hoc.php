@@ -36,22 +36,24 @@
 
     <hr>
 
-<?php if (isset($editingLopHoc)): ?>
-    <h4 style="color: blue;">Đang sửa lớp: <?= htmlspecialchars($editingLopHoc->ten_lop) ?></h4>
+
+<?php if (isset($editingLopHoc) && is_object($editingLopHoc)): ?>
+<div id="modal-sua-lop" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+  <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
+    <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=lophoc'">&times;</span>
+    <h4 style="color:blue;">✏️ Sửa lớp: <?= htmlspecialchars($editingLopHoc->ten_lop) ?></h4>
     <form method="post" action="index.php?controller=admin&action=updateLopHoc&id=<?= $editingLopHoc->id ?>">
         <div style="margin-bottom: 10px;">
             <label>Tên lớp:</label><br>
-            <input name="ten_lop" value="<?= htmlspecialchars($editingLopHoc->ten_lop) ?>" required style="width: 300px; padding: 5px;">
+            <input name="ten_lop" value="<?= htmlspecialchars($editingLopHoc->ten_lop) ?>" required style="width: 100%; padding: 5px;">
         </div>
-
         <div style="margin-bottom: 10px;">
             <label>Học kỳ:</label><br>
-            <input name="hoc_ky" value="<?= htmlspecialchars($editingLopHoc->hoc_ky ?? '') ?>" required style="width: 300px; padding: 5px;">
+            <input name="hoc_ky" value="<?= htmlspecialchars($editingLopHoc->hoc_ky ?? '') ?>" required style="width: 100%; padding: 5px;">
         </div>
-
         <div style="margin-bottom: 10px;">
             <label>Môn học:</label><br>
-            <select name="id_mon_hoc" style="width: 312px; padding: 5px;">
+            <select name="id_mon_hoc" style="width: 100%; padding: 5px;">
                 <?php foreach ($monHoc as $m): ?>
                     <option value="<?= $m->id ?>" <?= $m->id == $editingLopHoc->id_mon_hoc ? 'selected' : '' ?>>
                         <?= $m->ten_mon ?>
@@ -59,10 +61,9 @@
                 <?php endforeach; ?>
             </select>
         </div>
-
         <div style="margin-bottom: 10px;">
             <label>Giáo viên:</label><br>
-            <select name="id_giao_vien" style="width: 312px; padding: 5px;">
+            <select name="id_giao_vien" style="width: 100%; padding: 5px;">
                 <?php foreach ($giaoVien as $gv): ?>
                     <option value="<?= $gv->id ?>" <?= $gv->id == $editingLopHoc->id_giao_vien ? 'selected' : '' ?>>
                         <?= $gv->ho_ten ?>
@@ -70,10 +71,10 @@
                 <?php endforeach; ?>
             </select>
         </div>
-
-        <button type="submit" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Lưu Cập Nhật</button>
-        <a href="index.php?controller=admin&action=lophoc" style="margin-left: 10px; text-decoration: none; color: #666;">Hủy bỏ</a>
+        <button type="submit" style="width:100%;padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Lưu Cập Nhật</button>
     </form>
+  </div>
+</div>
 <?php endif; ?>
 
 

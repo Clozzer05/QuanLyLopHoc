@@ -219,9 +219,11 @@ class AdminController extends Controller {
 
     public function thongbao() {
         $service = new ThongBaoService();
+        $lopService = new LopHocService();
         $thongBao = $service->getAll();
         $editingThongBao = isset($_GET['edit_id']) ? $service->getById($_GET['edit_id']) : null;
-        $this->view('admin/thong_bao', compact('thongBao', 'editingThongBao'));
+        $lopHoc = $lopService->getAll();
+        $this->view('admin/thong_bao', compact('thongBao', 'editingThongBao', 'lopHoc'));
     }
 
     public function addThongBao() {

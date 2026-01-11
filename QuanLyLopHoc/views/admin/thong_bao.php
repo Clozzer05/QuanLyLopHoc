@@ -87,8 +87,15 @@
             <input type="text" name="nguoi_gui" value="Admin" required style="width:100%;">
         </div>
         <div style="margin-bottom:10px;">
-            <label>Đến:</label><br>
-            <input type="number" name="id_lop" style="width:60%;">
+            <label>Gửi đến lớp:</label><br>
+            <select name="id_lop" style="width:100%;" required>
+                <option value="">-- Toàn hệ thống --</option>
+                <?php if (!empty($lopHoc)): ?>
+                    <?php foreach ($lopHoc as $lop): ?>
+                        <option value="<?= $lop->id ?>"><?= htmlspecialchars($lop->ten_lop) ?></option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
         </div>
         <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Thêm Mới</button>
     </form>

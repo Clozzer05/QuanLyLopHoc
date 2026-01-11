@@ -43,29 +43,31 @@
 
     <hr>
 
-<?php if (isset($editingNguoiDung)): ?>
-    <h4 style="color: blue;">Đang sửa: <?= htmlspecialchars($editingNguoiDung->ho_ten) ?></h4>
-    <form method="post" action="index.php?controller=admin&action=updateNguoiDung&id=<?= $editingNguoiDung->id ?>">
 
-        <label>Tên đăng nhập:</label><br>
-        <input name="ten_dang_nhap" value="<?= htmlspecialchars($editingNguoiDung->ten_dang_nhap) ?>" required><br><br>
+<?php if (isset($editingNguoiDung) && is_object($editingNguoiDung)): ?>
+<div id="modal-sua-nguoidung" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+    <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
+        <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=nguoidung'">&times;</span>
+        <h4 style="color:blue;">✏️ Sửa: <?= htmlspecialchars($editingNguoiDung->ho_ten) ?></h4>
+        <form method="post" action="index.php?controller=admin&action=updateNguoiDung&id=<?= $editingNguoiDung->id ?>">
+                <label>Tên đăng nhập:</label><br>
+                <input name="ten_dang_nhap" value="<?= htmlspecialchars($editingNguoiDung->ten_dang_nhap) ?>" required style="width:100%;margin-bottom:10px;"><br>
+                <label>Mật khẩu:</label><br>
+                <input name="mat_khau" type="password" placeholder="Nhập mật khẩu mới " style="width:100%;margin-bottom:10px;"><br>
+                <label>Họ tên:</label><br>
+                <input name="ho_ten" value="<?= htmlspecialchars($editingNguoiDung->ho_ten) ?>" required style="width:100%;margin-bottom:10px;"><br>
+                <label>Vai trò:</label><br>
+                <select name="vai_tro" style="width:100%;margin-bottom:10px;">
+                        <option value="sv" <?= $editingNguoiDung->vai_tro == 'sv' ? 'selected' : '' ?>>Sinh viên</option>
+                        <option value="gv" <?= $editingNguoiDung->vai_tro == 'gv' ? 'selected' : '' ?>>Giáo viên</option>
+                        <option value="admin" <?= $editingNguoiDung->vai_tro == 'admin' ? 'selected' : '' ?>>Admin</option>
+                </select><br>
+                <button type="submit" style="width:100%;padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Lưu Cập Nhật</button>
 
-        <label>Mật khẩu:</label><br>
-        <input name="mat_khau" type="password" placeholder="Nhập mật khẩu mới "><br><br>
+        </form>
+    </div>
+</div>
 
-        <label>Họ tên:</label><br>
-        <input name="ho_ten" value="<?= htmlspecialchars($editingNguoiDung->ho_ten) ?>" required><br><br>
-
-        <label>Vai trò:</label><br>
-        <select name="vai_tro">
-            <option value="sv" <?= $editingNguoiDung->vai_tro == 'sv' ? 'selected' : '' ?>>Sinh viên</option>
-            <option value="gv" <?= $editingNguoiDung->vai_tro == 'gv' ? 'selected' : '' ?>>Giáo viên</option>
-            <option value="admin" <?= $editingNguoiDung->vai_tro == 'admin' ? 'selected' : '' ?>>Admin</option>
-        </select><br><br>
-
-        <button type="submit" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Lưu Cập Nhật</button>
-        <a href="index.php?controller=admin&action=nguoidung">Hủy bỏ</a>
-    </form>
 
 <?php endif; ?>
 

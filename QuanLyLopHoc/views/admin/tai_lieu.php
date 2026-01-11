@@ -69,50 +69,46 @@
     <p>⚠️ Chưa có tài liệu nào.</p>
 <?php endif; ?>
 
-<?php if (isset($editingTaiLieu)): ?>
-    <div id="edit-form-container" style="background: #f1f1f1; padding: 20px; margin-top: 20px; border-radius: 8px;">
-        <h4 style="margin-top:0;">Sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
 
-        <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>" enctype="multipart/form-data">
-
-            <div class="form-group">
-                <label>Tiêu đề tài liệu:</label>
-                <input type="text" name="tieu_de" class="form-control" value="<?= htmlspecialchars($editingTaiLieu->tieu_de) ?>" required>
+<?php if (isset($editingTaiLieu) && is_object($editingTaiLieu)): ?>
+<div id="modal-sua-tailieu" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
+  <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
+    <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=tailieu'">&times;</span>
+    <h4 style="color:blue;">✏️ Sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
+    <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Tiêu đề tài liệu:</label>
+            <input type="text" name="tieu_de" class="form-control" value="<?= htmlspecialchars($editingTaiLieu->tieu_de) ?>" required>
+        </div>
+        <div class="form-group">
+            <label>File hiện tại:</label><br>
+            <a href="public/uploads/tai_lieu/<?= $editingTaiLieu->duong_dan_file ?>" target="_blank"><?= basename($editingTaiLieu->duong_dan_file) ?></a>
+            <input type="hidden" name="old_file" value="<?= $editingTaiLieu->duong_dan_file ?>">
+        </div>
+        <div class="form-group">
+            <label>Chọn file mới (nếu muốn thay đổi):</label>
+            <div class="file-input-wrapper">
+                <input type="file" name="file_upload" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.ppt,.pptx">
             </div>
-
-            <div class="form-group">
-                <label>File hiện tại:</label><br>
-                <a href="public/uploads/tai_lieu/<?= $editingTaiLieu->duong_dan_file ?>" target="_blank"><?= basename($editingTaiLieu->duong_dan_file) ?></a>
-                <input type="hidden" name="old_file" value="<?= $editingTaiLieu->duong_dan_file ?>">
-            </div>
-
-            <div class="form-group">
-                <label>Chọn file mới (nếu muốn thay đổi):</label>
-                <div class="file-input-wrapper">
-                    <input type="file" name="file_upload" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.ppt,.pptx">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Phạm vi hiển thị:</label>
-                <select name="id_lop" class="form-control">
-                    <option value="" <?= empty($editingTaiLieu->id_lop) ? 'selected' : '' ?> style="font-weight: bold; color: #17a2b8;">
-                        Toàn hệ thống
+        </div>
+        <div class="form-group">
+            <label>Phạm vi hiển thị:</label>
+            <select name="id_lop" class="form-control">
+                <option value="" <?= empty($editingTaiLieu->id_lop) ? 'selected' : '' ?> style="font-weight: bold; color: #17a2b8;">
+                    Toàn hệ thống
+                </option>
+                <option disabled>──────────</option>
+                <?php foreach ($lopHoc as $lop): ?>
+                    <option value="<?= $lop->id ?>" <?= $lop->id == $editingTaiLieu->id_lop ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($lop->ten_lop) ?>
                     </option>
-                    <option disabled>──────────</option>
-
-                    <?php foreach ($lopHoc as $lop): ?>
-                        <option value="<?= $lop->id ?>" <?= $lop->id == $editingTaiLieu->id_lop ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($lop->ten_lop) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <button type="submit" class="btn-add"> Lưu Cập Nhật</button>
-            <a href="index.php?controller=admin&action=tailieu" style="margin-left: 10px;">Hủy bỏ</a>
-        </form>
-    </div>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <button type="submit" class="btn-add" style="width:100%;">Lưu cập nhật</button>
+    </form>
+  </div>
+</div>
 <?php endif; ?>
 
     <div id="modal-them-tailieu" class="modal">

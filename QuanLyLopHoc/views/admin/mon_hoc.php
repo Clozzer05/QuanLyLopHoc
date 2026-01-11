@@ -74,9 +74,6 @@
                 <input type="number" name="so_tin_chi" value="<?= $editingMonHoc->so_tin_chi ?>" required style="width: 100%;">
             </div>
             <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Lưu Cập Nhật</button>
-            <div style="text-align: center;">
-                <a href="index.php?controller=admin&action=monhoc" style="display:inline-block; margin-top:10px;">Hủy</a>
-            </div>
         </form>
       </div>
     </div>
