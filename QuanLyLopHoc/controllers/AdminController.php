@@ -118,7 +118,6 @@ class AdminController extends Controller {
     public function addTaiLieu() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $service = new TaiLieuService();
-            // SỬA: Dùng ->id thay vì ['id']
             $userId = $_SESSION['user']->id ?? 0;
             $service->create($_POST, $userId);
         }
