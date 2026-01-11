@@ -14,10 +14,16 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h3>ĐIỂM DANH: <?= htmlspecialchars($lop->ten_lop ?? 'Lớp học') ?></h3>
-    <a href="index.php?controller=giaovien&action=index" 
-       style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
-       Quay lại
-    </a>
+    <div style="display: flex; gap: 10px;">
+        <a href="index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>" 
+           style="background: #28a745; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
+           🕒 Xem lịch sử
+        </a>
+        <a href="index.php?controller=giaovien&action=index" 
+           style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
+           Quay lại
+        </a>
+    </div>
 </div>
 
 <div class="card">
