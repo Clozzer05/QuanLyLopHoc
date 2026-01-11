@@ -95,8 +95,21 @@ class AdminController extends Controller {
     }
     public function addNguoiDung() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $service = new NguoiDungService();
-            $service->create($_POST);
+            try {
+                $service = new NguoiDungService();
+                $service->create($_POST);
+                $this->redirect('admin&action=nguoidung');
+            } catch (PDOException $e) {
+                if ($e->getCode() == '23000') {
+                    echo "<script>
+                        alert('Lỗi: Tên đăng nhập đã tồn tại! Vui lòng chọn tên khác.');
+                        window.history.back();
+                    </script>";
+                    exit;
+                } else {
+                    throw $e;
+                }
+            }
         }
         $this->redirect('admin&action=nguoidung');
     }
