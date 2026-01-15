@@ -4,7 +4,7 @@
     <a href="index.php?controller=admin&action=index">⬅️ Quay lại Trang chủ</a>
 </p>
 
-<h3>📢 QUẢN LÝ THÔNG BÁO</h3>
+<h3>QUẢN LÝ THÔNG BÁO</h3>
 <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
     <button onclick="document.getElementById('modal-them-thongbao').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm thông báo mới</button>
 </div>

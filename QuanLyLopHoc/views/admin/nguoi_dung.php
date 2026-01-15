@@ -48,7 +48,7 @@
 <div id="modal-sua-nguoidung" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
     <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
         <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=nguoidung'">&times;</span>
-        <h4 style="color:blue;">✏️ Sửa: <?= htmlspecialchars($editingNguoiDung->ho_ten) ?></h4>
+        <h4 style="color:blue;">Sửa: <?= htmlspecialchars($editingNguoiDung->ho_ten) ?></h4>
         <form method="post" action="index.php?controller=admin&action=updateNguoiDung&id=<?= $editingNguoiDung->id ?>">
                 <label>Tên đăng nhập:</label><br>
                 <input name="ten_dang_nhap" value="<?= htmlspecialchars($editingNguoiDung->ten_dang_nhap) ?>" required style="width:100%;margin-bottom:10px;"><br>

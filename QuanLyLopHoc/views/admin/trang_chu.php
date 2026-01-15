@@ -43,7 +43,6 @@
 
     <h2 class="fw-bold text-primary mb-4">TRANG QUẢN TRỊ</h2>
 
-    <!-- CARD CHỨC NĂNG -->
     <div class="row g-4 mb-5">
 
         <div class="col-md-3">

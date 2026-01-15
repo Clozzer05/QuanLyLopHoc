@@ -74,7 +74,7 @@
 <div id="modal-sua-tailieu" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
   <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
     <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=tailieu'">&times;</span>
-    <h4 style="color:blue;">✏️ Sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
+    <h4 style="color:blue;">Sửa tài liệu: <?= htmlspecialchars($editingTaiLieu->tieu_de) ?></h4>
     <form method="post" action="index.php?controller=admin&action=updateTaiLieu&id=<?= $editingTaiLieu->id ?>" enctype="multipart/form-data">
         <div class="form-group">
             <label>Tiêu đề tài liệu:</label>
