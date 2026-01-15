@@ -47,7 +47,7 @@
 <div id="modal-sua-lop" style="display:block; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
   <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
     <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="window.location.href='index.php?controller=admin&action=lophoc'">&times;</span>
-    <h4 style="color:blue;">✏️ Sửa lớp: <?= htmlspecialchars($editingLopHoc->ten_lop) ?></h4>
+    <h4 style="color:blue;">Sửa lớp: <?= htmlspecialchars($editingLopHoc->ten_lop) ?></h4>
     <form method="post" action="index.php?controller=admin&action=updateLopHoc&id=<?= $editingLopHoc->id ?>">
         <div style="margin-bottom: 10px;">
             <label>Tên lớp:</label><br>
