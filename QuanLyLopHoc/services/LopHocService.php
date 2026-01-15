@@ -21,6 +21,13 @@ class LopHocService {
     }
 
     public function create($data) {
+        // Kiểm tra trùng tên lớp học
+        $all = $this->dao->findAll();
+        foreach ($all as $lop) {
+            if (mb_strtolower(trim($lop->ten_lop)) === mb_strtolower(trim($data['ten_lop']))) {
+                throw new PDOException('Tên lớp học đã tồn tại', '23000');
+            }
+        }
         return $this->dao->insert([
             'ten_lop'      => $data['ten_lop'],
             'hoc_ky'       => $data['hoc_ky'] ,

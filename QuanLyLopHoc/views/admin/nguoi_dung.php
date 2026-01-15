@@ -4,11 +4,12 @@
 
     <h3>QUẢN LÝ NGƯỜI DÙNG</h3>
 
-<?php if (isset($_GET['error']) && $_GET['error'] == 'duplicate'): ?>
-    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
-        ⚠️ <strong>Lỗi:</strong> Tên đăng nhập này đã có người sử dụng! Vui lòng chọn tên khác.
-    </div>
-<?php endif; ?>
+ <?php if (isset($_GET['error']) && $_GET['error'] == 'duplicate'): ?>
+        <div style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
+         <strong>Lỗi:</strong> Tên đăng nhập này đã tồn tại! Vui lòng chọn tên khác.
+        </div>
+    <?php endif; ?>
+
     <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
         <button onclick="document.getElementById('modal-them-nguoidung').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm người dùng mới</button>
     </div>

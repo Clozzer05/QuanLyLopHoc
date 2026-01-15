@@ -18,6 +18,13 @@ class NguoiDungService {
         return $this->dao->findById($id);
     }
     public function create($data) {
+        // Kiểm tra trùng tên đăng nhập
+        $all = $this->dao->findAll();
+        foreach ($all as $user) {
+            if (mb_strtolower(trim($user->ten_dang_nhap)) === mb_strtolower(trim($data['ten_dang_nhap']))) {
+                throw new PDOException('Tên đăng nhập đã tồn tại', '23000');
+            }
+        }
         return $this->dao->insert([
             'ten_dang_nhap' => $data['ten_dang_nhap'],
             'mat_khau'      => $data['mat_khau'],
@@ -26,6 +33,13 @@ class NguoiDungService {
         ]);
     }
     public function update($id, $data) {
+        // Kiểm tra trùng tên đăng nhập khi sửa
+        $all = $this->dao->findAll();
+        foreach ($all as $user) {
+            if ($user->id != $id && mb_strtolower(trim($user->ten_dang_nhap)) === mb_strtolower(trim($data['ten_dang_nhap']))) {
+                throw new PDOException('Tên đăng nhập đã tồn tại', '23000');
+            }
+        }
         if (empty($data['mat_khau'])) {
             $userCu = $this->dao->findById($id);
             $matKhauChot = $userCu->mat_khau;

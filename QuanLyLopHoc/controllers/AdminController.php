@@ -27,9 +27,19 @@ class AdminController extends Controller {
     public function addMonHoc() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $service = new MonHocService();
-            $service->create($_POST);
+            try {
+                $service->create($_POST);
+                $this->redirect('admin&action=monhoc');
+            } catch (PDOException $e) {
+                if ($e->getCode() == '23000') {
+                    $this->redirect('admin&action=monhoc&error=duplicate');
+                } else {
+                    throw $e;
+                }
+            }
+        } else {
+            $this->redirect('admin&action=monhoc');
         }
-        $this->redirect('admin&action=monhoc');
     }
     public function updateMonHoc() {
         $id = $_GET['id'] ?? null;
@@ -65,9 +75,19 @@ class AdminController extends Controller {
     public function addLopHoc() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $service = new LopHocService();
-            $service->create($_POST);
+            try {
+                $service->create($_POST);
+                $this->redirect('admin&action=lophoc');
+            } catch (PDOException $e) {
+                if ($e->getCode() == '23000') {
+                    $this->redirect('admin&action=lophoc&error=duplicate');
+                } else {
+                    throw $e;
+                }
+            }
+        } else {
+            $this->redirect('admin&action=lophoc');
         }
-        $this->redirect('admin&action=lophoc');
     }
 
     public function updateLopHoc() {
@@ -101,17 +121,14 @@ class AdminController extends Controller {
                 $this->redirect('admin&action=nguoidung');
             } catch (PDOException $e) {
                 if ($e->getCode() == '23000') {
-                    echo "<script>
-                        alert('Lỗi: Tên đăng nhập đã tồn tại! Vui lòng chọn tên khác.');
-                        window.history.back();
-                    </script>";
-                    exit;
+                    $this->redirect('admin&action=nguoidung&error=duplicate');
                 } else {
                     throw $e;
                 }
             }
+        } else {
+            $this->redirect('admin&action=nguoidung');
         }
-        $this->redirect('admin&action=nguoidung');
     }
     public function updateNguoiDung() {
         $id = $_GET['id'] ?? null;
