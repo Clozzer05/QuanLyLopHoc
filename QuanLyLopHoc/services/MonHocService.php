@@ -15,13 +15,6 @@ class MonHocService {
         if (isset($data['so_tin_chi']) && $data['so_tin_chi'] < 1) {
             $data['so_tin_chi'] = 1;
         }
-        // Kiểm tra trùng tên môn học
-        $all = $this->dao->findAll();
-        foreach ($all as $mon) {
-            if (mb_strtolower(trim($mon->ten_mon)) === mb_strtolower(trim($data['ten_mon']))) {
-                throw new PDOException('Tên môn học đã tồn tại', '23000');
-            }
-        }
         return $this->dao->insert([
             'ten_mon' => $data['ten_mon'],
             'so_tin_chi' => $data['so_tin_chi']
