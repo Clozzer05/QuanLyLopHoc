@@ -8,6 +8,7 @@ require_once __DIR__ . '/../services/TaiLieuService.php';
 require_once __DIR__ . '/../services/DangKyService.php';
 require_once __DIR__ . '/../services/BaiNopService.php';
 require_once __DIR__ . '/../dao/DiemDanhDAO.php';
+require_once __DIR__ . '/../dao/DangKyDAO.php';
 
 class GiaoVienController extends Controller {
 
@@ -94,33 +95,48 @@ class GiaoVienController extends Controller {
 
     public function diemdanh() {
         $idLop = $_GET['id_lop'] ?? 0;
+        $searchTerm = $_GET['search'] ?? '';
+        
         $lopHocService = new LopHocService();
-        $dangKyService = new DangKyService();
+        $dangKyDAO = new DangKyDAO();
+        
         $lop = $lopHocService->getById($idLop);
-        $sinhVien = $dangKyService->getSinhVienTheoLop($idLop); 
+        $sinhVien = $dangKyDAO->getSinhVienByLop($idLop, $searchTerm);
 
         $this->view('gv/diem_danh', [
             'idLop' => $idLop,
             'lop' => $lop,
-            'sinhVien' => $sinhVien
+            'sinhVien' => $sinhVien,
+            'searchTerm' => $searchTerm
         ]);
     }
 
     public function xemLichSuDiemDanh() {
         $idLop = $_GET['id_lop'] ?? 0;
-        $ngay = $_GET['ngay_xem'] ?? date('Y-m-d'); 
+        $ngay = $_GET['ngay_xem'] ?? ''; 
+        $searchTerm = $_GET['search'] ?? '';
         
         $diemDanhDAO = new DiemDanhDAO();
         $lopHocService = new LopHocService();
         
         $lop = $lopHocService->getById($idLop);
-        $lichSu = $diemDanhDAO->getLichSuDiemDanh($idLop, $ngay);
+        
+        // Lấy danh sách các ngày đã điểm danh
+        $danhSachNgay = $diemDanhDAO->getDanhSachNgayDiemDanh($idLop);
+        
+        // Lấy lịch sử điểm danh theo ngày đã chọn
+        $lichSu = [];
+        if (!empty($ngay)) {
+            $lichSu = $diemDanhDAO->getLichSuDiemDanh($idLop, $ngay, $searchTerm);
+        }
         
         $this->view('gv/lich_su_diem_danh', [
             'idLop' => $idLop,
             'lop' => $lop,
             'lichSu' => $lichSu,
-            'ngayXem' => $ngay
+            'ngayXem' => $ngay,
+            'danhSachNgay' => $danhSachNgay,
+            'searchTerm' => $searchTerm
         ]);
     }
 
@@ -136,7 +152,13 @@ class GiaoVienController extends Controller {
                 exit();
             }
 
+            $diemDanhDAO = new DiemDanhDAO();
             $diemDanhService = new DiemDanhService();
+            
+            // Xóa điểm danh cũ của ngày này (nếu có) để tránh trùng lặp
+            $diemDanhDAO->xoaDiemDanhTheoNgay($idLop, $ngay);
+            
+            // Lưu điểm danh mới
             foreach ($dsSinhVien as $sv) {
                 if (isset($sv['id']) && isset($sv['trang_thai'])) {
                     $data = [
@@ -151,6 +173,33 @@ class GiaoVienController extends Controller {
             
             $_SESSION['success'] = "Đã lưu điểm danh thành công!";
             header("Location: index.php?controller=giaovien&action=diemdanh&id_lop=" . $idLop);
+            exit();
+        }
+    }
+
+    public function updateDiemDanh() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idDiemDanh = $_POST['id_diem_danh'];
+            $trangThai = $_POST['trang_thai'];
+            $ghiChu = $_POST['ghi_chu'] ?? '';
+            $idLop = $_POST['id_lop'];
+            $ngayXem = $_POST['ngay_xem'];
+            $searchTerm = $_POST['search'] ?? '';
+
+            $diemDanhService = new DiemDanhService();
+            $result = $diemDanhService->updateDiemDanh($idDiemDanh, $trangThai, $ghiChu);
+            
+            if ($result) {
+                $_SESSION['success'] = "Đã cập nhật điểm danh thành công!";
+            } else {
+                $_SESSION['error'] = "Không thể cập nhật điểm danh!";
+            }
+            
+            $url = "Location: index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=" . $idLop . "&ngay_xem=" . $ngayXem;
+            if (!empty($searchTerm)) {
+                $url .= "&search=" . urlencode($searchTerm);
+            }
+            header($url);
             exit();
         }
     }
@@ -215,6 +264,7 @@ class GiaoVienController extends Controller {
             'danhSachNop' => $danhSachNop
         ]);
     }
+
     public function capNhatDiem() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $idLop = $_POST['id_lop'];
@@ -230,6 +280,7 @@ class GiaoVienController extends Controller {
             exit();
         }
     }
+
     public function saveDiem() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $idBaiNop = $_POST['id_bai_nop'];
