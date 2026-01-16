@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/../dao/LopHocDAO.php';
 
@@ -45,5 +46,14 @@ class LopHocService {
 
     public function countLopHoc() {
         return $this->dao->countAll();
+    }
+        public function isDuplicateTenLop($tenLop) {
+        $all = $this->dao->findAll();
+        foreach ($all as $lop) {
+            if (strtolower(trim($lop->ten_lop)) === strtolower(trim($tenLop))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

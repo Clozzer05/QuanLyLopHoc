@@ -27,16 +27,12 @@ class AdminController extends Controller {
     public function addMonHoc() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $service = new MonHocService();
-            try {
-                $service->create($_POST);
-                $this->redirect('admin&action=monhoc');
-            } catch (PDOException $e) {
-                if ($e->getCode() == '23000') {
-                    $this->redirect('admin&action=monhoc&error=duplicate');
-                } else {
-                    throw $e;
-                }
+            if ($service->isDuplicateTenMon($_POST['ten_mon'])) {
+                $this->redirect('admin&action=monhoc&error=duplicate');
+                return;
             }
+            $service->create($_POST);
+            $this->redirect('admin&action=monhoc');
         } else {
             $this->redirect('admin&action=monhoc');
         }
@@ -75,16 +71,12 @@ class AdminController extends Controller {
     public function addLopHoc() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $service = new LopHocService();
-            try {
-                $service->create($_POST);
-                $this->redirect('admin&action=lophoc');
-            } catch (PDOException $e) {
-                if ($e->getCode() == '23000') {
-                    $this->redirect('admin&action=lophoc&error=duplicate');
-                } else {
-                    throw $e;
-                }
+            if ($service->isDuplicateTenLop($_POST['ten_lop'])) {
+                $this->redirect('admin&action=lophoc&error=duplicate');
+                return;
             }
+            $service->create($_POST);
+            $this->redirect('admin&action=lophoc');
         } else {
             $this->redirect('admin&action=lophoc');
         }
@@ -115,17 +107,13 @@ class AdminController extends Controller {
     }
     public function addNguoiDung() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $service = new NguoiDungService();
-                $service->create($_POST);
-                $this->redirect('admin&action=nguoidung');
-            } catch (PDOException $e) {
-                if ($e->getCode() == '23000') {
-                    $this->redirect('admin&action=nguoidung&error=duplicate');
-                } else {
-                    throw $e;
-                }
+            $service = new NguoiDungService();
+            if ($service->isDuplicateTenDangNhap($_POST['ten_dang_nhap'])) {
+                $this->redirect('admin&action=nguoidung&error=duplicate');
+                return;
             }
+            $service->create($_POST);
+            $this->redirect('admin&action=nguoidung');
         } else {
             $this->redirect('admin&action=nguoidung');
         }

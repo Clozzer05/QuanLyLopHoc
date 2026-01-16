@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/../dao/NguoiDungDAO.php';
 class NguoiDungService {
@@ -51,4 +52,13 @@ class NguoiDungService {
         public function countGiaoVien() {
             return $this->dao->countByRole('gv');
         }
+            public function isDuplicateTenDangNhap($tenDangNhap) {
+        $all = $this->dao->findAll();
+        foreach ($all as $nd) {
+            if (strtolower(trim($nd->ten_dang_nhap)) === strtolower(trim($tenDangNhap))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

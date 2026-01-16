@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . '/../dao/MonHocDAO.php';
 class MonHocService {
@@ -29,5 +30,14 @@ class MonHocService {
     }
     public function delete($id) {
         return $this->dao->delete($id);
+    }
+        public function isDuplicateTenMon($tenMon) {
+        $all = $this->dao->findAll();
+        foreach ($all as $mon) {
+            if (strtolower(trim($mon->ten_mon)) === strtolower(trim($tenMon))) {
+                return true;
+            }
+        }
+        return false;
     }
 }
