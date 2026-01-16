@@ -11,7 +11,7 @@
     <?php endif; ?>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
-        <button onclick="document.getElementById('modal-them-nguoidung').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm người dùng mới</button>
+        <button onclick="document.getElementById('modal-them-nguoidung').style.display='block'" style="color: #1976d2; font-weight: bold;">Thêm người dùng mới</button>
     </div>
 
     <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
@@ -41,7 +41,6 @@
             </tr>
         <?php endforeach; ?>
     </table>
-
     <hr>
 
 
@@ -52,7 +51,7 @@
         <h4 style="color:blue;">Sửa: <?= htmlspecialchars($editingNguoiDung->ho_ten) ?></h4>
         <form method="post" action="index.php?controller=admin&action=updateNguoiDung&id=<?= $editingNguoiDung->id ?>">
                 <label>Tên đăng nhập:</label><br>
-                <input name="ten_dang_nhap" value="<?= htmlspecialchars($editingNguoiDung->ten_dang_nhap) ?>" required style="width:100%;margin-bottom:10px;"><br>
+                <input name="ten_dang_nhap" value="<?= htmlspecialchars($editingNguoiDung->ten_dang_nhap) ?>" readonly required style="width:100%;margin-bottom:10px;"><br>
                 <label>Mật khẩu:</label><br>
                 <input name="mat_khau" type="password" placeholder="Nhập mật khẩu mới " style="width:100%;margin-bottom:10px;"><br>
                 <label>Họ tên:</label><br>
@@ -71,7 +70,6 @@
 
 
 <?php endif; ?>
-
     <div id="modal-them-nguoidung" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
         <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
             <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="document.getElementById('modal-them-nguoidung').style.display='none'">&times;</span>

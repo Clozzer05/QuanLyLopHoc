@@ -99,52 +99,74 @@ CREATE TABLE diem_danh (
     FOREIGN KEY (id_sinh_vien) REFERENCES nguoi_dung(id) ON DELETE CASCADE
 );
 
---DỮ LIỆU MẪU
+INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ho_ten, email, vai_tro) VALUES
+('admin', '123456', 'Quản trị hệ thống', 'admin@qlop.vn', 'admin'),
+('gv_anh', '123456', 'Nguyễn Văn Anh', 'anh.gv@qlop.vn', 'gv'),
+('gv_binh', '123456', 'Trần Thị Bình', 'binh.gv@qlop.vn', 'gv'),
+('gv_chau', '123456', 'Lê Minh Châu', 'chau.gv@qlop.vn', 'gv'),
+('sv01', '123456', 'Phạm Văn A', 'sv01@qlop.vn', 'sv'),
+('sv02', '123456', 'Nguyễn Thị B', 'sv02@qlop.vn', 'sv'),
+('sv03', '123456', 'Trần Văn C', 'sv03@qlop.vn', 'sv'),
+('sv04', '123456', 'Lê Thị D', 'sv04@qlop.vn', 'sv'),
+('sv05', '123456', 'Hoàng Văn E', 'sv05@qlop.vn', 'sv'),
+('sv06', '123456', 'Phan Thị F', 'sv06@qlop.vn', 'sv'),
+('sv07', '123456', 'Vũ Văn G', 'sv07@qlop.vn', 'sv');
 
-INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ho_ten, vai_tro) VALUES 
-('admin', '123456', 'Quản Trị Viên', 'admin'),
-('gv01', '123456', 'Nguyễn Văn Thầy', 'gv'),
-('gv02', '123456', 'Trần Thị Cô', 'gv'),
-('sv01', '123456', 'Lê Văn Trò', 'sv'),
-('sv02', '123456', 'Phạm Thị Học', 'sv');
+INSERT INTO mon_hoc (ten_mon, so_tin_chi, mo_ta) VALUES
+('Lập trình C cơ bản', 3, 'Nhập môn lập trình C'),
+('Lập trình PHP', 3, 'Lập trình web với PHP & MySQL'),
+('Cơ sở dữ liệu', 3, 'Thiết kế và quản lý CSDL'),
+('Mạng máy tính', 3, 'Kiến thức cơ bản về mạng'),
+('Hệ điều hành', 3, 'Nguyên lý hệ điều hành');
 
-INSERT INTO mon_hoc (ten_mon, so_tin_chi) VALUES 
-('Lập trình Web PHP', 3),
-('Cơ sở dữ liệu', 4),
-('Lập trình Java cơ bản', 3, 'Học về cú pháp Java và hướng đối tượng'),
-('Phân tích thiết kế hệ thống', 3, 'Học về biểu đồ UML và quy trình phần mềm'),
-('Kỹ năng mềm', 2, 'Phát triển kỹ năng giao tiếp và làm việc nhóm');
+INSERT INTO lop_hoc (id_mon_hoc, id_giao_vien, ten_lop, hoc_ky, si_so_toi_da) VALUES
+(1, 2, 'C01', 'HK1-2025', 60),
+(1, 3, 'C02', 'HK1-2025', 50),
+(2, 3, 'PHP01', 'HK1-2025', 55),
+(3, 4, 'CSDL01', 'HK2-2025', 50),
+(4, 2, 'MMT01', 'HK2-2025', 45),
+(5, 4, 'HDH01', 'HK2-2025', 40);
 
-INSERT INTO lop_hoc (id_mon_hoc, id_giao_vien, ten_lop, hoc_ky) VALUES 
-(3, 2, 'JAVA_K60_01', 'HK1-2024', 40),
-(4, 3, 'PTTK_K60_02', 'HK1-2024', 45),
-(5, 2, 'KNM_K60_05', 'HK1-2024', 60);
+INSERT INTO dang_ky (id_sinh_vien, id_lop, diem_giua_ky, diem_cuoi_ky) VALUES
+(5, 1, 7.5, 8.0),
+(6, 1, 6.5, 7.0),
+(7, 1, 8.0, 8.5),
+(8, 1, 5.5, 6.0),
+(5, 3, 7.0, 7.5),
+(6, 3, 8.5, 9.0),
+(7, 3, 6.0, 6.5),
+(8, 4, 7.5, 8.0),
+(9, 4, 6.5, 7.0),
+(10, 4, 8.0, 8.5),
+(5, 6, 6.0, 6.5),
+(6, 6, 7.0, 7.5);
 
-INSERT INTO dang_ky (id_sinh_vien, id_lop) VALUES 
-(4, 1),
-(5, 1);
+INSERT INTO thong_bao (tieu_de, noi_dung, nguoi_gui, id_lop) VALUES
+('Chào mừng sinh viên', 'Chào mừng các bạn đến với lớp học', 2, 1),
+('Lịch học tuần 1', 'Tuần 1 học lý thuyết', 2, 1),
+('Thông báo kiểm tra', 'Tuần sau kiểm tra giữa kỳ', 3, 3),
+('Nghỉ học', 'Buổi học ngày mai được nghỉ', 4, 4),
+('Thông báo chung', 'Sinh viên theo dõi LMS thường xuyên', 1, NULL);
 
-INSERT INTO tai_lieu (tieu_de, duong_dan_file, nguoi_upload, id_lop) VALUES 
-('Giáo trình PHP cơ bản', 'php_tutorial_pdf.pdf', 2, 1),
-('Hướng dẫn cài đặt XAMPP', 'cai_dat_xampp.docx', 2, 1),
-('Tài liệu ôn tập SQL', 'sql_review.pdf', 1, NULL);
+INSERT INTO diem_danh (id_lop, id_sinh_vien, ngay_diem_danh, trang_thai) VALUES
+(1, 5, '2025-09-01', 'co_mat'),
+(1, 6, '2025-09-01', 'co_mat'),
+(1, 7, '2025-09-01', 'vang_khong_phep'),
+(1, 8, '2025-09-01', 'co_mat'),
+(1, 5, '2025-09-08', 'co_mat'),
+(1, 6, '2025-09-08', 'vang_co_phep'),
+(1, 7, '2025-09-08', 'co_mat'),
+(1, 8, '2025-09-08', 'co_mat'),
+(3, 5, '2025-09-02', 'co_mat'),
+(3, 6, '2025-09-02', 'co_mat'),
+(3, 7, '2025-09-02', 'vang_khong_phep'),
+(4, 8, '2025-10-01', 'co_mat'),
+(4, 9, '2025-10-01', 'co_mat'),
+(4, 10, '2025-10-01', 'vang_co_phep');
 
-INSERT INTO bai_tap (id_lop, tieu_de, mo_ta, han_nop, file_de_bai) VALUES 
-(1, 'Bài tập 01: Cấu trúc PHP', 'Viết các lệnh PHP cơ bản và xử lý mảng.', '2026-01-20 23:59:59', 'bt01_de_bai.pdf'),
-(1, 'Bài tập 02: Kết nối MySQL', 'Tạo form đăng ký và lưu vào database.', '2026-02-15 23:59:59', 'bt02_mysql.pdf');
 
-INSERT INTO bai_nop (id_bai_tap, id_sinh_vien, file_bai_lam, diem, nhan_xet) VALUES 
-(1, 4, '1736500000_bt01_sv01.zip', 8.5, 'Làm bài tốt, cần trình bày code sạch hơn.'),
-(1, 5, '1736500010_bt01_sv02.zip', 9.0, 'Rất tốt, sáng tạo trong cách giải quyết.');
 
-INSERT INTO thong_bao (tieu_de, noi_dung, nguoi_gui, id_lop) VALUES 
-('Chào mừng tân sinh viên', 'Chào mừng các em đến với kỳ học mới.', 1, NULL),
-('Thông báo dời lịch học', 'Lớp PHP_K60_01 nghỉ học ngày 15/01, sẽ học bù sau.', 2, 1),
-('Hạn chót nộp bài tập 1', 'Các em chú ý nộp bài đúng hạn vào ngày 20/01.', 2, 1);
 
-INSERT INTO diem_danh (id_lop, id_sinh_vien, ngay_diem_danh, trang_thai, ghi_chu) VALUES 
-(1, 4, '2026-01-05', 'co_mat', 'Đi học đúng giờ'),
-(1, 5, '2026-01-05', 'vang_co_phep', 'Xin nghỉ ốm');
 
-UPDATE dang_ky SET diem_giua_ky = 8.5, diem_cuoi_ky = 7.0 WHERE id_sinh_vien = 4 AND id_lop = 1;
-UPDATE dang_ky SET diem_giua_ky = 9.0, diem_cuoi_ky = 8.5 WHERE id_sinh_vien = 5 AND id_lop = 1;
+
+

@@ -6,7 +6,7 @@
 
 <h3>QUẢN LÝ THÔNG BÁO</h3>
 <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
-    <button onclick="document.getElementById('modal-them-thongbao').style.display='block'" style="color: #1976d2; font-weight: bold;">➕ Thêm thông báo mới</button>
+    <button onclick="document.getElementById('modal-them-thongbao').style.display='block'" style="color: #1976d2; font-weight: bold;">Thêm thông báo mới</button>
 </div>
 
 <table border="1" cellpadding="5" style="width:100%; border-collapse: collapse;">

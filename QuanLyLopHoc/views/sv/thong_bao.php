@@ -9,7 +9,7 @@
                 <th>Tiêu đề</th>
                 <th>Nội dung</th>
                 <th>Người gửi</th>
-                <th>Ngày tạo</th>
+                <th>Thời gian</th>
             </tr>
         </thead>
         <tbody>

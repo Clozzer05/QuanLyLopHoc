@@ -35,7 +35,6 @@ class NguoiDungService {
         }
 
         $cleanData = [
-            'ten_dang_nhap' => $data['ten_dang_nhap'],
             'mat_khau'      => $matKhauChot,
             'ho_ten'        => $data['ho_ten'],
             'vai_tro'       => $data['vai_tro']
