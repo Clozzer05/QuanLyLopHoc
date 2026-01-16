@@ -2,13 +2,13 @@
 
 <?php if (isset($_SESSION['success'])): ?>
     <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
-        ✓ <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+        <?= $_SESSION['success']; unset($_SESSION['success']); ?>
     </div>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['error'])): ?>
     <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
-        ✗ <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
     </div>
 <?php endif; ?>
 
@@ -16,11 +16,11 @@
     <h3>ĐIỂM DANH: <?= htmlspecialchars($lop->ten_lop ?? 'Lớp học') ?></h3>
     <div style="display: flex; gap: 10px;">
         <a href="index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>" 
-           style="background: #28a745; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
-             Xem lịch sử
+           style="background: #007bff; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
+            Xem lịch sử
         </a>
         <a href="index.php?controller=giaovien&action=index" 
-           style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
+           style="background: #6c757d; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
             Quay lại
         </a>
     </div>
@@ -28,7 +28,7 @@
 
 <!-- Form tìm kiếm -->
 <div class="card" style="margin-bottom: 20px; padding: 20px;">
-    <h4 style="margin-top: 0; margin-bottom: 15px;"> Tìm kiếm sinh viên</h4>
+    <h4 style="margin-top: 0; margin-bottom: 15px;">Tìm kiếm sinh viên</h4>
     <form method="GET" id="searchForm" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <input type="hidden" name="controller" value="giaovien">
         <input type="hidden" name="action" value="diemdanh">
@@ -43,13 +43,13 @@
         
         <button type="submit" 
                 style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-             Tìm kiếm
+            Tìm kiếm
         </button>
         
         <button type="button" 
                 onclick="clearSearch()"
                 style="background: #6c757d; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-             Xóa
+            Xóa
         </button>
     </form>
     
@@ -100,20 +100,20 @@
                         <td style="padding: 12px;">
                             <strong><?= htmlspecialchars($sv->ho_ten) ?></strong>
                         </td>
-                        <td align="center" style="background: #f0fff4;">
+                        <td align="center">
                             <input type="radio" 
                                    name="sv[<?= $sv->id ?>][trang_thai]" 
                                    value="co_mat" 
                                    checked 
                                    style="width: 18px; height: 18px; cursor: pointer;">
                         </td>
-                        <td align="center" style="background: #fffbf0;">
+                        <td align="center">
                             <input type="radio" 
                                    name="sv[<?= $sv->id ?>][trang_thai]" 
                                    value="vang_co_phep"
                                    style="width: 18px; height: 18px; cursor: pointer;">
                         </td>
-                        <td align="center" style="background: #fff5f5;">
+                        <td align="center">
                             <input type="radio" 
                                    name="sv[<?= $sv->id ?>][trang_thai]" 
                                    value="vang_khong_phep"
@@ -140,7 +140,7 @@
         <div style="margin-top: 20px; text-align: right; padding: 15px; background: #f8f9fa; border-radius: 4px;">
             <button type="submit" 
                     style="padding: 12px 40px; font-weight: bold; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em;">
-                 Lưu điểm danh
+                Lưu điểm danh
             </button>
         </div>
         <?php endif; ?>

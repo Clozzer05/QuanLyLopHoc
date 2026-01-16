@@ -2,13 +2,13 @@
 
 <?php if (isset($_SESSION['success'])): ?>
     <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
-        ✓ <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+        <?= $_SESSION['success']; unset($_SESSION['success']); ?>
     </div>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['error'])): ?>
     <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
-        ✗ <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
     </div>
 <?php endif; ?>
 
@@ -23,7 +23,7 @@
 
 <!-- Form chọn ngày -->
 <div class="card" style="margin-bottom: 20px; padding: 20px;">
-    <h4 style="margin-top: 0; margin-bottom: 15px;"> Tra cứu điểm danh theo ngày</h4>
+    <h4 style="margin-top: 0; margin-bottom: 15px;">Tra cứu điểm danh theo ngày</h4>
     
     <?php if (!empty($danhSachNgay)): ?>
         <form id="searchDateForm" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
@@ -48,13 +48,13 @@
                 
                 <button type="submit" 
                         style="background: #007bff; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                     Tra cứu
+                    Tra cứu
                 </button>
                 
                 <button type="button" 
                         id="btnResetDate"
                         style="background: #6c757d; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                     Xóa
+                    Xóa
                 </button>
             </div>
         </form>
@@ -66,7 +66,7 @@
 <!-- Form tìm kiếm sinh viên -->
 <?php if (!empty($ngayXem)): ?>
 <div class="card" style="margin-bottom: 20px; padding: 20px;">
-    <h4 style="margin-top: 0; margin-bottom: 15px;">🔍 Tìm kiếm sinh viên</h4>
+    <h4 style="margin-top: 0; margin-bottom: 15px;">Tìm kiếm sinh viên</h4>
     <form method="GET" id="searchStudentForm" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <input type="hidden" name="controller" value="giaovien">
         <input type="hidden" name="action" value="xemLichSuDiemDanh">
@@ -82,13 +82,13 @@
         
         <button type="submit" 
                 style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-            🔍 Tìm kiếm
+            Tìm kiếm
         </button>
         
         <button type="button" 
                 onclick="clearStudentSearch()"
                 style="background: #6c757d; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-            🔄 Xóa
+            Xóa
         </button>
     </form>
     
@@ -113,7 +113,7 @@
             <tr style="background: #f8f9fa;">
                 <th style="padding: 12px; text-align: left;">Mã SV</th>
                 <th style="padding: 12px; text-align: left;">Họ tên sinh viên</th>
-                <th style="width: 250px; text-align: center;">Trạng thái ghi nhận</th>
+                <th style="width: 200px; text-align: center;">Trạng thái</th>
                 <th style="width: 120px; text-align: center;">Hành động</th>
             </tr>
         </thead>
@@ -128,35 +128,27 @@
                             </code>
                         </td>
                         <td style="padding: 12px; border-bottom: 1px solid #eee;">
-                            <?= htmlspecialchars($item->ho_ten) ?>
+                            <strong><?= htmlspecialchars($item->ho_ten) ?></strong>
                         </td>
                         <td align="center" style="border-bottom: 1px solid #eee;">
-                            <span id="status_display_<?= $item->id ?>">
-                                <?php if ($item->trang_thai == 'co_mat'): ?>
-                                    <span style="color: #28a745; font-weight: bold; background: #d4edda; padding: 5px 15px; border-radius: 20px;">
-                                        CÓ MẶT
-                                    </span>
-                                <?php elseif ($item->trang_thai == 'vang_co_phep'): ?>
-                                    <span style="color: #ffc107; font-weight: bold; background: #fff3cd; padding: 5px 15px; border-radius: 20px;">
-                                         VẮNG CÓ PHÉP
-                                    </span>
-                                <?php else: ?>
-                                    <span style="color: #dc3545; font-weight: bold; background: #f8d7da; padding: 5px 15px; border-radius: 20px;">
-                                         VẮNG KHÔNG PHÉP
-                                    </span>
-                                <?php endif; ?>
-                            </span>
+                            <?php if ($item->trang_thai == 'co_mat'): ?>
+                                <strong>Có mặt</strong>
+                            <?php elseif ($item->trang_thai == 'vang_co_phep'): ?>
+                                <strong>Vắng có phép</strong>
+                            <?php else: ?>
+                                <strong>Vắng không phép</strong>
+                            <?php endif; ?>
                             
                             <?php if (!empty($item->ghi_chu)): ?>
-                                <br><small style="color: #666; font-style: italic;" id="note_display_<?= $item->id ?>">
+                                <br><small style="color: #666; font-style: italic;">
                                     (<?= htmlspecialchars($item->ghi_chu) ?>)
                                 </small>
                             <?php endif; ?>
                         </td>
                         <td align="center" style="border-bottom: 1px solid #eee;">
                             <button onclick="showEditForm(<?= $item->id ?>, '<?= $item->trang_thai ?>', '<?= addslashes($item->ghi_chu ?? '') ?>')"
-                                    style="background: #ffc107; color: #000; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.9em;">
-                                ✏️ Sửa
+                                    style="background: #007bff; color: white; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.9em;">
+                                Sửa
                             </button>
                         </td>
                     </tr>
@@ -182,21 +174,21 @@
                                         <input type="radio" name="trang_thai" value="co_mat" 
                                                <?= ($item->trang_thai == 'co_mat') ? 'checked' : '' ?>
                                                style="width: 16px; height: 16px;">
-                                        <span style="color: #28a745; font-weight: bold;">Có mặt</span>
+                                        <span style="font-weight: bold;">Có mặt</span>
                                     </label>
                                     
                                     <label style="display: flex; align-items: center; gap: 5px;">
                                         <input type="radio" name="trang_thai" value="vang_co_phep"
                                                <?= ($item->trang_thai == 'vang_co_phep') ? 'checked' : '' ?>
                                                style="width: 16px; height: 16px;">
-                                        <span style="color: #ffc107; font-weight: bold;">Vắng có phép</span>
+                                        <span style="font-weight: bold;">Vắng có phép</span>
                                     </label>
                                     
                                     <label style="display: flex; align-items: center; gap: 5px;">
                                         <input type="radio" name="trang_thai" value="vang_khong_phep"
                                                <?= ($item->trang_thai == 'vang_khong_phep') ? 'checked' : '' ?>
                                                style="width: 16px; height: 16px;">
-                                        <span style="color: #dc3545; font-weight: bold;">Vắng không phép</span>
+                                        <span style="font-weight: bold;">Vắng không phép</span>
                                     </label>
                                 </div>
                                 
@@ -210,7 +202,7 @@
                                 <div style="display: flex; gap: 5px;">
                                     <button type="submit"
                                             style="background: #28a745; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                                        💾 Lưu
+                                        Lưu
                                     </button>
                                     <button type="button" onclick="hideEditForm(<?= $item->id ?>)"
                                             style="background: #6c757d; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
@@ -259,13 +251,13 @@
             <div>
                 <strong>Tổng số sinh viên:</strong> <?= $tongSV ?>
             </div>
-            <div style="color: #28a745;">
+            <div>
                 <strong>Có mặt:</strong> <?= $coMat ?> (<?= $tiLeCoMat ?>%)
             </div>
-            <div style="color: #ffc107;">
+            <div>
                 <strong>Vắng có phép:</strong> <?= $vangCoPhep ?>
             </div>
-            <div style="color: #dc3545;">
+            <div>
                 <strong>Vắng không phép:</strong> <?= $vangKhongPhep ?>
             </div>
         </div>

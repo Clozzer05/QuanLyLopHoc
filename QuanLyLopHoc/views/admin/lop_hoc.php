@@ -11,7 +11,7 @@
     <?php endif; ?>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
-        <button onclick="document.getElementById('modal-them-lop').style.display='block'" style="color: #1976d2; font-weight: bold; cursor: pointer;">➕ Thêm lớp học mới</button>
+        <button onclick="document.getElementById('modal-them-lop').style.display='block'" style="color: #1976d2; font-weight: bold; cursor: pointer;"> Thêm lớp học mới</button>
     </div>
 
     <table border="1" cellpadding="5" style="width: 100%; border-collapse: collapse;">
