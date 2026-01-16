@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../core/BaseDAO.php';
+
 class DangKyDAO extends BaseDAO {
     protected $table = 'dang_ky';
+    
     public function getLopBySinhVien($idSV) {
         $sql = "SELECT l.*, m.ten_mon, n.ho_ten as ten_giao_vien 
                 FROM lop_hoc l
@@ -13,6 +15,7 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idSV]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
     public function getThongTinLop($idLop) {
         $sql = "SELECT l.*, m.ten_mon, n.ho_ten 
                 FROM lop_hoc l
@@ -23,6 +26,7 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idLop]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+    
     public function getKetQua($idSV, $idLop) {
         $sql = "SELECT diem_giua_ky, diem_cuoi_ky 
                 FROM dang_ky 
@@ -31,6 +35,7 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idSV, $idLop]);
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+    
     public function getLopChuaDangKy($idSV) {
         $sql = "SELECT l.*, m.ten_mon, n.ho_ten 
                 FROM lop_hoc l
@@ -41,21 +46,40 @@ class DangKyDAO extends BaseDAO {
         $stmt->execute([$idSV]);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
-    public function getSinhVienByLop($idLop) {
-        $sql = "SELECT nd.id, nd.ho_ten, dk.diem_giua_ky, dk.diem_cuoi_ky 
-            FROM dang_ky dk
-            JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
-            WHERE dk.id_lop = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$idLop]);
+    
+    public function getSinhVienByLop($idLop, $searchTerm = '') {
+        if (!empty($searchTerm)) {
+            // Tìm kiếm theo tên hoặc mã sinh viên
+            $sql = "SELECT nd.id, nd.ho_ten, nd.ten_dang_nhap as ma_sinh_vien, 
+                           dk.diem_giua_ky, dk.diem_cuoi_ky 
+                    FROM dang_ky dk
+                    JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
+                    WHERE dk.id_lop = ? 
+                    AND (nd.ho_ten LIKE ? OR nd.ten_dang_nhap = ?)
+                    ORDER BY nd.ho_ten ASC";
+            $stmt = $this->conn->prepare($sql);
+            $searchLike = '%' . $searchTerm . '%';
+            $stmt->execute([$idLop, $searchLike, $searchTerm]);
+        } else {
+            // Lấy tất cả sinh viên
+            $sql = "SELECT nd.id, nd.ho_ten, nd.ten_dang_nhap as ma_sinh_vien, 
+                           dk.diem_giua_ky, dk.diem_cuoi_ky 
+                    FROM dang_ky dk
+                    JOIN nguoi_dung nd ON dk.id_sinh_vien = nd.id
+                    WHERE dk.id_lop = ?
+                    ORDER BY nd.ho_ten ASC";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$idLop]);
+        }
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    
     public function updateDiem($idLop, $idSV, $diemGiuaKy, $diemCuoiKy) {
         $diemGK = ($diemGiuaKy === '') ? null : $diemGiuaKy;
         $diemCK = ($diemCuoiKy === '') ? null : $diemCuoiKy;
         $sql = "UPDATE dang_ky 
-            SET diem_giua_ky = ?, diem_cuoi_ky = ? 
-            WHERE id_lop = ? AND id_sinh_vien = ?";
+                SET diem_giua_ky = ?, diem_cuoi_ky = ? 
+                WHERE id_lop = ? AND id_sinh_vien = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$diemGK, $diemCK, $idLop, $idSV]);
     }
