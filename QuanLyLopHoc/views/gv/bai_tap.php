@@ -33,7 +33,7 @@
         </div>
         
         <button type="submit" style="background: #28a745; color: #fff; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1em;">
-            Thêm bài tập
+            ➕ Thêm bài tập
         </button>
     </form>
 </div>
@@ -41,10 +41,17 @@
 <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <h4>Danh sách bài đã giao</h4>
-        <a href="index.php?controller=giaovien&action=index" 
-           style="background: #000; color: #fff; padding: 5px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;">
-            Quay lại
-        </a>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <!-- Thanh tìm kiếm -->
+            <input type="text" 
+                   id="searchBaiTap" 
+                   placeholder="🔍 Tìm theo tiêu đề..." 
+                   style="padding: 8px 15px; border: 1px solid #ddd; border-radius: 4px; width: 250px;">
+            <a href="index.php?controller=giaovien&action=index" 
+               style="background: #000; color: #fff; padding: 5px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;">
+                Quay lại
+            </a>
+        </div>
     </div>
 
     <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
@@ -55,10 +62,10 @@
                 <th style="width: 150px; text-align: center;">Hành động</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="baiTapTableBody">
             <?php if (!empty($baiTap)): ?>
                 <?php foreach ($baiTap as $bt): ?>
-                <tr>
+                <tr class="baitap-row" data-title="<?= strtolower($bt->tieu_de) ?>">
                     <td>
                         <b><?= htmlspecialchars($bt->tieu_de) ?></b>
                         <br><small><?= htmlspecialchars($bt->mo_ta) ?></small>
@@ -74,23 +81,55 @@
                     <td align="center"><?= date('d/m/Y H:i', strtotime($bt->han_nop)) ?></td>
                     <td align="center">
                         <a href="index.php?controller=giaovien&action=viewNopBai&id=<?= $bt->id ?>" class="btn btn-sm btn-primary" style="text-decoration: none; display: inline-block; margin-bottom: 5px;">
-                            Xem bài nộp
+                            📋 Xem bài nộp
                         </a>
                         <br>
                         <a href="index.php?controller=giaovien&action=deleteBaiTap&id=<?= $bt->id ?>&id_lop=<?= $idLop ?>" 
                            class="btn btn-sm btn-danger" 
                            style="text-decoration: none; display: inline-block;"
                            onclick="return confirm('Bạn có chắc muốn xóa bài tập này?')">
-                            Xóa
+                            🗑️ Xóa
                         </a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <tr><td colspan="3" align="center">Chưa có bài tập nào được giao.</td></tr>
+                <tr id="noDataRow"><td colspan="3" align="center">Chưa có bài tập nào được giao.</td></tr>
             <?php endif; ?>
         </tbody>
     </table>
 </div>
+
+<script>
+document.getElementById('searchBaiTap').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase().trim();
+    const rows = document.querySelectorAll('.baitap-row');
+    let visibleCount = 0;
+    
+    rows.forEach(row => {
+        const title = row.getAttribute('data-title');
+        
+        if (title.includes(searchTerm)) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Hiển thị thông báo nếu không tìm thấy
+    const tbody = document.getElementById('baiTapTableBody');
+    const noResultRow = document.getElementById('noResultRow');
+    
+    if (visibleCount === 0 && !noResultRow) {
+        const existingNoData = document.getElementById('noDataRow');
+        if (!existingNoData) {
+            tbody.innerHTML += '<tr id="noResultRow"><td colspan="3" align="center" style="padding: 20px; color: #dc3545;">Không tìm thấy bài tập nào phù hợp!</td></tr>';
+        }
+    } else if (visibleCount > 0 && noResultRow) {
+        noResultRow.remove();
+    }
+});
+</script>
 
 <?php include __DIR__.'/../layouts/footer.php'; ?>
