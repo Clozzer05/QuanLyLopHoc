@@ -23,7 +23,7 @@
 
 <!-- Form chọn ngày -->
 <div class="card" style="margin-bottom: 20px; padding: 20px;">
-    <h4 style="margin-top: 0; margin-bottom: 15px;">📅 Tra cứu điểm danh theo ngày</h4>
+    <h4 style="margin-top: 0; margin-bottom: 15px;"> Tra cứu điểm danh theo ngày</h4>
     
     <?php if (!empty($danhSachNgay)): ?>
         <form id="searchDateForm" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
@@ -48,13 +48,13 @@
                 
                 <button type="submit" 
                         style="background: #007bff; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                    🔍 Tra cứu
+                     Tra cứu
                 </button>
                 
                 <button type="button" 
                         id="btnResetDate"
                         style="background: #6c757d; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                    🔄 Xóa
+                     Xóa
                 </button>
             </div>
         </form>
@@ -134,15 +134,15 @@
                             <span id="status_display_<?= $item->id ?>">
                                 <?php if ($item->trang_thai == 'co_mat'): ?>
                                     <span style="color: #28a745; font-weight: bold; background: #d4edda; padding: 5px 15px; border-radius: 20px;">
-                                        ✓ CÓ MẶT
+                                        CÓ MẶT
                                     </span>
                                 <?php elseif ($item->trang_thai == 'vang_co_phep'): ?>
                                     <span style="color: #ffc107; font-weight: bold; background: #fff3cd; padding: 5px 15px; border-radius: 20px;">
-                                        ⚠ VẮNG CÓ PHÉP
+                                         VẮNG CÓ PHÉP
                                     </span>
                                 <?php else: ?>
                                     <span style="color: #dc3545; font-weight: bold; background: #f8d7da; padding: 5px 15px; border-radius: 20px;">
-                                        ✗ VẮNG KHÔNG PHÉP
+                                         VẮNG KHÔNG PHÉP
                                     </span>
                                 <?php endif; ?>
                             </span>

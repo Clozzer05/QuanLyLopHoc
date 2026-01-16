@@ -40,7 +40,7 @@
         </div>
         
         <button type="submit" style="background: #28a745; color: #fff; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1em;">
-            📤 Tải lên tài liệu
+             Tải lên tài liệu
         </button>
     </form>
 </div>

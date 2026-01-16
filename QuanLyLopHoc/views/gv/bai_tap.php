@@ -33,7 +33,7 @@
         </div>
         
         <button type="submit" style="background: #28a745; color: #fff; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1em;">
-            ➕ Thêm bài tập
+             Thêm bài tập
         </button>
     </form>
 </div>
@@ -45,7 +45,7 @@
             <!-- Thanh tìm kiếm -->
             <input type="text" 
                    id="searchBaiTap" 
-                   placeholder="🔍 Tìm theo tiêu đề..." 
+                   placeholder=" Tìm theo tiêu đề..." 
                    style="padding: 8px 15px; border: 1px solid #ddd; border-radius: 4px; width: 250px;">
             <a href="index.php?controller=giaovien&action=index" 
                style="background: #000; color: #fff; padding: 5px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;">
@@ -74,21 +74,21 @@
                             <a href="public/uploads/bai_tap/<?= rawurlencode($bt->file_de_bai) ?>" 
                                target="_blank" 
                                style="color: #007bff; font-size: 0.9em; font-weight: bold; text-decoration: underline;">
-                               📎 Tải file đề bài
+                                Tải file đề bài
                             </a>
                         <?php endif; ?>
                     </td>
                     <td align="center"><?= date('d/m/Y H:i', strtotime($bt->han_nop)) ?></td>
                     <td align="center">
                         <a href="index.php?controller=giaovien&action=viewNopBai&id=<?= $bt->id ?>" class="btn btn-sm btn-primary" style="text-decoration: none; display: inline-block; margin-bottom: 5px;">
-                            📋 Xem bài nộp
+                             Xem bài nộp
                         </a>
                         <br>
                         <a href="index.php?controller=giaovien&action=deleteBaiTap&id=<?= $bt->id ?>&id_lop=<?= $idLop ?>" 
                            class="btn btn-sm btn-danger" 
                            style="text-decoration: none; display: inline-block;"
                            onclick="return confirm('Bạn có chắc muốn xóa bài tập này?')">
-                            🗑️ Xóa
+                             Xóa
                         </a>
                     </td>
                 </tr>

@@ -17,7 +17,7 @@
     <div style="display: flex; gap: 10px;">
         <a href="index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>" 
            style="background: #28a745; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
-            📋 Xem lịch sử
+             Xem lịch sử
         </a>
         <a href="index.php?controller=giaovien&action=index" 
            style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
@@ -28,7 +28,7 @@
 
 <!-- Form tìm kiếm -->
 <div class="card" style="margin-bottom: 20px; padding: 20px;">
-    <h4 style="margin-top: 0; margin-bottom: 15px;">🔍 Tìm kiếm sinh viên</h4>
+    <h4 style="margin-top: 0; margin-bottom: 15px;"> Tìm kiếm sinh viên</h4>
     <form method="GET" id="searchForm" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <input type="hidden" name="controller" value="giaovien">
         <input type="hidden" name="action" value="diemdanh">
@@ -43,13 +43,13 @@
         
         <button type="submit" 
                 style="background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-            🔍 Tìm kiếm
+             Tìm kiếm
         </button>
         
         <button type="button" 
                 onclick="clearSearch()"
                 style="background: #6c757d; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-            🔄 Xóa
+             Xóa
         </button>
     </form>
     
@@ -140,7 +140,7 @@
         <div style="margin-top: 20px; text-align: right; padding: 15px; background: #f8f9fa; border-radius: 4px;">
             <button type="submit" 
                     style="padding: 12px 40px; font-weight: bold; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em;">
-                💾 Lưu điểm danh
+                 Lưu điểm danh
             </button>
         </div>
         <?php endif; ?>
