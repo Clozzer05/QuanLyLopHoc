@@ -50,7 +50,7 @@
     <div id="modal-them-monhoc" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:999;">
       <div style="background:#fff; padding:24px; border-radius:8px; max-width:420px; margin:60px auto; position:relative;">
         <span style="position:absolute; top:8px; right:12px; cursor:pointer; font-size:20px;" onclick="document.getElementById('modal-them-monhoc').style.display='none'">&times;</span>
-        <h4 style="color:#1976d2;">➕ Thêm môn mới</h4>
+        <h4 style="color:#1976d2;">Thêm môn mới</h4>
         <form action="index.php?controller=admin&action=addMonHoc" method="POST">
             <div style="margin-bottom: 10px;">
                 <label>Tên Môn:</label><br>

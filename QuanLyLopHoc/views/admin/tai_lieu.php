@@ -43,7 +43,7 @@
                 <td>
                     <?php if (!empty($tl->duong_dan_file)): ?>
                         <a href="public/uploads/tai_lieu/<?= htmlspecialchars($tl->duong_dan_file) ?>" target="_blank" style="color: #007bff; text-decoration: none;">
-                            📥 Tải xuống
+                             Tải xuống
                         </a>
                     <?php else: ?>
                         <span style="color: #999;">Không có file</span>
@@ -66,7 +66,7 @@
         </tbody>
     </table>
 <?php else: ?>
-    <p>⚠️ Chưa có tài liệu nào.</p>
+    <p> Chưa có tài liệu nào.</p>
 <?php endif; ?>
 
 
