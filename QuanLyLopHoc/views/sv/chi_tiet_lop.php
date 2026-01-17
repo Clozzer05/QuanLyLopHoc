@@ -81,7 +81,7 @@
                         <?php if (!empty($bt->file_de_bai)): ?>
                             <br>
                             <a href="public/uploads/bai_tap/<?= rawurlencode($bt->file_de_bai) ?>" target="_blank" style="font-size: 0.9em; color: #007bff; font-weight: bold; text-decoration: underline;">
-                                📎 Tải đề bài
+                                 Tải đề bài
                             </a>
                         <?php endif; ?>
                     </td>

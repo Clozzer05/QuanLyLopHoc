@@ -29,7 +29,7 @@
         <thead>
         <tr>
             <th style="width: 50px;">ID</th>
-            <th>Tiêu đề</th>
+            <th>Tiêu đề </th>
             <th>File đính kèm</th>
             <th>Phạm vi (Lớp)</th>
             <th style="width: 150px;">Hành động</th>
@@ -43,7 +43,7 @@
                 <td>
                     <?php if (!empty($tl->duong_dan_file)): ?>
                         <a href="public/uploads/tai_lieu/<?= htmlspecialchars($tl->duong_dan_file) ?>" target="_blank" style="color: #007bff; text-decoration: none;">
-                             Tải xuống
+                             Tải xuống 
                         </a>
                     <?php else: ?>
                         <span style="color: #999;">Không có file</span>
@@ -143,7 +143,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn-add" style="width: 100%; margin-top: 10px;">📤 Tải lên tài liệu</button>
+                <button type="submit" class="btn-add" style="width: 100%; margin-top: 10px;"> Tải lên tài liệu</button>
             </form>
         </div>
     </div>

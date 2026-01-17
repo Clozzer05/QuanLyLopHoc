@@ -58,7 +58,7 @@
             </div>
             <div style="margin-bottom: 10px;">
                 <label>Số Tín Chỉ:</label><br>
-                <input type="number" name="so_tin_chi" value="3" required style="width: 100%;">
+                <input type="number" name="so_tin_chi" value="3" required style="width: 100%; ">
             </div>
             <button type="submit" style="width:100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Thêm Mới</button>
         </form>

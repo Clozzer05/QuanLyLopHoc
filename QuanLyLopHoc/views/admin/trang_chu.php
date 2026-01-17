@@ -45,7 +45,7 @@
 
     <div class="row g-4 mb-5">
 
-        <div class="col-md-3">
+        <div class="col-md-3 ">
             <div class="card dashboard-card">
                 <div class="icon bg-primary">
                     <i class="fa-solid fa-book"></i>
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 ">
             <div class="card dashboard-card">
                 <div class="icon bg-success">
                 <i class="fa-solid fa-bell"></i>
