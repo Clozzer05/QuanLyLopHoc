@@ -30,7 +30,7 @@
                         <tr>
                             <td style="padding: 8px;"><?= htmlspecialchars($tl->tieu_de) ?></td>
                             <td style="text-align: center; padding: 8px;">
-                                <a href="public/uploads/tai_lieu/<?= rawurlencode($tl->duong_dan_file ?? $tl->file_path) ?>" target="_blank" class="btn btn-sm btn-success">📥 Tải về</a>
+                                <a href="public/uploads/tai_lieu/<?= rawurlencode($tl->duong_dan_file ?? $tl->file_path) ?>" target="_blank" class="btn btn-sm btn-success">Tải về</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

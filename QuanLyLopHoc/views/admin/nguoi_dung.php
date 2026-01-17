@@ -9,6 +9,11 @@
          <strong>Lỗi:</strong> Tên đăng nhập này đã tồn tại! Vui lòng chọn tên khác.
         </div>
     <?php endif; ?>
+<?php if (isset($_GET['error']) && $_GET['error'] == 'delete_admin'): ?>
+    <div style="background-color: #fff3cd; color: #856404; padding: 15px; margin-bottom: 20px; border: 1px solid #ffeeba; border-radius: 5px;">
+        <strong>Cảnh báo:</strong> Bạn không được phép xóa tài khoản Admin quản trị hệ thống!
+    </div>
+<?php endif; ?>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
         <button onclick="document.getElementById('modal-them-nguoidung').style.display='block'" style="color: #1976d2; font-weight: bold;">Thêm người dùng mới</button>

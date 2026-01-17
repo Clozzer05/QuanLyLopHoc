@@ -43,6 +43,10 @@ class NguoiDungService {
         return $this->dao->update($id, $cleanData);
     }
     public function delete($id) {
+        $user = $this->dao->findById($id);
+        if (!$user || $user->vai_tro === 'admin') {
+            return false;
+        }
         return $this->dao->delete($id);
     }
         public function countHocSinh() {

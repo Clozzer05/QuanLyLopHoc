@@ -129,7 +129,11 @@ class AdminController extends Controller {
     public function deleteNguoiDung() {
         if (isset($_GET['id'])) {
             $service = new NguoiDungService();
-            $service->delete($_GET['id']);
+            $result = $service->delete($_GET['id']);
+            if (!$result) {
+                $this->redirect('admin&action=nguoidung&error=delete_admin');
+                return;
+            }
         }
         $this->redirect('admin&action=nguoidung');
     }

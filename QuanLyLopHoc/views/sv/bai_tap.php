@@ -41,7 +41,7 @@
                                target="_blank" 
                                class="file-link" 
                                style="color: #3182ce; text-decoration: underline; font-weight: bold;">
-                                📥 Tải về
+                                Tải về
                             </a>
                         <?php else: ?>
                             <span style="color: #a0aec0;">Không có</span>
