@@ -33,9 +33,10 @@ class AuthController extends Controller {
             ]);
         }
     }
-
     public function logout() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         session_destroy();
         $this->redirect('auth');
     }

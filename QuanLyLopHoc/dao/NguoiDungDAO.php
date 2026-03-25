@@ -8,7 +8,6 @@ class NguoiDungDAO extends BaseDAO {
         $sql = "SELECT * FROM nguoi_dung WHERE ten_dang_nhap = ? AND mat_khau = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$tenDangNhap, $matKhau]);
-
         $stmt->setFetchMode(PDO::FETCH_CLASS, $this->modelClass);
         return $stmt->fetch();
     }
