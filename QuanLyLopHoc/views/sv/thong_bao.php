@@ -30,7 +30,7 @@
         </tbody>
     </table>
 <div style="margin-top: 20px;">
-    <a href="index.php?controller=sinhvien&action=index" 
+    <a href="index.php?controller=sv&action=index" 
        class="btn" 
        style="background-color: #000000; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">
        Quay lại trang chủ

@@ -14,7 +14,7 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h3>LỊCH SỬ ĐIỂM DANH: <?= htmlspecialchars($lop->ten_lop) ?></h3>
-    <a href="index.php?controller=giaovien&action=diemdanh&id_lop=<?= $idLop ?>" 
+    <a href="index.php?controller=gv&action=diemdanh&id_lop=<?= $idLop ?>" 
        class="btn" 
        style="background: #6c757d; color: #fff; text-decoration: none; padding: 8px 15px; border-radius: 4px; font-weight: bold;">
         Quay lại điểm danh
@@ -156,7 +156,7 @@
                     <!-- Hàng chỉnh sửa (ẩn mặc định) -->
                     <tr id="row_edit_<?= $item->id ?>" style="display: none; background: #f8f9fa;">
                         <td colspan="4" style="padding: 15px; border-bottom: 1px solid #eee;">
-                            <form method="POST" action="index.php?controller=giaovien&action=updateDiemDanh" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                            <form method="POST" action="index.php?controller=gv&action=updateDiemDanh" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                                 <input type="hidden" name="id_diem_danh" value="<?= $item->id ?>">
                                 <input type="hidden" name="id_lop" value="<?= $idLop ?>">
                                 <input type="hidden" name="ngay_xem" value="<?= $ngayXem ?>">
@@ -297,13 +297,13 @@ function resetDateSearch() {
     if (selectElement) {
         selectElement.value = '';
     }
-    window.location.href = 'index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>';
+    window.location.href = 'index.php?controller=gv&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>';
 }
 
 // Function xóa tìm kiếm sinh viên
 function clearStudentSearch() {
     document.getElementById('searchStudentInput').value = '';
-    window.location.href = 'index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>&ngay_xem=<?= $ngayXem ?>';
+    window.location.href = 'index.php?controller=gv&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>&ngay_xem=<?= $ngayXem ?>';
 }
 
 // Gắn event cho nút reset ngày

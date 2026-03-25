@@ -7,6 +7,10 @@ require_once __DIR__ . '/../services/ThongBaoService.php';
 require_once __DIR__ . '/../core/Controller.php';
 
 class AdminController extends Controller {
+    public function __construct() {
+        $this->requireLogin(['admin']);
+    }
+
     public function index() {
         $nguoiDungService = new NguoiDungService();
         $lopHocService = new LopHocService();
@@ -153,7 +157,7 @@ class AdminController extends Controller {
             $idLop = !empty($_POST['id_lop']) ? $_POST['id_lop'] : null;
             $tieuDe = $_POST['tieu_de'];
             $userId = $_SESSION['user']->id ?? 0;
-            $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/QuanLyLopHoc/public/uploads/tai_lieu/';
+            $targetDir = dirname(__DIR__) . '/public/uploads/tai_lieu/';
             if (!file_exists($targetDir)) {
                 mkdir($targetDir, 0777, true);
             }
@@ -192,7 +196,7 @@ class AdminController extends Controller {
             $duongDanFileDb = $_POST['old_file'] ?? '';
 
             if (isset($_FILES['file_upload']) && $_FILES['file_upload']['error'] == 0) {
-                $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/QuanLyLopHoc/public/uploads/tai_lieu/';
+                $targetDir = dirname(__DIR__) . '/public/uploads/tai_lieu/';
                 if (!file_exists($targetDir)) mkdir($targetDir, 0777, true);
 
                 $file = $_FILES['file_upload'];

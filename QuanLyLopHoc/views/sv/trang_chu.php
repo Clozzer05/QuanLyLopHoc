@@ -77,10 +77,10 @@
     </div>
 
     <div class="header-flex">
-        <a href="index.php?controller=sinhvien&action=thongBao" class="alert-link">
+        <a href="index.php?controller=sv&action=thongBao" class="alert-link">
              Xem thông báo mới nhất
         </a>
-        <a href="index.php?controller=sinhvien&action=dangky" class="btn btn-success" style="padding: 10px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,128,0,0.2);">
+        <a href="index.php?controller=sv&action=dangky" class="btn btn-success" style="padding: 10px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,128,0,0.2);">
              Đăng ký môn học
         </a>
     </div>
@@ -93,7 +93,7 @@
     <?php if (empty($lopHoc)): ?>
         <div style="text-align: center; padding: 40px; background: #fff; border-radius: 10px; border: 2px dashed #cbd5e0;">
             <p style="color: #a0aec0; font-size: 1.1em;">Bạn chưa đăng ký lớp học nào.</p>
-            <a href="index.php?controller=sinhvien&action=dangky" style="color: #007bff; font-weight: bold;">Đăng ký ngay</a>
+            <a href="index.php?controller=sv&action=dangky" style="color: #007bff; font-weight: bold;">Đăng ký ngay</a>
         </div>
     <?php else: ?>
         <table class="custom-table">
@@ -121,7 +121,7 @@
                             </div>
                         </td>
                         <td align="center">
-                            <a href="index.php?controller=sinhvien&action=chiTietLop&id=<?= $lop->id ?>" class="btn btn-sm btn-primary" style="padding: 8px 16px; border-radius: 6px; font-weight: 500;">
+                            <a href="index.php?controller=sv&action=chiTietLop&id=<?= $lop->id ?>" class="btn btn-sm btn-primary" style="padding: 8px 16px; border-radius: 6px; font-weight: 500;">
                                  Xem chi tiết
                             </a>
                         </td>

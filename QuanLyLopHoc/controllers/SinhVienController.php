@@ -8,6 +8,9 @@ require_once __DIR__ . '/../services/TaiLieuService.php';
 require_once __DIR__ . '/../core/Controller.php';
 
 class SinhVienController extends Controller {
+    public function __construct() {
+        $this->requireLogin(['sv']);
+    }
 
     public function index() {
         $idSV = $_SESSION['user']->id;
@@ -31,7 +34,7 @@ class SinhVienController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             $idBaiTap = $_POST['id_bai_tap'];
             $idSV = $_SESSION['user']->id;
-            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/QuanLyLopHoc/public/uploads/bai_nop/';
+            $uploadDir = dirname(__DIR__) . '/public/uploads/bai_nop/';
 
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
@@ -44,7 +47,7 @@ class SinhVienController extends Controller {
             if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
                 $service = new BaiNopService();
                 $service->nopBai($idBaiTap, $idSV, $cleanName);
-                header('Location: index.php?controller=sinhvien&action=index');
+                header('Location: index.php?controller=sv&action=index');
                 exit();
             } else {
                 die("Lỗi upload file.");
@@ -97,7 +100,7 @@ class SinhVienController extends Controller {
         if ($idLop > 0) {
             $service = new DangKyService();
             $service->dangKyMoi($idSV, $idLop);
-            header('Location: index.php?controller=sinhvien&action=index');
+            header('Location: index.php?controller=sv&action=index');
             exit();
         }
         die("Lỗi đăng ký");

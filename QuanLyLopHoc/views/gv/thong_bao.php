@@ -2,7 +2,7 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h3>THÔNG BÁO LỚP HỌC</h3>
-    <a href="index.php?controller=giaovien&action=index" 
+    <a href="index.php?controller=gv&action=index" 
        style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
        Quay lại
     </a>
@@ -21,7 +21,7 @@
                     </div>
                     <p style="margin: 15px 0; line-height: 1.5;"><?= nl2br(htmlspecialchars($tb->noi_dung)) ?></p>
                     <div style="text-align: right;">
-                        <a href="index.php?controller=giaovien&action=deleteThongBao&id=<?= $tb->id ?>&id_lop=<?= $idLop ?>" 
+                        <a href="index.php?controller=gv&action=deleteThongBao&id=<?= $tb->id ?>&id_lop=<?= $idLop ?>" 
                            class="btn btn-danger btn-sm" 
                            style="text-decoration: none; font-size: 0.8em;"
                            onclick="return confirm('Xóa thông báo này?')">Xóa</a>
@@ -36,7 +36,7 @@
     <div class="col-half" style="flex: 1;">
         <div class="card" style="padding: 20px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <h4 style="margin-top: 0; margin-bottom: 15px;">Gửi thông báo mới</h4>
-            <form method="post" action="index.php?controller=giaovien&action=addThongBao">
+            <form method="post" action="index.php?controller=gv&action=addThongBao">
                 <input type="hidden" name="id_lop" value="<?= $idLop ?>">
                 
                 <div style="margin-bottom: 10px;">

@@ -27,7 +27,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h3>CHI TIẾT LỚP: <?= htmlspecialchars($lop->ten_lop ?? 'N/A') ?></h3>
 
-        <a href="index.php?controller=giaovien&action=index"
+        <a href="index.php?controller=gv&action=index"
            style="background: #6c757d; color: #fff; text-decoration: none; padding: 8px 15px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
             Quay lại
         </a>
@@ -40,7 +40,7 @@
 <?php endif; ?>
 
     <div class="card">
-        <form action="index.php?controller=giaovien&action=capNhatDiem" method="POST">
+        <form action="index.php?controller=gv&action=capNhatDiem" method="POST">
             <input type="hidden" name="id_lop" value="<?= $lop->id ?>">
 
             <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; border-color: #dee2e6;">

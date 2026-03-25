@@ -27,7 +27,7 @@ class TaiLieuService {
     public function delete($id) {
         $taiLieu = $this->getById($id);
         if ($taiLieu && !empty($taiLieu->duong_dan_file)) {
-            $filePath = __DIR__ . '/../../public/uploads/tai_lieu/' . $taiLieu->duong_dan_file;
+            $filePath = dirname(__DIR__) . '/public/uploads/tai_lieu/' . $taiLieu->duong_dan_file;
             if (file_exists($filePath)) {
                 unlink($filePath);
             }

@@ -114,7 +114,7 @@
 
                         <?php endif; ?>
                         <?php if (strtotime($bt->han_nop) >= time()): ?>
-                            <form action="index.php?controller=sinhvien&action=nopbai" method="POST" enctype="multipart/form-data">
+                            <form action="index.php?controller=sv&action=nopbai" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="id_bai_tap" value="<?= $bt->id ?>">
                                 <div style="display: flex; gap: 5px; flex-direction: column;">
                                     <input type="file" name="file" required style="font-size: 0.8em; width: 100%;">
@@ -139,7 +139,7 @@
 </div>
 
 <div style="margin-top: 20px;">
-    <a href="index.php?controller=sinhvien&action=index"
+    <a href="index.php?controller=sv&action=index"
        class="btn"
        style="background-color: #000000; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">
          Quay lại trang chủ

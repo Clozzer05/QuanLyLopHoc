@@ -14,7 +14,7 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h3 style="color: #007bff;">TÀI LIỆU - <?= htmlspecialchars($lop->ten_lop ?? 'Lớp học') ?></h3>
-    <a href="index.php?controller=giaovien&action=index" 
+    <a href="index.php?controller=gv&action=index" 
        style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
        Quay lại
     </a>
@@ -22,7 +22,7 @@
 
 <div class="card" style="margin-bottom: 20px; padding: 20px;">
     <h4 style="margin-top: 0;">Thêm tài liệu mới</h4>
-    <form action="index.php?controller=giaovien&action=addTaiLieu" method="POST" enctype="multipart/form-data">
+    <form action="index.php?controller=gv&action=addTaiLieu" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id_lop" value="<?= $idLop ?>">
         
         <div style="margin-bottom: 15px;">
@@ -77,7 +77,7 @@
                             </a>
                         <?php endif; ?>
 
-                        <a href="index.php?controller=giaovien&action=deleteTaiLieu&id=<?= $idTl ?>&id_lop=<?= $idLop ?>" 
+                        <a href="index.php?controller=gv&action=deleteTaiLieu&id=<?= $idTl ?>&id_lop=<?= $idLop ?>" 
                            onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')"
                            style="color: #dc3545; text-decoration: none; font-weight: bold;">
                             Xóa

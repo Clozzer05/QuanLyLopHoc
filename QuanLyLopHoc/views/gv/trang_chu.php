@@ -67,19 +67,19 @@
                     </div>
 
                     <div class="action-grid">
-                        <a href="index.php?controller=giaovien&action=chitietlop&id=<?= $lop->id ?>" 
+                        <a href="index.php?controller=gv&action=chitietlop&id=<?= $lop->id ?>" 
                            class="btn-gv btn-info">Điểm</a>
 
-                        <a href="index.php?controller=giaovien&action=baitap&id_lop=<?= $lop->id ?>" 
+                        <a href="index.php?controller=gv&action=baitap&id_lop=<?= $lop->id ?>" 
                            class="btn-gv btn-assign">Bài tập</a>
 
-                        <a href="index.php?controller=giaovien&action=diemdanh&id_lop=<?= $lop->id ?>" 
+                        <a href="index.php?controller=gv&action=diemdanh&id_lop=<?= $lop->id ?>" 
                            class="btn-gv btn-checkin">Điểm danh</a>
 
-                        <a href="index.php?controller=giaovien&action=tailieu&id_lop=<?= $lop->id ?>" 
+                        <a href="index.php?controller=gv&action=tailieu&id_lop=<?= $lop->id ?>" 
                            class="btn-gv btn-docs">Tài liệu</a>
 
-                        <a href="index.php?controller=giaovien&action=thongbao&id_lop=<?= $lop->id ?>" 
+                        <a href="index.php?controller=gv&action=thongbao&id_lop=<?= $lop->id ?>" 
                            class="btn-gv btn-alert">Thông báo</a>
                     </div>
                 </div>

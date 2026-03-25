@@ -4,7 +4,7 @@
 
 <div class="card" style="margin-bottom: 20px; padding: 20px;">
     <h4 style="margin-top: 0;">Thêm bài tập mới</h4>
-    <form action="index.php?controller=giaovien&action=addBaiTap" method="POST" enctype="multipart/form-data">
+    <form action="index.php?controller=gv&action=addBaiTap" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id_lop" value="<?= $idLop ?>">
         
         <div style="margin-bottom: 15px;">
@@ -47,7 +47,7 @@
                    id="searchBaiTap" 
                    placeholder=" Tìm theo tiêu đề..." 
                    style="padding: 8px 15px; border: 1px solid #ddd; border-radius: 4px; width: 250px;">
-            <a href="index.php?controller=giaovien&action=index" 
+            <a href="index.php?controller=gv&action=index" 
                style="background: #000; color: #fff; padding: 5px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;">
                 Quay lại
             </a>
@@ -80,11 +80,11 @@
                     </td>
                     <td align="center"><?= date('d/m/Y H:i', strtotime($bt->han_nop)) ?></td>
                     <td align="center">
-                        <a href="index.php?controller=giaovien&action=viewNopBai&id=<?= $bt->id ?>" class="btn btn-sm btn-primary" style="text-decoration: none; display: inline-block; margin-bottom: 5px;">
+                        <a href="index.php?controller=gv&action=viewNopBai&id=<?= $bt->id ?>" class="btn btn-sm btn-primary" style="text-decoration: none; display: inline-block; margin-bottom: 5px;">
                              Xem bài nộp
                         </a>
                         <br>
-                        <a href="index.php?controller=giaovien&action=deleteBaiTap&id=<?= $bt->id ?>&id_lop=<?= $idLop ?>" 
+                        <a href="index.php?controller=gv&action=deleteBaiTap&id=<?= $bt->id ?>&id_lop=<?= $idLop ?>" 
                            class="btn btn-sm btn-danger" 
                            style="text-decoration: none; display: inline-block;"
                            onclick="return confirm('Bạn có chắc muốn xóa bài tập này?')">

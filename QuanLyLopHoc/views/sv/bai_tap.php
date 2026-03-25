@@ -49,7 +49,7 @@
                     </td>
                     <td>
                         <?php if (strtotime($bt->han_nop) >= time()): ?>
-                            <form action="index.php?controller=sinhvien&action=nopbai" method="POST" enctype="multipart/form-data" class="upload-group">
+                            <form action="index.php?controller=sv&action=nopbai" method="POST" enctype="multipart/form-data" class="upload-group">
                                 <input type="hidden" name="id_bai_tap" value="<?= $bt->id ?>">
                                 <input type="file" name="file" required style="font-size: 0.85em; width: 100%;">
                                 <button type="submit" class="btn btn-sm btn-primary" style="width: 100%; border-radius: 4px; margin-top: 5px; background: #007bff; color: #fff; border: none; padding: 5px;">
@@ -73,7 +73,7 @@
     </table>
 
     <div style="margin-top: 25px;">
-        <a href="index.php?controller=sinhvien&action=index" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 6px; background: #718096; color: #fff; text-decoration: none;">Quay lại trang chủ</a>
+        <a href="index.php?controller=sv&action=index" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 6px; background: #718096; color: #fff; text-decoration: none;">Quay lại trang chủ</a>
     </div>
 </div>
 

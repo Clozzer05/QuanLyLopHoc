@@ -23,7 +23,7 @@
                     <td><?= htmlspecialchars($lop->ten_mon) ?></td>
                     <td><?= htmlspecialchars($lop->ho_ten) ?></td>
                     <td align="center">
-                        <a href="index.php?controller=sinhvien&action=thucHienDangKy&id_lop=<?= $lop->id ?>" 
+                        <a href="index.php?controller=sv&action=thucHienDangKy&id_lop=<?= $lop->id ?>" 
                            class="btn-register" 
                            onclick="return confirm('Bạn chắc chắn muốn đăng ký lớp này?')">
                             Đăng ký ngay
@@ -40,7 +40,7 @@
     <?php endif; ?>
 
 <div style="margin-top: 20px;">
-    <a href="index.php?controller=sinhvien&action=index" 
+    <a href="index.php?controller=sv&action=index" 
        class="btn" 
        style="background-color: #000000; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">
        Quay lại trang chủ

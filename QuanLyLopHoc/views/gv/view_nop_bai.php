@@ -2,7 +2,7 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h3>DANH SÁCH BÀI NỘP: <?= htmlspecialchars($baiTap->tieu_de ?? 'Bài tập') ?></h3>
-    <a href="index.php?controller=giaovien&action=baitap&id_lop=<?= $baiTap->id_lop ?>" 
+    <a href="index.php?controller=gv&action=baitap&id_lop=<?= $baiTap->id_lop ?>" 
        style="background: #000; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
        Quay lại
     </a>
@@ -52,7 +52,7 @@
                 <!-- Form chấm điểm ẩn -->
                 <tr id="edit_form_<?= $item->id ?>" style="display: none; background-color: #f8f9fa;">
                     <td colspan="5">
-                        <form method="POST" action="index.php?controller=giaovien&action=saveDiem" style="padding: 15px;">
+                        <form method="POST" action="index.php?controller=gv&action=saveDiem" style="padding: 15px;">
                             <input type="hidden" name="id_bai_nop" value="<?= $item->id ?>">
                             <input type="hidden" name="id_bai_tap" value="<?= $baiTap->id ?>">
                             

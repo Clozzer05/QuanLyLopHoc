@@ -53,8 +53,8 @@
             <?php if (isset($_SESSION['user'])): ?>
                 <?php 
                     $role = $_SESSION['user']->vai_tro; 
-                    $homeController = 'sinhvien';
-                    if ($role == 'gv') $homeController = 'giaovien';
+                    $homeController = 'sv';
+                    if ($role == 'gv') $homeController = 'gv';
                     if ($role == 'admin') $homeController = 'admin';
                 ?>
                 

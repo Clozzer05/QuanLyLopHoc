@@ -15,11 +15,11 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h3>ĐIỂM DANH: <?= htmlspecialchars($lop->ten_lop ?? 'Lớp học') ?></h3>
     <div style="display: flex; gap: 10px;">
-        <a href="index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>" 
+        <a href="index.php?controller=gv&action=xemLichSuDiemDanh&id_lop=<?= $idLop ?>" 
            style="background: #007bff; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
             Xem lịch sử
         </a>
-        <a href="index.php?controller=giaovien&action=index" 
+        <a href="index.php?controller=gv&action=index" 
            style="background: #6c757d; color: #fff; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 0.9em;">
             Quay lại
         </a>
@@ -62,7 +62,7 @@
 </div>
 
 <div class="card">
-    <form action="index.php?controller=giaovien&action=saveDiemDanh" method="POST" id="formDiemDanh">
+    <form action="index.php?controller=gv&action=saveDiemDanh" method="POST" id="formDiemDanh">
         <input type="hidden" name="id_lop" value="<?= $idLop ?>">
         
         <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px;">
@@ -151,7 +151,7 @@
 // Function xóa tìm kiếm
 function clearSearch() {
     document.getElementById('searchInput').value = '';
-    window.location.href = 'index.php?controller=giaovien&action=diemdanh&id_lop=<?= $idLop ?>';
+    window.location.href = 'index.php?controller=gv&action=diemdanh&id_lop=<?= $idLop ?>';
 }
 
 // Thêm hiệu ứng khi chọn radio button

@@ -11,6 +11,9 @@ require_once __DIR__ . '/../dao/DiemDanhDAO.php';
 require_once __DIR__ . '/../dao/DangKyDAO.php';
 
 class GiaoVienController extends Controller {
+    public function __construct() {
+        $this->requireLogin(['gv']);
+    }
 
     public function index() {
         $idGV = $_SESSION['user']->id;
@@ -43,8 +46,8 @@ class GiaoVienController extends Controller {
             $fileDeBai = '';
 
             if (isset($_FILES['file_de_bai']) && $_FILES['file_de_bai']['error'] == 0) {
-                $projectRoot = $_SERVER['DOCUMENT_ROOT'] . '/QuanLyLopHoc/'; 
-                $targetDir = $projectRoot . "public/uploads/bai_tap/";
+                $projectRoot = dirname(__DIR__);
+                $targetDir = $projectRoot . '/public/uploads/bai_tap/';
 
                 if (!file_exists($targetDir)) {
                     mkdir($targetDir, 0777, true);
@@ -70,7 +73,7 @@ class GiaoVienController extends Controller {
             $service = new BaiTapService();
             $service->taoBaiTap($data);
             
-            header("Location: index.php?controller=giaovien&action=baitap&id_lop=" . $idLop);
+            header("Location: index.php?controller=gv&action=baitap&id_lop=" . $idLop);
             exit();
         }
     }
@@ -81,7 +84,7 @@ class GiaoVienController extends Controller {
             $baiTap = $service->getById($_GET['id']);
             
             if ($baiTap && !empty($baiTap->file_de_bai)) {
-                $filePath = __DIR__ . '/../../public/uploads/bai_tap/' . $baiTap->file_de_bai;
+                $filePath = dirname(__DIR__) . '/public/uploads/bai_tap/' . $baiTap->file_de_bai;
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }
@@ -89,7 +92,7 @@ class GiaoVienController extends Controller {
             $service->delete($_GET['id']);
         }
         $idLop = $_GET['id_lop'] ?? 0;
-        header("Location: index.php?controller=giaovien&action=baitap&id_lop=" . $idLop);
+        header("Location: index.php?controller=gv&action=baitap&id_lop=" . $idLop);
         exit();
     }
 
@@ -148,7 +151,7 @@ class GiaoVienController extends Controller {
 
             if (empty($dsSinhVien)) {
                 $_SESSION['error'] = "Không có sinh viên nào để điểm danh!";
-                header("Location: index.php?controller=giaovien&action=diemdanh&id_lop=" . $idLop);
+                header("Location: index.php?controller=gv&action=diemdanh&id_lop=" . $idLop);
                 exit();
             }
 
@@ -172,7 +175,7 @@ class GiaoVienController extends Controller {
             }
             
             $_SESSION['success'] = "Đã lưu điểm danh thành công!";
-            header("Location: index.php?controller=giaovien&action=diemdanh&id_lop=" . $idLop);
+            header("Location: index.php?controller=gv&action=diemdanh&id_lop=" . $idLop);
             exit();
         }
     }
@@ -195,7 +198,7 @@ class GiaoVienController extends Controller {
                 $_SESSION['error'] = "Không thể cập nhật điểm danh!";
             }
             
-            $url = "Location: index.php?controller=giaovien&action=xemLichSuDiemDanh&id_lop=" . $idLop . "&ngay_xem=" . $ngayXem;
+            $url = "Location: index.php?controller=gv&action=xemLichSuDiemDanh&id_lop=" . $idLop . "&ngay_xem=" . $ngayXem;
             if (!empty($searchTerm)) {
                 $url .= "&search=" . urlencode($searchTerm);
             }
@@ -241,7 +244,7 @@ class GiaoVienController extends Controller {
             'id_lop' => $_POST['id_lop']
         ];
         $service->create($data);
-        header("Location: index.php?controller=giaovien&action=thongbao&id_lop=" . $_POST['id_lop']);
+        header("Location: index.php?controller=gv&action=thongbao&id_lop=" . $_POST['id_lop']);
     }
 
     public function deleteThongBao() {
@@ -250,7 +253,7 @@ class GiaoVienController extends Controller {
             $service->delete($_GET['id']);
         }
         $idLop = $_GET['id_lop'] ?? 0;
-        header("Location: index.php?controller=giaovien&action=thongbao&id_lop=" . $idLop);
+        header("Location: index.php?controller=gv&action=thongbao&id_lop=" . $idLop);
     }
 
     public function viewNopBai() {
@@ -276,7 +279,7 @@ class GiaoVienController extends Controller {
                 $service->capNhatDiemSo($idLop, $idSV, $diemGK, $diemCK);
             }
             $_SESSION['success'] = "Đã cập nhật điểm thành công!";
-            header("Location: index.php?controller=giaovien&action=chitietlop&id=" . $idLop);
+            header("Location: index.php?controller=gv&action=chitietlop&id=" . $idLop);
             exit();
         }
     }
@@ -290,7 +293,7 @@ class GiaoVienController extends Controller {
 
             $service = new BaiNopService();
             $service->chamDiem($idBaiNop, $diem, $nhanXet);
-            header("Location: index.php?controller=giaovien&action=viewNopBai&id=" . $idBaiTap);
+            header("Location: index.php?controller=gv&action=viewNopBai&id=" . $idBaiTap);
             exit();
         }
     }
@@ -316,12 +319,12 @@ class GiaoVienController extends Controller {
             $tenHienThi = $_POST['ten_tai_lieu'];
             
             if (!isset($_FILES['file_tai_lieu']) || $_FILES['file_tai_lieu']['error'] != 0) {
-                header("Location: index.php?controller=giaovien&action=tailieu&id_lop=" . $idLop);
+                header("Location: index.php?controller=gv&action=tailieu&id_lop=" . $idLop);
                 exit();
             }
             
             $file = $_FILES['file_tai_lieu'];
-            $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/QuanLyLopHoc/public/uploads/tai_lieu/';
+            $targetDir = dirname(__DIR__) . '/public/uploads/tai_lieu/';
             
             if (!file_exists($targetDir)) {
                 mkdir($targetDir, 0777, true);
@@ -345,7 +348,7 @@ class GiaoVienController extends Controller {
                 $taiLieuService->create($data, $userId);
             }
 
-            header("Location: index.php?controller=giaovien&action=tailieu&id_lop=" . $idLop);
+            header("Location: index.php?controller=gv&action=tailieu&id_lop=" . $idLop);
             exit();
         }
     }
@@ -360,7 +363,7 @@ class GiaoVienController extends Controller {
             if ($taiLieu) {
                 $fileName = $taiLieu->duong_dan_file ?? $taiLieu->file_path ?? '';
                 if (!empty($fileName)) {
-                    $filePath = $_SERVER['DOCUMENT_ROOT'] . '/QuanLyLopHoc/public/uploads/tai_lieu/' . $fileName;
+                    $filePath = dirname(__DIR__) . '/public/uploads/tai_lieu/' . $fileName;
                     if (file_exists($filePath)) {
                         unlink($filePath);
                     }
@@ -371,7 +374,7 @@ class GiaoVienController extends Controller {
         }
         
         $idLop = $_GET['id_lop'] ?? 0;
-        header("Location: index.php?controller=giaovien&action=tailieu&id_lop=" . $idLop);
+        header("Location: index.php?controller=gv&action=tailieu&id_lop=" . $idLop);
         exit();
     }
 }
