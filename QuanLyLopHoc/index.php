@@ -40,3 +40,4 @@ if (file_exists($controllerFile)) {
 } else {
     die("Lỗi 404: Không tìm thấy file Controller: <b>$controllerName</b><br>Tại đường dẫn: $controllerFile");
 }
+//test
